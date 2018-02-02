@@ -1,6 +1,6 @@
-#include <library.h>
+#include "library.h"
 
-struct card_t card[N];
+card_t card[N];
 
 void initialisation()
 {
@@ -10,7 +10,7 @@ void initialisation()
 		for (int j = 1; j < 14; ++j)
 		{
 			card[i*j].value = j;
-			card[i*j].color = cardColor[i-1];
+			card[i*j].cardColor[i] = color[i];
 		}
 	}
 	
@@ -21,8 +21,21 @@ void shuffle()
 	
 }
 
-void main(int argc, char const *argv[])
+void displaycard()
+{
+	for (int i = 1; i < 5; ++i)
+	{
+		for (int j = 1; j < 14; ++j)
+		{	
+			printf("%i de %s\n",
+				card[i*j].value, card[i*j].cardColor); 
+		}
+	}
+}
+
+int main(int argc, char const *argv[])
 {
 	initialisation();
-	return 0;
+	displaycard();
+	return 1;
 }
