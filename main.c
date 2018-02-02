@@ -10,7 +10,7 @@ void initialisation()
 		for (int j = 1; j < 14; ++j)
 		{
 			card[i*j].value = j;
-			card[i*j].cardColor[i] = color[i];
+			strcpy(*(card[i*j].cardColor), color[i]);
 		}
 	}
 	
@@ -25,11 +25,8 @@ void displaycard()
 {
 	for (int i = 1; i < 5; ++i)
 	{
-		for (int j = 1; j < 14; ++j)
-		{	
-			printf("%i de %s\n",
-				card[i*j].value, card[i*j].cardColor); 
-		}
+		printf("%s\n",card[i].cardColor); 
+		
 	}
 }
 

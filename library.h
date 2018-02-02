@@ -25,7 +25,7 @@ char *color[4] =
 struct card_s
 {
 	int value;
-	char *cardColor[];  
+	char *cardColor[1];  
 };
 
 struct player_s
