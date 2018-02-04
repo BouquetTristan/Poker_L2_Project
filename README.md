@@ -7,8 +7,5 @@ This is a project of a poker game, created for 2nd year project of the universit
 3) make	clean all
 4) ./poker
 
-Developpement team :
-	- BOUQUET Tristan
-	- POUPIN Romain
-	- NJOFFANG William
+Developpement team : BOUQUET Tristan - POUPIN Romain - NJOFFANG William
 
