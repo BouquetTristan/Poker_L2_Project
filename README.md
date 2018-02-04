@@ -1,4 +1,4 @@
-# Poker_L2_Project
+# Presentation
 This is a project of a poker game, created for 2nd year project of the university of Le Mans.
 
 # How to run ?
@@ -7,7 +7,7 @@ This is a project of a poker game, created for 2nd year project of the universit
 3) make	clean all
 4) ./poker
 
-Our developpement group is composed by :
+Developpement team :
 	- BOUQUET Tristan
 	- POUPIN Romain
 	- NJOFFANG William
