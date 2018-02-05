@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "carte.h"
 #include "jeu.h"
-#define N 52
 
 int main(int argc, char * argv[]) { 
     int i, j;
