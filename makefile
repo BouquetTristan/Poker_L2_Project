@@ -1,11 +1,7 @@
 BIN = poker
-OBJ = carte.o poker.o jeu.o
+OBJ = carte.o poker.o jeu.o joueur.o
 CC = gcc
 CFLAGS = -g -Iinclude
-
-all_clean:
-	- make all
-	- rm *.o
 
 all: ${BIN}
 
@@ -20,6 +16,9 @@ poker.o: poker.c
 
 jeu.o: jeu.c
 	${CC} ${CFLAGS} -c jeu.c
+
+joueur.o: joueur.c
+	${CC} ${CFLAGS} -c joueur.c
 
 clean:
 	- rm *.o
