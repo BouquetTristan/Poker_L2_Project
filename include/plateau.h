@@ -7,12 +7,12 @@ typedef struct player_s
 	carte_t * cartePlayer[5];
 	int token;
 	char name[20];
-};
+}player_t;
 
 typedef struct plateau_s
 {
 	player_t * player[4];
 	int pot;
-};
+}plateau_t;
 
 #endif
