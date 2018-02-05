@@ -30,18 +30,17 @@ char * tab_couleur[4] = {
 
 /* hauteurs possibles */
 char * tab_hauteur[13] = {
-    
-    "deux",
-    "trois",
-    "quatre",
-    "cinq",
-    "six",
-    "sept",
-    "huit",
-    "neuf",
-    "dix",
-    "valet",
-    "dame",
+    "as",
     "roi",
-    "as"
+    "dame",
+    "valet",
+    "dix",
+    "neuf",
+    "huit",
+    "sept",
+    "six",
+    "cinq",
+    "quatre",
+    "trois",
+    "deux"
 };

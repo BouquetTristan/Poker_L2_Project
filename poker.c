@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "carte.h"
 #include "jeu.h"
 #include "joueur.h"
