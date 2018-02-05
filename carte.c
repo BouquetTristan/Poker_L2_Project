@@ -3,8 +3,8 @@
 /* allocation memoire */
 carte_t * carte_creer(void) {
     carte_t * carte = malloc(sizeof(carte_t)); 
-    carte->couleur = malloc(sizeof(char));
-    carte->hauteur = malloc(sizeof(char));
+    carte->couleur = malloc(sizeof(char *));
+    carte->hauteur = malloc(sizeof(char *));
 
     return(carte) ;
 }
