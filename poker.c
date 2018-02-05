@@ -10,6 +10,9 @@ int main(int argc, char * argv[]) {
     jeu = jeu_creer(); // alloue la mémoire à ce jeu
     jeu_initialiser(jeu); // affecte les couleurs et hauteurs de chaques cartes
     jeu_afficher(jeu); // affiche le jeu de cartes
+    printf("\nAPRES melange :\n\n");
+    jeu_melanger(jeu); // mélange le jeu de carte
+    jeu_afficher(jeu);
     jeu_detruire(&jeu); // libere la memoire occupee par le jeu
 
     player_t * joueur;
