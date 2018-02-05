@@ -15,3 +15,4 @@ typedef struct plateau_s
 	int pot;
 };
 
+#endif
