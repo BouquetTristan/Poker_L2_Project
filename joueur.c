@@ -5,7 +5,7 @@ player_t * joueur_creer(void) {
 	player_t * joueur = malloc(sizeof(player_t));
 	joueur->name = malloc(sizeof(char));
 	joueur->token = 0;
-	for(i = 0; i < NB_PLAYER; i++)
+	for(i = 0; i < 5; i++)
 	 joueur->cartePlayer[i] = carte_creer();
 }
 
