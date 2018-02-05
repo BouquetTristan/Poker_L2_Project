@@ -3,6 +3,10 @@ OBJ = carte.o poker.o jeu.o
 CC = gcc
 CFLAGS = -g -Iinclude
 
+all_clean:
+	- make all
+	- rm *.o
+
 all: ${BIN}
 
 ${BIN}: ${OBJ}
