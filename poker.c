@@ -2,7 +2,6 @@
 #include "carte.h"
 #include "jeu.h"
 #include "joueur.h"
-#include "plateau.h"
 
 int main(int argc, char * argv[]) { 
     int i, j;
