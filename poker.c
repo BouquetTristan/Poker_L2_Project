@@ -21,6 +21,9 @@ int main(int argc, char * argv[]) {
     strcpy(joueur->name, "richard");
     printf("joueur prenom : %s\n", joueur->name);
     printf("joueur nb jetons : %i\n", joueur->token);
+
+    comparer_jeu(joueur);
+
     joueur_detruire(&joueur);
 
     return(EXIT_SUCCESS) ; 
