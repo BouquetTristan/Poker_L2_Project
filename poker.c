@@ -24,6 +24,7 @@ int main(int argc, char * argv[]) {
 
     int resultat = combiner_jeu(joueur);
 
+    printf("%i\n", resultat);
     joueur_detruire(&joueur);
 
     return(EXIT_SUCCESS) ; 

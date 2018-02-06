@@ -13,5 +13,6 @@ char * tab_hauteur[13];
 
 carte_t * carte_creer(void);
 void carte_detruire(carte_t ** carte);
+int indice_hauteur(carte_t * carte);
 
 #endif

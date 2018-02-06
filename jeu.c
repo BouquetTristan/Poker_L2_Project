@@ -66,10 +66,23 @@ int combiner_jeu(player_t * joueur)
 
 	player_t * joueurTemp;
     joueurTemp = joueur_creer();
+
+    strcpy(joueurTemp->cartePlayer[0]->hauteur, "as");
+    strcpy(joueurTemp->cartePlayer[1]->hauteur, "as");
+    strcpy(joueurTemp->cartePlayer[2]->hauteur, "as");
+    strcpy(joueurTemp->cartePlayer[3]->hauteur, "as");
+    strcpy(joueurTemp->cartePlayer[4]->hauteur, "roi");
+    strcpy(joueurTemp->cartePlayer[0]->couleur, "carreau");
+    strcpy(joueurTemp->cartePlayer[1]->couleur, "coeur");
+    strcpy(joueurTemp->cartePlayer[2]->couleur, "pique");
+    strcpy(joueurTemp->cartePlayer[3]->couleur, "trefle");
+    strcpy(joueurTemp->cartePlayer[4]->couleur, "trefle");
+
     /*Affecter les cartes du joueur à l'autre*/
 	/*trier_carte()*/
-    char indTopCard = indic_hauteur(cartePlayer[0]->hauteur);
-    char topCardCouleur = joueurTemp->cartePlayer[0]->couleur;
+
+    int indTopCard = indice_hauteur(joueurTemp->cartePlayer[0]);
+    char * topCardCouleur = joueurTemp->cartePlayer[0]->couleur;
 	/*Quinte Flush Royal*/
 	for (int i = 0; i < 5; ++i)
 	{
@@ -79,7 +92,10 @@ int combiner_jeu(player_t * joueur)
 		{
 			cpt++;
 			if(cpt == 4)
+			{
+				joueur_detruire(&joueurTemp);
 				return(10);
+			}
 		}
 	}
 
@@ -87,12 +103,15 @@ int combiner_jeu(player_t * joueur)
 	for (int i = 0; i < 5; ++i)
 	{
 
-		if(strcmp(joueurTemp->cartePlayer[i], tab_hauteur[indTopCard-i]) == 0 &&
+		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indTopCard-i]) == 0 &&
 			strcmp(joueurTemp->cartePlayer[i]->couleur, topCardCouleur) == 0)
 		{
 			cpt++;
 			if(cpt == 4)
+			{
+				joueur_detruire(&joueurTemp);
 				return(9);
+			}
 		}
 	}
 
@@ -100,15 +119,19 @@ int combiner_jeu(player_t * joueur)
 	for (int i = 0; i < 5; ++i)
 	{
 
-		if(strcmp(joueurTemp->cartePlayer[i], tab_hauteur[indTopCard]) == 0 )
+		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indTopCard]) == 0 )
 			cpt++;
 		else
 			cpt = 0;
 
 		if(cpt == 4)
+		{
+			joueur_detruire(&joueurTemp);
 			return(8);
+		}
 		
 	}
+
 	/*Full House*/
 	/*Quinte*/
 	/*Flush*/
@@ -118,4 +141,5 @@ int combiner_jeu(player_t * joueur)
 	/*Top card*/
 
 	joueur_detruire(&joueurTemp);
+
 }
