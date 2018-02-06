@@ -20,6 +20,16 @@ void carte_detruire(carte_t ** carte) {
     *carte = NULL;
 }
 
+int indice_hauteur(carte * carte)
+{
+    int i;
+    for(i = 0; i < 13; i++)
+    {
+        if(strcmp(carte->hauteur, tab_hauteur[i]) == 0)
+            return i;
+    }
+}
+
 /* couleurs possibles */
 char * tab_couleur[4] = {
     "carreau",

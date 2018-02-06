@@ -22,7 +22,7 @@ int main(int argc, char * argv[]) {
     printf("joueur prenom : %s\n", joueur->name);
     printf("joueur nb jetons : %i\n", joueur->token);
 
-    comparer_jeu(joueur);
+    int resultat = combiner_jeu(joueur);
 
     joueur_detruire(&joueur);
 

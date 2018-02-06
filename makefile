@@ -22,4 +22,6 @@ joueur.o: joueur.c
 
 clean:
 	- rm *.o
+
+mrproper: clean
 	- rm ${BIN}
