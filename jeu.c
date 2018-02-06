@@ -100,12 +100,14 @@ int combiner_jeu(player_t * joueur)
 	for (int i = 0; i < 5; ++i)
 	{
 
-		if(strcmp(joueurTemp->cartePlayer[i], tab_hauteur[]) == 0 )
-		{
+		if(strcmp(joueurTemp->cartePlayer[i], tab_hauteur[indTopCard]) == 0 )
 			cpt++;
-			if(cpt == 4)
-				return(9);
-		}
+		else
+			cpt = 0;
+
+		if(cpt == 4)
+			return(8);
+		
 	}
 	/*Full House*/
 	/*Quinte*/
