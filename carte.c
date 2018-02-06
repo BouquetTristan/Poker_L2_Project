@@ -20,7 +20,7 @@ void carte_detruire(carte_t ** carte) {
     *carte = NULL;
 }
 
-int indice_hauteur(carte * carte)
+int indice_hauteur(carte_t * carte)
 {
     int i;
     for(i = 0; i < 13; i++)
