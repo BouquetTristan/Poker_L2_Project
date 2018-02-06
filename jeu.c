@@ -1,5 +1,6 @@
 #include "carte.h"
 #include "jeu.h"
+#include "joueur.h"
 #include "time.h"
 
 jeu_t * jeu_creer(void) {
@@ -55,4 +56,40 @@ void echanger_2cartes(carte_t * carte1, carte_t * carte2) {
 	carte2->couleur = couleur_temp;
 	hauteur_temp = NULL;
 	couleur_temp = NULL;
+}
+
+
+void comparer_jeu(player_t * joueur)
+{
+	/*Quinte Flush Royal*/
+	int i;
+	int navigate = 1;
+	int top_card;
+
+	player_t * joueurTemp;
+    joueurTemp = joueur_creer();
+    /*Affecter les cartes du joueur à l'autre*/
+	/*trier_carte()*/
+
+	for (int i = 0; i < 5; ++i)
+	{
+
+		if(strcmp(joueur->cartePlayer[i], tab_hauteur[12]))
+		{
+		
+		}
+		printf("Prout\n");
+
+	}
+	/*Quinte Flush */
+	/*Carre*/
+	/*Full House*/
+	/*Quinte*/
+	/*Flush*/
+	/*Brelan*/
+	/*Double Pair*/
+	/*Pair*/
+	/*Top card*/
+
+	joueur_detruire(&joueurTemp);
 }
