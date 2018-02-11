@@ -29,6 +29,11 @@ void jeu_initialiser(jeu_t * jeu) {
 	}
 }
 
+void initcpt()
+{
+	cpt = 0;
+}
+
 void jeu_afficher(jeu_t * jeu) {
 	int i;
 	for(i = 0; i < N; i++)
@@ -68,20 +73,20 @@ int combiner_jeu(player_t * joueur)
     joueurTemp = joueur_creer();
 
     strcpy(joueurTemp->cartePlayer[0]->hauteur, "as");
-    strcpy(joueurTemp->cartePlayer[1]->hauteur, "as");
-    strcpy(joueurTemp->cartePlayer[2]->hauteur, "as");
-    strcpy(joueurTemp->cartePlayer[3]->hauteur, "as");
+    strcpy(joueurTemp->cartePlayer[1]->hauteur, "roi");
+    strcpy(joueurTemp->cartePlayer[2]->hauteur, "roi");
+    strcpy(joueurTemp->cartePlayer[3]->hauteur, "roi");
     strcpy(joueurTemp->cartePlayer[4]->hauteur, "roi");
     strcpy(joueurTemp->cartePlayer[0]->couleur, "carreau");
     strcpy(joueurTemp->cartePlayer[1]->couleur, "coeur");
     strcpy(joueurTemp->cartePlayer[2]->couleur, "pique");
-    strcpy(joueurTemp->cartePlayer[3]->couleur, "trefle");
+    strcpy(joueurTemp->cartePlayer[3]->couleur, "carreau");
     strcpy(joueurTemp->cartePlayer[4]->couleur, "trefle");
 
     /*Affecter les cartes du joueur à l'autre*/
 	/*trier_carte()*/
 
-    int indTopCard = indice_hauteur(joueurTemp->cartePlayer[0]);
+    int indCard = indice_hauteur(joueurTemp->cartePlayer[0]);
     char * topCardCouleur = joueurTemp->cartePlayer[0]->couleur;
 	/*Quinte Flush Royal*/
 	for (int i = 0; i < 5; ++i)
@@ -98,12 +103,13 @@ int combiner_jeu(player_t * joueur)
 			}
 		}
 	}
+	initcpt();
 
 	/*Quinte Flush */
 	for (int i = 0; i < 5; ++i)
 	{
 
-		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indTopCard-i]) == 0 &&
+		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indCard-i]) == 0 &&
 			strcmp(joueurTemp->cartePlayer[i]->couleur, topCardCouleur) == 0)
 		{
 			cpt++;
@@ -114,28 +120,64 @@ int combiner_jeu(player_t * joueur)
 			}
 		}
 	}
+	initcpt();
 
 	/*Carre*/
 	for (int i = 0; i < 5; ++i)
 	{
-
-		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indTopCard]) == 0 )
+		
+		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
-			cpt = 0;
+			initcpt();
+		printf("cpt = %i\n", cpt);
+		if(cpt == 0)
+		{
+			indCard = indice_hauteur(joueurTemp->cartePlayer[i]);
+			cpt++;
+		}
 
 		if(cpt == 4)
 		{
 			joueur_detruire(&joueurTemp);
 			return(8);
-		}
-		
+		}	
 	}
+	initcpt();
 
 	/*Full House*/
-	/*Quinte*/
+	for (int i = 0; i < 5; ++i)
+	{
+
+		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indCard]) == 0 )
+			cpt++;
+		else
+			initcpt();
+
+		if(cpt == 3)
+		{
+			
+		}
+	}
+	initcpt();
+	
 	/*Flush*/
+	/*Quinte*/
 	/*Brelan*/
+	for (int i = 0; i < 5; ++i)
+	{
+
+		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indCard]) == 0 )
+			cpt++;
+		else
+			initcpt();
+
+		if(cpt == 3)
+		{
+			joueur_detruire(&joueurTemp);
+			return(7);
+		}	
+	}
 	/*Double Pair*/
 	/*Pair*/
 	/*Top card*/
