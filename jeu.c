@@ -78,7 +78,7 @@ int combiner_jeu(player_t * joueur)
     strcpy(joueurTemp->cartePlayer[3]->hauteur, "trois");
     strcpy(joueurTemp->cartePlayer[4]->hauteur, "deux");
     strcpy(joueurTemp->cartePlayer[0]->couleur, "carreau");
-    strcpy(joueurTemp->cartePlayer[1]->couleur, "carreau");
+    strcpy(joueurTemp->cartePlayer[1]->couleur, "pique");
     strcpy(joueurTemp->cartePlayer[2]->couleur, "carreau");
     strcpy(joueurTemp->cartePlayer[3]->couleur, "carreau");
     strcpy(joueurTemp->cartePlayer[4]->couleur, "carreau");
@@ -91,8 +91,6 @@ int combiner_jeu(player_t * joueur)
 
     /* Tests */
 
-    printf("as : %i\n", indice_hauteur(joueurTemp->cartePlayer[0]));
-    printf("roi : %i\n", indice_hauteur(joueurTemp->cartePlayer[2]));
 
 	/*Quinte Flush Royal*/
 	for (int i = 0; i < 5; ++i)
@@ -121,7 +119,7 @@ int combiner_jeu(player_t * joueur)
 		{
 			cpt++;
 			// printf("cpt = %i\n", cpt);
-			if(cpt == 4)
+			if(cpt == 5)
 			{
 				joueur_detruire(&joueurTemp);
 				return(9);
@@ -232,7 +230,7 @@ int combiner_jeu(player_t * joueur)
 		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indCard-i]) == 0)
 		{
 			cpt++;
-			if(cpt == 4)
+			if(cpt == 5)
 			{
 				joueur_detruire(&joueurTemp);
 				return(5);
@@ -254,11 +252,29 @@ int combiner_jeu(player_t * joueur)
 		if(cpt == 3)
 		{
 			joueur_detruire(&joueurTemp);
-			return(7);
+			return(4);
 		}	
 	}
+
+	cpt = init(cpt);
+
 	/*Double Pair*/
+
 	/*Pair*/
+	for (int i = 0; i < 5; ++i)
+	{
+
+		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indCard]) == 0 )
+			cpt++;
+		else
+			cpt = init(cpt);
+
+		if(cpt == 2)
+		{
+			joueur_detruire(&joueurTemp);
+			return(2);
+		}	
+	}
 	/*Top card*/
 
 	joueur_detruire(&joueurTemp);
