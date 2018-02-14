@@ -72,15 +72,15 @@ int combiner_jeu(player_t * joueur)
 	player_t * joueurTemp;
     joueurTemp = joueur_creer();
 
-    strcpy(joueurTemp->cartePlayer[0]->hauteur, "six");
-    strcpy(joueurTemp->cartePlayer[1]->hauteur, "cinq");
-    strcpy(joueurTemp->cartePlayer[2]->hauteur, "quatre");
-    strcpy(joueurTemp->cartePlayer[3]->hauteur, "trois");
+    strcpy(joueurTemp->cartePlayer[0]->hauteur, "valet");
+    strcpy(joueurTemp->cartePlayer[1]->hauteur, "dix");
+    strcpy(joueurTemp->cartePlayer[2]->hauteur, "deux");
+    strcpy(joueurTemp->cartePlayer[3]->hauteur, "deux");
     strcpy(joueurTemp->cartePlayer[4]->hauteur, "deux");
     strcpy(joueurTemp->cartePlayer[0]->couleur, "carreau");
     strcpy(joueurTemp->cartePlayer[1]->couleur, "pique");
-    strcpy(joueurTemp->cartePlayer[2]->couleur, "carreau");
-    strcpy(joueurTemp->cartePlayer[3]->couleur, "carreau");
+    strcpy(joueurTemp->cartePlayer[2]->couleur, "trefle");
+    strcpy(joueurTemp->cartePlayer[3]->couleur, "coeur");
     strcpy(joueurTemp->cartePlayer[4]->couleur, "carreau");
 
     /*Affecter les cartes du joueur à l'autre*/
@@ -247,7 +247,11 @@ int combiner_jeu(player_t * joueur)
 		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
+		{
 			cpt = init(cpt);
+			cpt++;
+			indCard = indice_hauteur(joueurTemp->cartePlayer[i]);
+		}
 
 		if(cpt == 3)
 		{
@@ -259,6 +263,30 @@ int combiner_jeu(player_t * joueur)
 	cpt = init(cpt);
 
 	/*Double Pair*/
+	int pair = 0;
+	
+	for (int i = 0; i < 5; ++i)
+	{
+
+		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indCard]) == 0 )
+			cpt++;
+		else
+		{
+			cpt = init(cpt);
+			cpt++;
+			indCard = indice_hauteur(joueurTemp->cartePlayer[i]);
+		}
+
+		if(cpt == 2)
+			pair++;
+		if(pair == 2)
+		{
+			joueur_detruire(&joueurTemp);
+			return(3);
+		}
+	}
+
+	cpt = init(cpt);
 
 	/*Pair*/
 	for (int i = 0; i < 5; ++i)
@@ -278,5 +306,6 @@ int combiner_jeu(player_t * joueur)
 	/*Top card*/
 
 	joueur_detruire(&joueurTemp);
+	return(1);
 
 }
