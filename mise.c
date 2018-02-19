@@ -91,7 +91,7 @@ int river(){
 
 
 
-int mise()
+int main  ()
 {
  
 	int x = 13, y = 4, Tapis_J1 = 5000, Tapis_J2 = 5000, choix, choix2, mise2, mise1;
@@ -100,7 +100,7 @@ int mise()
 	int river_couleur, river_valeur, turn_couleur, turn_valeur;
 	char TabCarte[x], TabCouleur[y];
  
- 
+ 	int n;
 
  
  
@@ -112,6 +112,9 @@ int mise()
 	J1_carte2_valeur = rand() % MAX_Valeur;
 	// Main J1
  
+
+
+
  
  
 	printf("****************POKER******************\n************FIVE DRAW**************\n**************HEAD'S UP****************\\nSpades 		(Piques) - Hearts (Coeurs) - Diamonds (Carreaux) - Clubs (Trefles)\n\n");
@@ -119,70 +122,86 @@ int mise()
 	printf("***************************************\n********DISTRIBUTION DES CARTES********\n***************************************\n\n");
 	printf("Joueur 1, votre main est : [%c-%c] & [%c-%c]\n", TabCarte[J1_carte1_valeur], TabCouleur[J1_carte1_couleur], TabCarte	[J1_carte2_valeur], TabCouleur[J1_carte2_couleur]);
  
-	printf("Votre tapis est de %d. \n\nQuelle action desirez-vous effectuer ? \n1. jouer (Play)\n2. quitter (Quit)\n", Tapis_J1);
- 
-	scanf("\n%d", &choix);
-	printf("\n");
-	switch(choix)
-	{
-	case 1:
-    		printf("***************************************\n*****************MISE******************\n***************************************\n\nCombien voulez-vous miser ? [Max : %d]\n", Tapis_J1);
-    		scanf("\n\n%d", &mise1);
-    		Tapis_J1 = Tapis_J1 - mise1;
-    		printf("\nVous voulez miser %d, il vous reste %d dans votre tapis.", mise1, Tapis_J1);
-    		break;
+	
+	printf("entrer le nombre de joueur\n");
+	scanf("%d", &n);
 
-	case 2:
-    		printf("Vous quitter.\n");
-		return 0;    		
-		break;
-	}
- 
-	// Main J2
-	srand(time(NULL));
-	J2_carte1_couleur = rand() % MAX_Couleur;
-	J2_carte1_valeur = rand() % MAX_Valeur;
-	J2_carte2_couleur = rand() % MAX_Couleur;
-	J2_carte2_valeur = rand() % MAX_Valeur;
-	// Main J2
 
 	
-	creation_valeur_carte();
-	creation_couleur();
 
+
+		printf("Votre tapis est de %d. \n\nQuelle action desirez-vous effectuer ? \n1. jouer (Play)\n2. quitter (Quit)\n", Tapis_J1);
  
-	printf("\n\nJoueur 2, votre main est : [%c-%c] & [%c-%c]\n", TabCarte[J2_carte1_valeur], TabCouleur[J2_carte1_couleur], TabCarte[J2_carte2_valeur], TabCouleur[J2_carte2_couleur]);
+		scanf("\n%d", &choix);
+		printf("\n");
+		switch(choix)
+		{
+			case 1:
+    			printf("***************************************\n*****************MISE******************\n***************************************\n\nCombien voulez-vous miser ? [Max : %d]\n", Tapis_J1);
+    			scanf("\n\n%d", &mise1);
+    			Tapis_J1 = Tapis_J1 - mise1;
+    			printf("\nVous voulez miser %d, il vous reste %d dans votre tapis.", mise1, Tapis_J1);
+    			break;
+
+			case 2:
+    			printf("Vous quitter.\n");
+			return 0;    		
+			break;
+		}
  
-	printf("Votre tapis est de %d. \n\nQuelle action desirez-vous effectuer ? \n1. Se coucher (fold)\n2. Suivre (call)\n3. Miser (bet)\n\n4. Tapis ()\n\n", Tapis_J2);
- 
-	scanf("\n%d", &choix2);
-	printf("\n");
-	switch(choix2)
-	{
-	case 1:
-    		printf("Vous vous coucher.\n");
-    		break;
-	case 2:
-    		printf("Vous suivez.");
-		Tapis_J2 = Tapis_J2 - mise1;
-    		printf("\n il vous reste %d dans votre tapis.\n", Tapis_J2);  		
-		break;
+		// Main J2
+		srand(time(NULL));
+		J2_carte1_couleur = rand() % MAX_Couleur;
+		J2_carte1_valeur = rand() % MAX_Valeur;
+		J2_carte2_couleur = rand() % MAX_Couleur;
+		J2_carte2_valeur = rand() % MAX_Valeur;
+		// Main J2
 
-
-
-		case 3:
-    		printf("*******************************Vous relancez******************\n***************************************\n\nCombien voulez-vous miser ? [Max : %d]\n", Tapis_J2);
-   		 scanf("\n\n%d", &mise2);
-
-	Tapis_J2 = Tapis_J2 - mise2;
-    		printf("\nVous relancez %d, il vous reste %d dans votre tapis.\n", mise2, Tapis_J2);
-   		 break;
 	
-	case 4: 
-		printf("tapis");
+		creation_valeur_carte();
+		creation_couleur();
+
+ 	while(n>0){
+		printf("\n\nJoueur %d, votre main est : [%c-%c] & [%c-%c]\n",n-1, TabCarte[J2_carte1_valeur], TabCouleur[J2_carte1_couleur], TabCarte[J2_carte2_valeur], TabCouleur[J2_carte2_couleur]);
+ 
+		printf("Votre tapis est de %d. \n\nQuelle action desirez-vous effectuer ? \n1. Se coucher (fold)\n2. Suivre (call)\n3. Miser (bet)\n\n4. Tapis ()\n\n", Tapis_J2);
+ 
+		scanf("\n%d", &choix2);
+		printf("\n");
+		switch(choix2)
+		{
+			case 1:
+    			printf("Vous vous coucher.\n");
+    			break;
+			case 2:
+    			printf("Vous suivez.");
+			Tapis_J2 = Tapis_J2 - mise1;
+    			printf("\n il vous reste %d dans votre tapis.\n", Tapis_J2);  		
+			break;
+
+
+
+			case 3:
+    			printf("*******************************Vous relancez******************\n***************************************\n\nCombien voulez-vous miser ? [Max : %d]\n", Tapis_J2);
+   			 scanf("\n\n%d", &mise2);
+
+			Tapis_J2 = Tapis_J2 - mise2;
+    			printf("\nVous relancez %d, il vous reste %d dans votre tapis.\n", mise2, Tapis_J2);
+   		 	break;
+	
+			case 4: 
+			printf("tapis");
 	  
-    		printf("\nVous voulez tout miser , il vous reste aucun jeton dans votre tapis.\n"); break;
+    			printf("\nVous voulez tout miser , il vous reste aucun jeton dans votre tapis.\n"); break;
+		}
+
+	n--;
 	}
+
+
+
+
+
  
 /*	//flop
 	
