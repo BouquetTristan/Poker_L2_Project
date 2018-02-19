@@ -2,6 +2,8 @@
 #include "carte.h"
 #include "jeu.h"
 #include "joueur.h"
+#include "mise.h"
+
 
 int main(int argc, char * argv[]) { 
     int i, j;
@@ -26,6 +28,7 @@ int main(int argc, char * argv[]) {
 
     printf("%i\n", resultat);
     joueur_detruire(&joueur);
+    mise();
 
     return(EXIT_SUCCESS) ; 
 }

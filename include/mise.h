@@ -8,6 +8,6 @@ int creation_couleur();
 int flop();
 int turn();
 int river();
-
+int mise();
 
 #endif

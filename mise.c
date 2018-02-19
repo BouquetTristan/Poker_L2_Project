@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #define MAX_Valeur 13
 #define MAX_Couleur 4
  
@@ -90,7 +91,7 @@ int river(){
 
 
 
-int main()
+int mise()
 {
  
 	int x = 13, y = 4, Tapis_J1 = 5000, Tapis_J2 = 5000, choix, choix2, mise2, mise1;
