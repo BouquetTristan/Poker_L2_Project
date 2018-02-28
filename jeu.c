@@ -73,11 +73,13 @@ int combiner_jeu(player_t * joueur)
 	int i;
 	int cpt = 0;
 
-
 	int pair = 0, threeKind= 0, indCardThreeKind;
 
 	player_t * joueurTemp;
     joueurTemp = joueur_creer();
+
+
+	/* Tests */
 
     strcpy(joueurTemp->cartePlayer[0]->hauteur, "as");
     strcpy(joueurTemp->cartePlayer[1]->hauteur, "roi");
@@ -96,18 +98,17 @@ int combiner_jeu(player_t * joueur)
     int indCard = indice_hauteur(joueurTemp->cartePlayer[0]);
     char * topCardCouleur = joueurTemp->cartePlayer[0]->couleur;
 
-    /* Tests */
-
 
 	/*Quinte Flush Royal*/
 	for (int i = 0; i < 5; ++i)
 	{
-
+		/*If top card is an ace and if other card follow it*/
 		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[12-i]) == 0 &&
 			strcmp(joueurTemp->cartePlayer[i]->couleur, topCardCouleur) == 0)
 		{
+			/*printf("n°%s topCardCouleur : %s      cartePlayer couleur : %s\n", tab_hauteur[12-i], topCardCouleur, joueurTemp->cartePlayer[i]->couleur);*/
 			cpt++;
-			if(cpt == 4)
+			if(cpt == 5)
 			{
 				joueur_detruire(&joueurTemp);
 				return(handValue(10, indCard));
@@ -115,6 +116,7 @@ int combiner_jeu(player_t * joueur)
 		}
 	}
 	cpt = init(cpt);
+
 
 	/*Quinte Flush */
 	for (int i = 0; i < 5; ++i)
@@ -133,7 +135,7 @@ int combiner_jeu(player_t * joueur)
 		}
 	}
 	cpt = init(cpt);
-	// printf("indCard : %i\n", indCard);
+
 
 	/*Carre*/
 	for (int i = 0; i < 5; ++i)
@@ -158,6 +160,7 @@ int combiner_jeu(player_t * joueur)
 	}
 	indCard = indice_hauteur(joueurTemp->cartePlayer[0]);
 	cpt = init(cpt);
+
 
 	/*Full House*/
 	for (int i = 0; i < 5; ++i)
@@ -215,6 +218,7 @@ int combiner_jeu(player_t * joueur)
 	}
 	cpt = init(cpt);
 	
+
 	/*Flush*/
 	for (int i = 0; i < 5; ++i)
 	{
@@ -230,7 +234,8 @@ int combiner_jeu(player_t * joueur)
 		}
 	}
 	cpt = init(cpt);
-	// printf("indCard : %i\n", indCard);
+
+
 	/*Quinte*/
 	for (int i = 0; i < 5; ++i)
 	{
@@ -246,6 +251,7 @@ int combiner_jeu(player_t * joueur)
 		}
 	}
 	cpt = init(cpt);
+
 
 	/*Brelan*/
 	for (int i = 0; i < 5; ++i)
@@ -268,6 +274,7 @@ int combiner_jeu(player_t * joueur)
 	}
 
 	cpt = init(cpt);
+
 
 	/*Double Pair*/
 	pair = 0;
@@ -292,8 +299,8 @@ int combiner_jeu(player_t * joueur)
 			return(handValue(3, indCard));
 		}
 	}
-
 	cpt = init(cpt);
+
 
 	/*Pair*/
 	for (int i = 0; i < 5; ++i)
@@ -310,8 +317,9 @@ int combiner_jeu(player_t * joueur)
 			return(handValue(2, indCard));
 		}	
 	}
-	/*Top card*/
+	cpt = init(cpt);
 
+	/*Top card*/
 	joueur_detruire(&joueurTemp);
 	return(handValue(1, indCard));
 
