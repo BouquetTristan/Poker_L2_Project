@@ -1,6 +1,5 @@
 #include "carte.h"
 #include "jeu.h"
-#include "joueur.h"
 #include "time.h"
 
 jeu_t * jeu_creer(void) {
@@ -25,6 +24,7 @@ void jeu_initialiser(jeu_t * jeu) {
 		for(j = 0; j < 13; j++) {
 			strcpy(jeu->liste[i*13 + j]->couleur, tab_couleur[i]);
 			strcpy(jeu->liste[i*13 + j]->hauteur, tab_hauteur[j]);
+			strcpy(jeu->liste[i*13 + j]->prop, "pioche");
 		}
 	}
 }
@@ -37,7 +37,7 @@ int init(int cpt)
 void jeu_afficher(jeu_t * jeu) {
 	int i;
 	for(i = 0; i < N; i++)
-		printf("jeu[%i] : %s de %s\n", i, jeu->liste[i]->hauteur, jeu->liste[i]->couleur);
+		printf("jeu[%i] : %s de %s [%s]\n", i, jeu->liste[i]->hauteur, jeu->liste[i]->couleur, jeu->liste[i]->prop);
 }
 
 void jeu_melanger(jeu_t * jeu) {
@@ -52,15 +52,48 @@ void jeu_melanger(jeu_t * jeu) {
 }
 
 void echanger_2cartes(carte_t * carte1, carte_t * carte2) {
-	char * hauteur_temp, * couleur_temp;
+	char * hauteur_temp, * couleur_temp, * prop_temp;
 	hauteur_temp = carte1->hauteur;
 	couleur_temp = carte1->couleur;
+	prop_temp = carte1->prop;
+
 	carte1->hauteur = carte2->hauteur;
 	carte1->couleur = carte2->couleur;
+	carte1->prop = carte2->prop;
+
 	carte2->hauteur = hauteur_temp;
 	carte2->couleur = couleur_temp;
+	carte2->prop = prop_temp;
+
 	hauteur_temp = NULL;
 	couleur_temp = NULL;
+	prop_temp = NULL;
+}
+
+int pioche2main(jeu_t * jeu, player_t * joueur, int i) {
+    if (!strcmp(jeu->liste[i]->prop, "pioche")) { // vérifie que la carte à distribuer est bien présente dans la pioche
+        for (int j = 0; j < 5; j++) {
+            if (joueur->cartePlayer[j] == NULL) {
+                joueur->cartePlayer[j] = jeu->liste[i];
+                strcpy(jeu->liste[i]->prop, joueur->name);
+                return 1;
+            }             
+        }
+    }
+    return 0;
+}
+
+int debarasser_carte(jeu_t * jeu, player_t * joueur, int i) {
+	if (i >= 0 && i <= 4) { // verifie la valeur de l'indice i
+		if (joueur->cartePlayer[i] != NULL) { // verifie qu'une carte existe dans la main du joueur à l'indice i
+			if (!strcmp(joueur->cartePlayer[i]->prop, joueur->name)) { // vérifie que la carte à jeter appartient bien au joueur
+				strcpy(joueur->cartePlayer[i]->prop, "jetee"); // tag la carte comme "jetée" de la main d'un joueur
+				joueur->cartePlayer[i] = NULL; // défausse la carte de l amain du joueur
+		        return 1;	
+			}
+		}
+	}
+	return 0;
 }
 
 int handValue(int value, int card)
@@ -76,22 +109,12 @@ int combiner_jeu(player_t * joueur)
 	int pair = 0, threeKind= 0, indCardThreeKind;
 
 	player_t * joueurTemp;
-    joueurTemp = joueur_creer();
+    joueurTemp = joueur;
 
 
 	/* Tests */
 
-    strcpy(joueurTemp->cartePlayer[0]->hauteur, "as");
-    strcpy(joueurTemp->cartePlayer[1]->hauteur, "roi");
-    strcpy(joueurTemp->cartePlayer[2]->hauteur, "dame");
-    strcpy(joueurTemp->cartePlayer[3]->hauteur, "valet");
-    strcpy(joueurTemp->cartePlayer[4]->hauteur, "dix");
-    strcpy(joueurTemp->cartePlayer[0]->couleur, "carreau");
-    strcpy(joueurTemp->cartePlayer[1]->couleur, "carreau");
-    strcpy(joueurTemp->cartePlayer[2]->couleur, "carreau");
-    strcpy(joueurTemp->cartePlayer[3]->couleur, "carreau");
-    strcpy(joueurTemp->cartePlayer[4]->couleur, "carreau");
-
+    
     /*Affecter les cartes du joueur à l'autre*/
 	/*trier_carte()*/
 
@@ -110,7 +133,7 @@ int combiner_jeu(player_t * joueur)
 			cpt++;
 			if(cpt == 5)
 			{
-				joueur_detruire(&joueurTemp);
+		
 				return(handValue(10, indCard));
 			}
 		}
@@ -129,7 +152,7 @@ int combiner_jeu(player_t * joueur)
 			// printf("cpt = %i\n", cpt);
 			if(cpt == 5)
 			{
-				joueur_detruire(&joueurTemp);
+		
 				return(handValue(9, indCard));
 			}
 		}
@@ -154,7 +177,7 @@ int combiner_jeu(player_t * joueur)
 
 		if(cpt == 4)
 		{
-			joueur_detruire(&joueurTemp);
+	
 			return(handValue(8, indCard));
 		}	
 	}
@@ -210,7 +233,7 @@ int combiner_jeu(player_t * joueur)
 
 		if (threeKind == 1 && pair == 1)
 		{
-			joueur_detruire(&joueurTemp);
+	
 			return(handValue(7, indCardThreeKind));
 		}
 
@@ -228,7 +251,7 @@ int combiner_jeu(player_t * joueur)
 			cpt++;
 			if(cpt == 5)
 			{
-				joueur_detruire(&joueurTemp);
+		
 				return(handValue(6, indCard));
 			}
 		}
@@ -245,7 +268,7 @@ int combiner_jeu(player_t * joueur)
 			cpt++;
 			if(cpt == 5)
 			{
-				joueur_detruire(&joueurTemp);
+		
 				return(handValue(5, indCard));
 			}
 		}
@@ -268,7 +291,7 @@ int combiner_jeu(player_t * joueur)
 
 		if(cpt == 3)
 		{
-			joueur_detruire(&joueurTemp);
+	
 			return(handValue(4, indCard));
 		}	
 	}
@@ -295,7 +318,7 @@ int combiner_jeu(player_t * joueur)
 			pair++;
 		if(pair == 2)
 		{
-			joueur_detruire(&joueurTemp);
+	
 			return(handValue(3, indCard));
 		}
 	}
@@ -309,18 +332,21 @@ int combiner_jeu(player_t * joueur)
 		if(strcmp(joueurTemp->cartePlayer[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
+		{
 			cpt = init(cpt);
+			cpt++;
+			indCard = indice_hauteur(joueurTemp->cartePlayer[i]);
+		}
 
 		if(cpt == 2)
 		{
-			joueur_detruire(&joueurTemp);
+	
 			return(handValue(2, indCard));
 		}	
 	}
 	cpt = init(cpt);
 
 	/*Top card*/
-	joueur_detruire(&joueurTemp);
 	return(handValue(1, indCard));
 
 }
