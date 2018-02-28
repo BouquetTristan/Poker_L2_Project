@@ -2,7 +2,7 @@
 #include "carte.h"
 #include "jeu.h"
 #include "joueur.h"
-#include "mise.h"
+//#include "mise.h"
 
 
 int main(int argc, char * argv[]) { 
@@ -12,23 +12,36 @@ int main(int argc, char * argv[]) {
     jeu = jeu_creer(); // alloue la mémoire à ce jeu
     jeu_initialiser(jeu); // affecte les couleurs et hauteurs de chaques cartes
     jeu_afficher(jeu); // affiche le jeu de cartes
-    printf("\nAPRES melange :\n\n");
-    jeu_melanger(jeu); // mélange le jeu de carte
-    jeu_afficher(jeu);
-    jeu_detruire(&jeu); // libere la memoire occupee par le jeu
+    //printf("\nAPRES melange :\n\n");
+    //jeu_melanger(jeu); // mélange le jeu de carte
+    //jeu_afficher(jeu);
+    
 
     player_t * joueur;
     joueur = joueur_creer();
     joueur->token = 567;
     strcpy(joueur->name, "richard");
-    printf("joueur prenom : %s\n", joueur->name);
+    printf("\n\njoueur prenom : %s\n", joueur->name);
     printf("joueur nb jetons : %i\n", joueur->token);
+    printf("Main du joueur :\n");
+    
+    pioche2main(jeu, joueur, 47);
+    pioche2main(jeu, joueur, 48);
+    pioche2main(jeu, joueur, 49);
+    pioche2main(jeu, joueur, 50);
+    pioche2main(jeu, joueur, 51);
 
-    int resultat = combiner_jeu(joueur);
+    main_trier_desc(joueur);
+    printf("\n");
+    afficher_main(joueur);
 
-    printf("%i\n", resultat);
+    int comb = combiner_jeu(joueur);
+    printf("combinaison : %d\n", comb);
+
+    jeu_detruire(&jeu); // libere la memoire occupee par le jeu
     joueur_detruire(&joueur);
-    mise();
+    
+    //mise();
 
     return(EXIT_SUCCESS) ; 
 }
