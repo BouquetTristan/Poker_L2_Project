@@ -10,5 +10,7 @@ typedef struct player_s {
 
 player_t * joueur_creer(void);
 void joueur_detruire(player_t ** joueur);
+void afficher_main(player_t * joueur);
+void main_trier_desc(player_t * joueur);
 
 #endif
