@@ -6,7 +6,7 @@ CFLAGS = -g -Iinclude
 all: ${BIN}
 
 ${BIN}: ${OBJ}
-	${CC} ${CFLAGS} ${OBJ} -o ${BIN}
+	${CC} ${CFLAGS} ${OBJ} -o ${BIN} -lSDL -lSDL_image
 
 carte.o: carte.c
 	${CC} ${CFLAGS} -c carte.c
