@@ -43,6 +43,7 @@ install-sdl:
 
 help :
 	@echo ""
+	@echo "make all		- compile le jeu"
 	@echo "make clean		- supprime les fichiers *.o"
 	@echo "make mrproper		- supprime les fichiers *.o et l'éxécutable"
 	@echo "make install-sdl	- installe SDL et SDL_image version 1.2 (via apt)"
