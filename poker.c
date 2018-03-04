@@ -7,6 +7,82 @@
 #include "joueur.h"
 //#include "mise.h"
 
+int fullscreenSelect(void) {
+    TTF_Font *police = TTF_OpenFont("font/PokerKings-Regular.ttf", 50);
+    SDL_Surface * texte = NULL;
+    SDL_Rect textPos;
+    SDL_Color couleurBlanche = {255, 255, 255};
+
+    SDL_Surface * ecran = NULL, * menu = NULL, * cursor = NULL;
+    SDL_Rect posMenu, posCursor;
+    SDL_Event event;
+    int continuer = 1;
+
+    ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    SDL_WM_SetIcon(IMG_Load(JETON), NULL);
+    SDL_WM_SetCaption("Mode de l'écran", NULL);
+
+    menu = IMG_Load(MENU_WALL);
+    posMenu.x = 0;
+    posMenu.y = 0;
+
+    cursor = IMG_Load(JETON);
+    posCursor.x = LARGEUR_FENETRE/4 ;
+    posCursor.y = HAUTEUR_FENETRE/4;
+
+    textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
+
+
+     while(continuer) {
+        SDL_WaitEvent(&event);
+        switch(event.type) {
+            case SDL_QUIT:
+                continuer = 0;
+                break;
+            case SDL_KEYDOWN:
+                switch(event.key.keysym.sym) {
+                    case SDLK_ESCAPE:
+                        continuer = 0;
+                        break;
+                    case SDLK_UP:
+                        if (posCursor.y == HAUTEUR_FENETRE/4)
+                            posCursor.y = HAUTEUR_FENETRE/2;
+                        else if (posCursor.y == HAUTEUR_FENETRE/2)
+                            posCursor.y = HAUTEUR_FENETRE/4;
+                        break;
+                    case SDLK_DOWN:
+                        if (posCursor.y == HAUTEUR_FENETRE/4)
+                            posCursor.y = HAUTEUR_FENETRE/2;
+                        else if (posCursor.y == HAUTEUR_FENETRE/2)
+                            posCursor.y = HAUTEUR_FENETRE/4;
+                        break;
+                    case SDLK_RETURN:
+                        if(posCursor.y == HAUTEUR_FENETRE/4)
+                            return 1;
+                        else
+                            return 0;
+                        break;
+                }
+                break;
+        }
+
+        SDL_BlitSurface(menu, NULL, ecran, &posMenu);
+        SDL_BlitSurface(cursor, NULL, ecran, &posCursor);
+        textPos.y = HAUTEUR_FENETRE/4;
+        texte = TTF_RenderText_Blended(police, "Plein ecran", couleurBlanche);
+        SDL_BlitSurface(texte, NULL, ecran, &textPos);
+        textPos.y = HAUTEUR_FENETRE/2;
+        texte = TTF_RenderText_Blended(police, "Fenetre", couleurBlanche);
+        SDL_BlitSurface(texte, NULL, ecran, &textPos);
+        SDL_Flip(ecran);
+
+    }
+    SDL_FreeSurface(menu);
+    SDL_FreeSurface(cursor);
+    SDL_FreeSurface(ecran);
+}
+
+
 
 int main(int argc, char * argv[]) { 
     int i, j;
@@ -60,7 +136,10 @@ int main(int argc, char * argv[]) {
 
     SDL_Init(SDL_INIT_VIDEO);
 
-    ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    if (fullscreenSelect() == 1)
+        ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_FULLSCREEN | SDL_HWSURFACE | SDL_DOUBLEBUF);
+    else
+        ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
     SDL_WM_SetIcon(IMG_Load(JETON), NULL);
     SDL_WM_SetCaption("Poker", NULL);
 
