@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_ttf.h>
 #include "carte.h"
 #include "jeu.h"
 #include "joueur.h"
@@ -46,6 +47,12 @@ int main(int argc, char * argv[]) {
 
 
     // SDL
+    TTF_Init();
+    TTF_Font *police = TTF_OpenFont("font/PokerKings-Regular.ttf", 50);
+    SDL_Surface * texte = NULL;
+    SDL_Rect textPos;
+    SDL_Color couleurBlanche = {255, 255, 255};
+
     SDL_Surface* ecran = NULL, *menu = NULL, *cursor = NULL;
     SDL_Rect posMenu, posCursor;
     SDL_Event event;
@@ -62,8 +69,8 @@ int main(int argc, char * argv[]) {
     posMenu.y = 0;
 
     cursor = IMG_Load(JETON);
-    posCursor.x = 216;
-    posCursor.y = 330;
+    posCursor.x = LARGEUR_FENETRE/4 ;
+    posCursor.y = HAUTEUR_FENETRE/6;
 
     SDL_EnableKeyRepeat(10, 100);
     SDL_ShowCursor(SDL_DISABLE);
@@ -80,12 +87,20 @@ int main(int argc, char * argv[]) {
                         continuer = 0;
                         break;
                     case SDLK_UP:
-                        posCursor.y = 330;
-                        posCursor.x = 216;
+                        if (posCursor.y == HAUTEUR_FENETRE/6)
+                            posCursor.y = HAUTEUR_FENETRE/2;
+                        else if (posCursor.y == HAUTEUR_FENETRE/3)
+                            posCursor.y = HAUTEUR_FENETRE/6;
+                        else if (posCursor.y == HAUTEUR_FENETRE/2)
+                            posCursor.y = HAUTEUR_FENETRE/3;
                         break;
                     case SDLK_DOWN:
-                        posCursor.y = 355;
-                        posCursor.x = 275;
+                        if (posCursor.y == HAUTEUR_FENETRE/6)
+                            posCursor.y = HAUTEUR_FENETRE/3;
+                        else if (posCursor.y == HAUTEUR_FENETRE/3)
+                            posCursor.y = HAUTEUR_FENETRE/2;
+                        else if (posCursor.y == HAUTEUR_FENETRE/2)
+                            posCursor.y = HAUTEUR_FENETRE/6;
                         break;
                     case SDLK_RETURN:
                         if(posCursor.y == 330)
@@ -99,6 +114,18 @@ int main(int argc, char * argv[]) {
 
         SDL_BlitSurface(menu, NULL, ecran, &posMenu);
         SDL_BlitSurface(cursor, NULL, ecran, &posCursor);
+        textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
+        textPos.y = HAUTEUR_FENETRE/6;
+        texte = TTF_RenderText_Blended(police, "Jouer", couleurBlanche);
+        SDL_BlitSurface(texte, NULL, ecran, &textPos);
+        textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
+        textPos.y = HAUTEUR_FENETRE/3;
+        texte = TTF_RenderText_Blended(police, "Quitter", couleurBlanche);
+        SDL_BlitSurface(texte, NULL, ecran, &textPos);
+        textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
+        textPos.y = HAUTEUR_FENETRE/2;
+        texte = TTF_RenderText_Blended(police, "A propos", couleurBlanche);
+        SDL_BlitSurface(texte, NULL, ecran, &textPos);
         SDL_Flip(ecran);
 
     }
@@ -109,6 +136,8 @@ int main(int argc, char * argv[]) {
     SDL_FreeSurface(ecran);
     SDL_FreeSurface(cursor);
     SDL_Quit();
+    TTF_CloseFont(police);
+    TTF_Quit();
 
     return(EXIT_SUCCESS) ; 
 }
