@@ -157,10 +157,17 @@ int main(int argc, char * argv[]) {
     //SDL_WarpMouse(ecran->w /2, ecran->h /2);
 
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024); // initialisation de l'API SDL_mixer
-    Mix_Music *musique; //Création du pointeur de type Mix_Music
-    musique = Mix_LoadMUS("sound/Song_Remains_The_Same.mp3"); //Chargement de la musique
-    Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
-    int vol = 128;
+    Mix_AllocateChannels(10);
+    Mix_Volume(1, MIX_MAX_VOLUME);
+    Mix_Chunk * musique; //Création du pointeur de type Mix_Music
+    Mix_Chunk * select;
+    musique = Mix_LoadWAV("sound/Song_Remains_The_Same.wav"); //Chargement de la musique
+    select = Mix_LoadWAV("sound/chipLay1.wav");
+    int vol = MIX_MAX_VOLUME/2;
+    Mix_VolumeChunk(musique, vol/2);
+    Mix_VolumeChunk(select, MIX_MAX_VOLUME);
+    Mix_PlayChannel(1, musique, -1); //Jouer infiniment la musique
+    
     while(continuer) {
         SDL_WaitEvent(&event);
         switch(event.type) {
@@ -176,17 +183,18 @@ int main(int argc, char * argv[]) {
                         vol -= 11;
                         if (vol < 0)
                             vol = 0;
-                        Mix_VolumeMusic(vol);
+                        Mix_VolumeChunk(musique, vol);
                         printf("vol:%d\n", vol);
                         break;
                     case SDLK_EQUALS:
                         vol += 11;
                         if (vol > 128)
                             vol = 128;
-                        Mix_VolumeMusic(vol);
+                        Mix_VolumeChunk(musique, vol);
                         printf("vol:%d\n", vol);
                         break;
                     case SDLK_UP:
+                        Mix_PlayChannel(2, select, 0);
                         if (posCursor.y == HAUTEUR_FENETRE/6)
                             posCursor.y = HAUTEUR_FENETRE/2;
                         else if (posCursor.y == HAUTEUR_FENETRE/3)
@@ -195,6 +203,7 @@ int main(int argc, char * argv[]) {
                             posCursor.y = HAUTEUR_FENETRE/3;
                         break;
                     case SDLK_DOWN:
+                        Mix_PlayChannel(2, select, 0);
                         if (posCursor.y == HAUTEUR_FENETRE/6)
                             posCursor.y = HAUTEUR_FENETRE/3;
                         else if (posCursor.y == HAUTEUR_FENETRE/3)
@@ -236,7 +245,8 @@ int main(int argc, char * argv[]) {
     SDL_FreeSurface(ecran);
     SDL_FreeSurface(cursor);
 
-    Mix_FreeMusic(musique); //Libération de la musique
+    Mix_FreeChunk(musique); //Libération de la musique
+    Mix_FreeChunk(select); //Libération de la musique
     Mix_CloseAudio(); // fermeture de l'API SDL_mixer
     
     SDL_Quit();
