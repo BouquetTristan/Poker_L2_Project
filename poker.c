@@ -158,7 +158,7 @@ int main(int argc, char * argv[]) {
 
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024); // initialisation de l'API SDL_mixer
     Mix_Music *musique; //Création du pointeur de type Mix_Music
-    musique = Mix_LoadMUS("sound/kashmir.mp3"); //Chargement de la musique
+    musique = Mix_LoadMUS("sound/Song_Remains_The_Same.mp3"); //Chargement de la musique
     Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
     int vol = 128;
     while(continuer) {
