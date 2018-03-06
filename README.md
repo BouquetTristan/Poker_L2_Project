@@ -12,7 +12,7 @@ This is a project of a poker game, created for 2nd year project of the universit
   - *make all*          (compile the game)
   - *make clean*        (remove all \*.o)
   - *make mrproper*		  (remove all \*.o + the executable)
-  - *make install-sdl*  (install *SDL*, *SDL_image*, and *SDL_ttf* libraries v1.2 via *apt* package manager)
+  - *make install-sdl*  (install *SDL*, *SDL_image*, *SDL_ttf*, and *SDL_mixer* libraries v1.2 via *apt* package manager)
 4) *./poker* (*chmod +x* if it does not launch)
 
 Developement team : BOUQUET Tristan - POUPIN Romain - NJOFFANG William
