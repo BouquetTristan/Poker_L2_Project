@@ -8,7 +8,7 @@
 #define N 52 // taille du jeu de cartes
 #define LARGEUR_FENETRE 852
 #define HAUTEUR_FENETRE 480
-#define JETON "img/jeton.png"
+#define JETON "img/jeton_70.png"
 #define MENU_WALL "img/red_wall.jpg"
 
 #endif

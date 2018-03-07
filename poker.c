@@ -159,13 +159,16 @@ int main(int argc, char * argv[]) {
     Mix_Chunk * musique; //Création du pointeur de type Mix_Music
     Mix_Chunk * select;
     Mix_Chunk * back;
+    Mix_Chunk * enter;
     musique = Mix_LoadWAV("sound/Song_Remains_The_Same.wav"); //Chargement de la musique
-    select = Mix_LoadWAV("sound/cardPlace1.wav");
+    select = Mix_LoadWAV("sound/chipsStack1.wav");
     back = Mix_LoadWAV("sound/cardTakeOutPackage1.wav");
+    enter = Mix_LoadWAV("sound/cardPlace1.wav");
     int vol = MIX_MAX_VOLUME/6;
     Mix_VolumeChunk(musique, vol);
     Mix_VolumeChunk(select, MIX_MAX_VOLUME);
     Mix_VolumeChunk(back, MIX_MAX_VOLUME);
+    Mix_VolumeChunk(enter, MIX_MAX_VOLUME);
     Mix_PlayChannel(1, musique, -1); //Jouer infiniment la musique
     while(continuer) {
         SDL_WaitEvent(&event);
@@ -177,7 +180,6 @@ int main(int argc, char * argv[]) {
                 switch(event.key.keysym.sym) {
                     case SDLK_ESCAPE:
                         Mix_PlayChannel(3, back, 0);
-                        continuer = 0;
                         break;
                     case SDLK_SPACE:
                         Mix_PlayChannel(3, back, 0);
@@ -215,8 +217,9 @@ int main(int argc, char * argv[]) {
                             posCursor.y = HAUTEUR_FENETRE/6;
                         break;
                     case SDLK_RETURN:
-                        if(posCursor.y == 330)
-                            printf("jouer");
+                        Mix_PlayChannel(4, enter, 0);
+                        if(posCursor.y == HAUTEUR_FENETRE/2)
+                            continuer = 0;
                         else
                             printf("quitter");
                         break;
@@ -232,11 +235,11 @@ int main(int argc, char * argv[]) {
         SDL_BlitSurface(texte, NULL, ecran, &textPos);
         textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
         textPos.y = HAUTEUR_FENETRE/3;
-        texte = TTF_RenderText_Blended(police, "Quitter", couleurBlanche);
+        texte = TTF_RenderText_Blended(police, "Reglages", couleurBlanche);
         SDL_BlitSurface(texte, NULL, ecran, &textPos);
         textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
         textPos.y = HAUTEUR_FENETRE/2;
-        texte = TTF_RenderText_Blended(police, "A propos", couleurBlanche);
+        texte = TTF_RenderText_Blended(police, "Quitter", couleurBlanche);
         SDL_BlitSurface(texte, NULL, ecran, &textPos);
         SDL_Flip(ecran);
 
@@ -251,6 +254,7 @@ int main(int argc, char * argv[]) {
     Mix_FreeChunk(musique); //Libération de la musique
     Mix_FreeChunk(select); //Libération de la musique
     Mix_FreeChunk(back); //Libération de la musique
+    Mix_FreeChunk(enter); //Libération de la musique
     Mix_CloseAudio(); // fermeture de l'API SDL_mixer
     
     SDL_Quit();

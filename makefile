@@ -24,6 +24,8 @@ joueur.o: joueur.c
 	${CC} ${CFLAGS} -c joueur.c
 
 # COMMANDES
+install: install-sdl all clean
+
 clean:
 	- rm *.o
 
