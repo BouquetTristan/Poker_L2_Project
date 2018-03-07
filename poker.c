@@ -17,7 +17,6 @@ int fullscreenSelect(void) {
     SDL_Surface * ecran = NULL, * menu = NULL, * cursor = NULL;
     SDL_Rect posMenu, posCursor;
     SDL_Event event;
-    int continuer = 1;
 
     ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
     SDL_WM_SetIcon(IMG_Load(JETON), NULL);
@@ -34,17 +33,14 @@ int fullscreenSelect(void) {
     textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
 
 
-     while(continuer) {
+     while(1) {
         SDL_WaitEvent(&event);
         switch(event.type) {
             case SDL_QUIT:
-                continuer = 0;
+                return -1;
                 break;
             case SDL_KEYDOWN:
                 switch(event.key.keysym.sym) {
-                    case SDLK_ESCAPE:
-                        continuer = 0;
-                        break;
                     case SDLK_UP:
                         if (posCursor.y == HAUTEUR_FENETRE/4)
                             posCursor.y = HAUTEUR_FENETRE/2;
@@ -137,7 +133,8 @@ int main(int argc, char * argv[]) {
 
     SDL_Init(SDL_INIT_VIDEO);
 
-    if (fullscreenSelect() == 1)
+    int window_mode = fullscreenSelect();
+    if (window_mode == 1)
         ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_FULLSCREEN | SDL_HWSURFACE | SDL_DOUBLEBUF);
     else
         ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
@@ -161,13 +158,15 @@ int main(int argc, char * argv[]) {
     Mix_Volume(1, MIX_MAX_VOLUME);
     Mix_Chunk * musique; //Création du pointeur de type Mix_Music
     Mix_Chunk * select;
+    Mix_Chunk * back;
     musique = Mix_LoadWAV("sound/Song_Remains_The_Same.wav"); //Chargement de la musique
-    select = Mix_LoadWAV("sound/chipLay1.wav");
-    int vol = MIX_MAX_VOLUME/2;
-    Mix_VolumeChunk(musique, vol/2);
+    select = Mix_LoadWAV("sound/cardPlace1.wav");
+    back = Mix_LoadWAV("sound/cardTakeOutPackage1.wav");
+    int vol = MIX_MAX_VOLUME/6;
+    Mix_VolumeChunk(musique, vol);
     Mix_VolumeChunk(select, MIX_MAX_VOLUME);
+    Mix_VolumeChunk(back, MIX_MAX_VOLUME);
     Mix_PlayChannel(1, musique, -1); //Jouer infiniment la musique
-    
     while(continuer) {
         SDL_WaitEvent(&event);
         switch(event.type) {
@@ -177,7 +176,11 @@ int main(int argc, char * argv[]) {
             case SDL_KEYDOWN:
                 switch(event.key.keysym.sym) {
                     case SDLK_ESCAPE:
+                        Mix_PlayChannel(3, back, 0);
                         continuer = 0;
+                        break;
+                    case SDLK_SPACE:
+                        Mix_PlayChannel(3, back, 0);
                         break;
                     case SDLK_RIGHTPAREN:
                         vol -= 11;
@@ -247,6 +250,7 @@ int main(int argc, char * argv[]) {
 
     Mix_FreeChunk(musique); //Libération de la musique
     Mix_FreeChunk(select); //Libération de la musique
+    Mix_FreeChunk(back); //Libération de la musique
     Mix_CloseAudio(); // fermeture de l'API SDL_mixer
     
     SDL_Quit();
