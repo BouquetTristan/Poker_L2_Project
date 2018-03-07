@@ -9,6 +9,7 @@ This is a project of a poker game, created for 2nd year project of the universit
 2) *cd* at root folder of the extracted archive
 3) makefile using :
   - *make help*         (details the list of commands below)
+  - *make install*      (install SDL libraries, compile the game, and clean *.o files)
   - *make all*          (compile the game)
   - *make clean*        (remove all \*.o)
   - *make mrproper*		  (remove all \*.o + the executable)
