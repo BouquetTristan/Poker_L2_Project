@@ -7,8 +7,8 @@ This is a project of a poker game, created for 2nd year project of the universit
 3) *./poker* (*chmod +x* if it does not launch)
  
 # How to install ?
-1) right click on *install.sh* > "open in terminal" (OR open a terminal and enter : *./install.sh*)
-2) cd to installation folder and double click on poker (OR open a terminal and enter ./poker)
+1) right click on *install.sh* > "open in terminal" (OR enter : *./install.sh* from a terminal)
+2) double click on *poker* (OR enter *./poker* from a terminal)
 
 # How to uninstall ?
 1) right click on *uninstall.sh* > "open in terminal" (OR open a terminal and enter : *./uninstall.sh*)
