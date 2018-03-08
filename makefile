@@ -24,6 +24,8 @@ joueur.o: joueur.c
 	${CC} ${CFLAGS} -c joueur.c
 
 # COMMANDS
+clean-logs:
+	@echo "" > install_logs.txt
 clean:
 	- rm *.o
 

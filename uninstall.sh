@@ -15,7 +15,7 @@ then
 				then
 					zenity --error --text="La désinstallation de Poker a échouée !"  				
 				else
-					echo "" > install_logs.txt
+					make clean-logs
 					zenity --info --text="Poker est désormais désinstallé !"
 				fi;;
 			1);;
