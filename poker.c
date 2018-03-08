@@ -79,6 +79,83 @@ int fullscreenSelect(void) {
     SDL_FreeSurface(ecran);
 }
 
+void jouer(int window_mode) {
+    SDL_Surface
+        * ecran = NULL,
+        * table = NULL,
+        * carte_recto = NULL,
+        * carte_verso = NULL;
+    
+    SDL_Rect
+        pos_source,
+        pos_dest,
+        pos_table;
+
+    SDL_Event event;
+    int continuer = 1;
+
+    // plein ecran
+    if (window_mode == 1)
+        ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_FULLSCREEN | SDL_HWSURFACE | SDL_DOUBLEBUF);
+    // fenetre
+    else
+        ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+
+    SDL_WM_SetIcon(IMG_Load(JETON), NULL);
+    SDL_WM_SetCaption("Jeu", NULL);
+
+    // init l'img de la table
+    table = IMG_Load(TABLE);
+    pos_table.x = 70;
+    pos_table.y = 124;
+
+    // init l'img des cartes 
+    carte_recto = IMG_Load(JEU_52_CARTES);
+    pos_source.w = LARGEUR_CARTE;
+    pos_source.h = HAUTEUR_CARTE;
+    pos_dest.x = 300;
+    pos_dest.y = 365;
+    // selectionne la carte de coordonnées [5;3] depuis l'image
+    pos_source.x = 5*LARGEUR_CARTE;
+    pos_source.y = 3*HAUTEUR_CARTE;
+
+    carte_verso = IMG_Load(VERSO_CARTE);
+
+    while(continuer == 1) {
+        SDL_WaitEvent(&event);
+        switch(event.type) {
+            case SDL_QUIT:
+                continuer = 0;
+                break;
+            case SDL_KEYDOWN:
+                switch(event.key.keysym.sym) {
+                    case SDLK_ESCAPE:
+                        continuer = 0;
+                        break;
+                }
+                break;
+        }
+
+        SDL_BlitSurface(table, NULL, ecran, &pos_table);
+        pos_dest.x = 350;
+        SDL_BlitSurface(carte_recto, &pos_source, ecran, &pos_dest);
+        pos_dest.x += 112+10;
+        SDL_BlitSurface(carte_recto, &pos_source, ecran, &pos_dest);
+        pos_dest.x += 112+10;
+        SDL_BlitSurface(carte_recto, &pos_source, ecran, &pos_dest);
+        pos_dest.x += 112+10;
+        SDL_BlitSurface(carte_recto, &pos_source, ecran, &pos_dest);
+        pos_dest.x += 112+10;
+        SDL_BlitSurface(carte_verso, NULL, ecran, &pos_dest);
+        SDL_Flip(ecran);
+
+    }
+    SDL_FreeSurface(carte_recto);
+    SDL_FreeSurface(carte_verso);
+    SDL_FreeSurface(table);
+    SDL_FreeSurface(ecran);
+
+}
 
 
 int main(int argc, char * argv[]) { 
@@ -138,6 +215,7 @@ int main(int argc, char * argv[]) {
         ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_FULLSCREEN | SDL_HWSURFACE | SDL_DOUBLEBUF);
     else
         ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    
     SDL_WM_SetIcon(IMG_Load(JETON), NULL);
     SDL_WM_SetCaption("Poker", NULL);
 
@@ -170,6 +248,7 @@ int main(int argc, char * argv[]) {
     Mix_VolumeChunk(back, MIX_MAX_VOLUME);
     Mix_VolumeChunk(enter, MIX_MAX_VOLUME);
     Mix_PlayChannel(1, musique, -1); //Jouer infiniment la musique
+  
     while(continuer) {
         SDL_WaitEvent(&event);
         switch(event.type) {
@@ -218,7 +297,9 @@ int main(int argc, char * argv[]) {
                         break;
                     case SDLK_RETURN:
                         Mix_PlayChannel(4, enter, 0);
-                        if(posCursor.y == HAUTEUR_FENETRE/2)
+                        if (posCursor.y == HAUTEUR_FENETRE/6)
+                            jouer(window_mode);
+                        else if (posCursor.y == HAUTEUR_FENETRE/2)
                             continuer = 0;
                         else
                             printf("quitter");
@@ -227,6 +308,11 @@ int main(int argc, char * argv[]) {
                 break;
         }
 
+        /*
+         * Actualise les élements a afficher
+         */
+
+        // affiche les elements
         SDL_BlitSurface(menu, NULL, ecran, &posMenu);
         SDL_BlitSurface(cursor, NULL, ecran, &posCursor);
         textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
@@ -241,26 +327,31 @@ int main(int argc, char * argv[]) {
         textPos.y = HAUTEUR_FENETRE/2;
         texte = TTF_RenderText_Blended(police, "Quitter", couleurBlanche);
         SDL_BlitSurface(texte, NULL, ecran, &textPos);
+        // rafraichit l'ecran
         SDL_Flip(ecran);
-
     }
 
-    jeu_detruire(&jeu); // libere la memoire occupee par le jeu
+    /*
+     * Libération de la mémoire
+     */
+
+    // jeu
+    jeu_detruire(&jeu);
     joueur_detruire(&joueur);
+    // surface
     SDL_FreeSurface(menu);
     SDL_FreeSurface(ecran);
     SDL_FreeSurface(cursor);
-
-    Mix_FreeChunk(musique); //Libération de la musique
-    Mix_FreeChunk(select); //Libération de la musique
-    Mix_FreeChunk(back); //Libération de la musique
-    Mix_FreeChunk(enter); //Libération de la musique
+    // son
+    Mix_FreeChunk(musique);
+    Mix_FreeChunk(select);
+    Mix_FreeChunk(back);
+    Mix_FreeChunk(enter);
     Mix_CloseAudio(); // fermeture de l'API SDL_mixer
-    
-    SDL_Quit();
+    // texte
     TTF_CloseFont(police);
     TTF_Quit();
-
-
+    // SDL
+    SDL_Quit();
     return(EXIT_SUCCESS) ; 
 }
