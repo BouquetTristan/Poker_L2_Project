@@ -1,20 +1,27 @@
 # Presentation
 This is a project of a poker game, created for 2nd year project of the university of Le Mans.
 
-# How to run ?
- *./poker*
-
-# How to build from the sources ?
+# How to run without installation ?
 1) download and extract archive
 2) *cd* at root folder of the extracted archive
-3) makefile using :
+3) *./poker* (*chmod +x* if it does not launch)
+ 
+# How to install ?
+1) right click on *install.sh* > "open in terminal" (OR open a terminal and enter : *./install.sh*)
+2) click on the game icon from your distribution's application launcher (OR enter *poker* from everywhere in terminal)
+
+# How to uninstall ?
+1) right click on *uninstall.sh* > "open in terminal" (OR open a terminal and enter : *./uninstall.sh*)
+
+# How to build from the sources ?
+1) makefile using :
   - *make help*         (details the list of commands below)
-  - *make install*      (install SDL libraries, compile the game, and clean *.o files)
   - *make all*          (compile the game)
   - *make clean*        (remove all \*.o)
+  - *make clean-logs*        (remove installation logs in *install_logs.txt*)
   - *make mrproper*		  (remove all \*.o + the executable)
   - *make install-sdl*  (install *SDL*, *SDL_image*, *SDL_ttf*, and *SDL_mixer* libraries v1.2 via *apt* package manager)
-4) *./poker* (*chmod +x* if it does not launch)
+4) *./poker*
 
 Developement team : BOUQUET Tristan - POUPIN Romain - NJOFFANG William
 
