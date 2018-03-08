@@ -7,11 +7,13 @@ This is a project of a poker game, created for 2nd year project of the universit
 3) *./poker* (*chmod +x* if it does not launch)
  
 # How to install ?
+This will rebuild the executable and copy the entire game to an installation folder
 1) right click on *install.sh* > "open in terminal" (OR enter : *./install.sh* from a terminal)
 2) double click on *poker* (OR enter *./poker* from a terminal)
 
 # How to uninstall ?
-1) right click on *uninstall.sh* > "open in terminal" (OR open a terminal and enter : *./uninstall.sh*)
+This will remove the installation folder
+1) right click on *uninstall.sh* > "open in terminal" (OR enter : *./uninstall.sh* from a terminal)
 
 # How to build from the sources ?
 1) makefile using :
