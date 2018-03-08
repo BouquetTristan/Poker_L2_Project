@@ -34,7 +34,7 @@ then
             make all >> install_logs.txt
             make clean >> install_logs.txt
             sudo cp -r * $DIR
-            pwd=`pwd`
+            #pwd=`pwd`
             cd $DIR
             sudo chmod 777 *
             #sudo rm -r $pwd

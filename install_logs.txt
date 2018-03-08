@@ -1,0 +1,24 @@
+/home/romreventon/Images/de
+sudo apt-get -y install libsdl1.2-dev libsdl-image1.2-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev
+Lecture des listes de paquets…
+Construction de l'arbre des dépendances…
+Lecture des informations d'état…
+libsdl1.2-dev is already the newest version (1.2.15+dfsg1-3).
+libsdl-image1.2-dev is already the newest version (1.2.12-5build2).
+libsdl-mixer1.2-dev is already the newest version (1.2.12-11build1).
+libsdl-ttf2.0-dev is already the newest version (2.0.11-3).
+Les paquets suivants ont été installés automatiquement et ne sont plus nécessaires :
+  libbotan-1.10-1 libclang1-3.6 libdbus-1-dev libllvm3.6v5 libobjc-5-dev
+  libobjc4 libqbscore1 libqbsqtprofilesetup1 libqt5clucene5 libqt5designer5
+  libqt5designercomponents5 libqt5help5 libqt5quickwidgets5 libsndio-dev
+  libsndio6.1 libudev-dev libxcursor-dev libxi-dev libxinerama-dev libxss-dev
+  libxv-dev qtcreator-data x11proto-scrnsaver-dev x11proto-video-dev
+  x11proto-xinerama-dev
+Veuillez utiliser « sudo apt autoremove » pour les supprimer.
+0 mis à jour, 0 nouvellement installés, 0 à enlever et 250 non mis à jour.
+gcc -g -Iinclude -c carte.c
+gcc -g -Iinclude -c poker.c
+gcc -g -Iinclude -c jeu.c
+gcc -g -Iinclude -c joueur.c
+gcc -g -Iinclude carte.o poker.o jeu.o joueur.o -o poker -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer
+rm *.o
