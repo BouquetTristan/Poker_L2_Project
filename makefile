@@ -39,6 +39,7 @@ help :
 	@echo ""
 	@echo "make all		- compile le jeu"
 	@echo "make clean		- supprime les fichiers *.o"
+	@echo "make clean-logs		- efface les logs du fichier 'install_logs.txt'"
 	@echo "make mrproper		- supprime les fichiers *.o et l'éxécutable"
 	@echo "make install-sdl	- installe SDL V1.2, SDL_image, SDL_ttf, et SDL_mixer (via apt)"
 	@echo "make help		- affiche cette info"
