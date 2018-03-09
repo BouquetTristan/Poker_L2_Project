@@ -4,7 +4,8 @@ This is a project of a poker game, created for 2nd year project of the universit
 # How to run without installation ?
 1) download and extract archive
 2) *cd* at root folder of the extracted archive
-3) *./poker* (*chmod +x* if it does not launch)
+3) enter *make install-sdl all clean* if SDL libraries are not installed
+4) *./poker* (*chmod +x* if it does not launch)
  
 # How to install ?
 This will rebuild the executable and copy the entire game to an installation folder
