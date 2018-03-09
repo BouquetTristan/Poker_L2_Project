@@ -17,11 +17,9 @@ then
 
     case $? in
       0)
-        DIR=`zenity --file-selection --directory --title="Sélectionnez un dossier d'installation pour Poker"`
+        DIR=`zenity --file-selection --directory --title="Sélectionnez un emplacement où le dossier d'installation va être créé"`
         case $? in
           0)
-            echo $DIR > install_logs.txt
-            
             zenity  --question \
                     --title="SDL installation" \
                     --text="Voulez-vous installer les bibliothèques SDL ?"
@@ -33,9 +31,11 @@ then
 
             make all >> install_logs.txt
             make clean >> install_logs.txt
-            sudo cp -r * $DIR
+            sudo mkdir $DIR/poker
+            echo $DIR"/poker" > install_logs.txt
+            sudo cp -r * $DIR/poker
             #pwd=`pwd`
-            cd $DIR
+            cd $DIR/poker
             sudo chmod 777 *
             #sudo rm -r $pwd
             zenity --info --text="L'installation de Poker s'est déroulée avec succès !"
