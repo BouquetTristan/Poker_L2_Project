@@ -4,11 +4,12 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_mixer.h>
+#include "commun.h"
 
-int GUI_init(void);
-void GUI_quit(void);
-int fullscreenSelect(void);
-void jouer(int window_mode);
-int GUI_home_menu(int window_mode);
+int GUI_Init(void);
+void GUI_Quit(void);
+int GUI_FullScreenSelect(void);
+int GUI_Home_Select(int window_mode);
+void GUI_Jouer(int window_mode);
 
 #endif

@@ -2,7 +2,7 @@
 BIN = poker
 OBJ = carte.o poker.o jeu.o joueur.o gui.o
 CC = gcc
-CFLAGS = -g -Iinclude
+CFLAGS = -g -Iinclude -W
 SDLFLAGS = -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer
 
 
@@ -25,7 +25,7 @@ joueur.o: joueur.c
 	${CC} ${CFLAGS} -c joueur.c
 
 gui.o: gui.c
-	${CC} ${CFLAGS} -c gui.c	
+	${CC} ${CFLAGS} -c gui.c
 
 
 # COMMANDS

@@ -1,10 +1,9 @@
 #include <stdio.h>
-#include "gui.h"
 #include "carte.h"
 #include "jeu.h"
 #include "joueur.h"
+#include "gui.h"
 //#include "mise.h"
-
 
 int main(int argc, char * argv[]) { 
     int i, j;
@@ -39,26 +38,25 @@ int main(int argc, char * argv[]) {
     printf("combinaison : %d\n", comb);
 
     //mise();
-
-
+    
+    jeu_detruire(&jeu);
+    joueur_detruire(&joueur);
+    
     /*
      * Partie SDL
-     */ 
+     */
 
-    int window_mode = GUI_init();
+    int window_mode = GUI_Init();
+    int home_menu = 0;
+    
+    do {
+        home_menu = GUI_Home_Select(window_mode);
+        if (home_menu == 1)
+            GUI_Jouer(window_mode);
+        else if (home_menu == 2)
+            printf("Menu Réglages\n");
+    } while (home_menu != 3);
 
-    int menu = GUI_home_menu(window_mode);
-    while (menu != 3) {
-        if (menu == 1)
-            jouer(window_mode);
-        else if (menu == 2)
-            printf("Réglages\n");
-        else if (menu == 3) {
-            GUI_quit();
-            jeu_detruire(&jeu);
-            joueur_detruire(&joueur);
-            return EXIT_SUCCESS;   
-        }
-        menu = GUI_home_menu(window_mode);
-    }
+    GUI_Quit();
+    return EXIT_SUCCESS;
 }
