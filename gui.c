@@ -40,18 +40,9 @@ int GUI_FullScreenSelect(void) {
 
     textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
 
-
-     while(1) {
+    while(1) {
         SDL_WaitEvent(&event);
         switch(event.type) {
-            case SDL_QUIT:
-                SDL_FreeSurface(cursor);
-                SDL_FreeSurface(texte);
-                SDL_FreeSurface(menu);
-                SDL_FreeSurface(ecran);
-                TTF_CloseFont(police);
-                return 0;
-                break;
             case SDL_KEYDOWN:
                 switch(event.key.keysym.sym) {
                     case SDLK_UP:
@@ -123,48 +114,23 @@ int GUI_Home_Select(int window_mode) {
     SDL_EnableKeyRepeat(10, 100);
     SDL_ShowCursor(SDL_DISABLE);
     //SDL_WarpMouse(ecran->w /2, ecran->h /2);
-
     
-    Mix_Chunk * musique; //Création du pointeur de type Mix_Music
-    Mix_Chunk * select;
-    Mix_Chunk * back;
-    Mix_Chunk * enter;
-    musique = Mix_LoadWAV("sound/Song_Remains_The_Same.wav"); //Chargement de la musique
-    select = Mix_LoadWAV("sound/chipsStack1.wav");
-    back = Mix_LoadWAV("sound/cardTakeOutPackage1.wav");
-    enter = Mix_LoadWAV("sound/cardPlace1.wav");
+    Mix_Chunk * musique = Mix_LoadWAV("sound/Song_Remains_The_Same.wav"); //Chargement de la musique
+    Mix_Chunk * select = Mix_LoadWAV("sound/chipsStack1.wav");
+    Mix_Chunk * back = Mix_LoadWAV("sound/cardTakeOutPackage1.wav");
     int vol = MIX_MAX_VOLUME/6;
     Mix_VolumeChunk(musique, vol);
     Mix_VolumeChunk(select, MIX_MAX_VOLUME);
     Mix_VolumeChunk(back, MIX_MAX_VOLUME);
-    Mix_VolumeChunk(enter, MIX_MAX_VOLUME);
-    Mix_PlayChannel(1, musique, -1); //Jouer infiniment la musique
+    Mix_PlayChannel(0, musique, -1); //Jouer infiniment la musique
   
     while(continuer) {
         SDL_WaitEvent(&event);
         switch(event.type) {
-            case SDL_QUIT:
-                // surface
-                SDL_FreeSurface(cursor);
-                SDL_FreeSurface(texte);
-                SDL_FreeSurface(menu);
-                SDL_FreeSurface(ecran);
-                // son
-                Mix_FreeChunk(musique);
-                Mix_FreeChunk(select);
-                Mix_FreeChunk(back);
-                Mix_FreeChunk(enter);
-                // texte
-                TTF_CloseFont(police); 
-                continuer = 0;
-                break;
             case SDL_KEYDOWN:
                 switch(event.key.keysym.sym) {
                     case SDLK_ESCAPE:
-                        Mix_PlayChannel(3, back, 0);
-                        break;
-                    case SDLK_SPACE:
-                        Mix_PlayChannel(3, back, 0);
+                        Mix_PlayChannel(2, back, 0);
                         break;
                     case SDLK_RIGHTPAREN:
                         vol -= 11;
@@ -181,7 +147,7 @@ int GUI_Home_Select(int window_mode) {
                         printf("vol:%d\n", vol);
                         break;
                     case SDLK_UP:
-                        Mix_PlayChannel(2, select, 0);
+                        Mix_PlayChannel(1, select, 0);
                         if (posCursor.y == HAUTEUR_FENETRE/6)
                             posCursor.y = HAUTEUR_FENETRE/2;
                         else if (posCursor.y == HAUTEUR_FENETRE/3)
@@ -190,7 +156,7 @@ int GUI_Home_Select(int window_mode) {
                             posCursor.y = HAUTEUR_FENETRE/3;
                         break;
                     case SDLK_DOWN:
-                        Mix_PlayChannel(2, select, 0);
+                        Mix_PlayChannel(1, select, 0);
                         if (posCursor.y == HAUTEUR_FENETRE/6)
                             posCursor.y = HAUTEUR_FENETRE/3;
                         else if (posCursor.y == HAUTEUR_FENETRE/3)
@@ -199,33 +165,11 @@ int GUI_Home_Select(int window_mode) {
                             posCursor.y = HAUTEUR_FENETRE/6;
                         break;
                     case SDLK_RETURN:
-                        Mix_PlayChannel(4, enter, 0);
-                        // surface
-                        SDL_FreeSurface(cursor);
-                        SDL_FreeSurface(texte);
-                        SDL_FreeSurface(menu);
-                        SDL_FreeSurface(ecran);
-                        // son
-                        Mix_FreeChunk(musique);
-                        Mix_FreeChunk(select);
-                        Mix_FreeChunk(back);
-                        Mix_FreeChunk(enter);
-                        // texte
-                        TTF_CloseFont(police); 
-                        if (posCursor.y == HAUTEUR_FENETRE/6)
-                            return 1;
-                        else if (posCursor.y == HAUTEUR_FENETRE/2)
-                            return 3;
-                        else
-                            return 2;
+                        continuer = 0;
                         break;
                 }
                 break;
         }
-
-        /*
-         * Actualise les élements a afficher
-         */
 
         // affiche les elements
         SDL_BlitSurface(menu, NULL, ecran, &posMenu);
@@ -245,6 +189,24 @@ int GUI_Home_Select(int window_mode) {
         // rafraichit l'ecran
         SDL_Flip(ecran);
     }
+    
+    // surface
+    SDL_FreeSurface(cursor);
+    SDL_FreeSurface(texte);
+    SDL_FreeSurface(menu);
+    SDL_FreeSurface(ecran);
+    // son
+    Mix_FreeChunk(musique);
+    Mix_FreeChunk(select);
+    Mix_FreeChunk(back);
+    // texte
+    TTF_CloseFont(police);
+    if (posCursor.y == HAUTEUR_FENETRE/6)
+        return 1;
+    else if (posCursor.y == HAUTEUR_FENETRE/2)
+        return 3;
+    else
+        return 2; 
 }
 
 void GUI_Jouer(int window_mode) {
@@ -263,7 +225,7 @@ void GUI_Jouer(int window_mode) {
     musique = Mix_LoadWAV("sound/No_Quarter.wav"); //Chargement de la musique
     int vol = MIX_MAX_VOLUME/6;
     Mix_VolumeChunk(musique, vol);
-    Mix_PlayChannel(1, musique, -1); //Jouer infiniment la musique
+    Mix_PlayChannel(0, musique, -1); //Jouer infiniment la musique
 
     SDL_Event event;
     int continuer = 1;
@@ -298,9 +260,6 @@ void GUI_Jouer(int window_mode) {
     while(continuer == 1) {
         SDL_WaitEvent(&event);
         switch(event.type) {
-            case SDL_QUIT:
-                continuer = 0;
-                break;
             case SDL_KEYDOWN:
                 switch(event.key.keysym.sym) {
                     case SDLK_ESCAPE:
@@ -322,8 +281,8 @@ void GUI_Jouer(int window_mode) {
         pos_dest.x += 112+10;
         SDL_BlitSurface(carte_verso, NULL, ecran, &pos_dest);
         SDL_Flip(ecran);
-
     }
+
     SDL_FreeSurface(carte_recto);
     SDL_FreeSurface(carte_verso);
     SDL_FreeSurface(table);
