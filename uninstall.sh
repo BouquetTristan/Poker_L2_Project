@@ -1,5 +1,8 @@
 #!/bin/sh
 
+NC="\033[0m" # no color
+ORANGE="\033[0;33m" # orange color
+
 if [ -t 1 ]
 then
 	installdir=$(head -n 1 install_dir.txt)
@@ -10,6 +13,7 @@ then
 	      	--text="Voulez-vous vraiment désinstaller Poker ?"
 		case $? in
 			0)
+				echo "$ORANGE* suppression du dossier d'installation du jeu *$NC"
 				sudo rm -r $installdir
 				if [ -d "$installdir"]
 				then

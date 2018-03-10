@@ -1,161 +1,9 @@
 #include <stdio.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_ttf.h>
-#include <SDL/SDL_mixer.h>
+#include "gui.h"
 #include "carte.h"
 #include "jeu.h"
 #include "joueur.h"
 //#include "mise.h"
-
-int fullscreenSelect(void) {
-    TTF_Font *police = TTF_OpenFont("font/PokerKings-Regular.ttf", 50);
-    SDL_Surface * texte = NULL;
-    SDL_Rect textPos;
-    SDL_Color couleurBlanche = {255, 255, 255};
-
-    SDL_Surface * ecran = NULL, * menu = NULL, * cursor = NULL;
-    SDL_Rect posMenu, posCursor;
-    SDL_Event event;
-
-    ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-    SDL_WM_SetIcon(IMG_Load(JETON), NULL);
-    SDL_WM_SetCaption("Mode de l'écran", NULL);
-
-    menu = IMG_Load(MENU_WALL);
-    posMenu.x = 0;
-    posMenu.y = 0;
-
-    cursor = IMG_Load(JETON);
-    posCursor.x = LARGEUR_FENETRE/4 ;
-    posCursor.y = HAUTEUR_FENETRE/4;
-
-    textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
-
-
-     while(1) {
-        SDL_WaitEvent(&event);
-        switch(event.type) {
-            case SDL_QUIT:
-                return -1;
-                break;
-            case SDL_KEYDOWN:
-                switch(event.key.keysym.sym) {
-                    case SDLK_UP:
-                        if (posCursor.y == HAUTEUR_FENETRE/4)
-                            posCursor.y = HAUTEUR_FENETRE/2;
-                        else if (posCursor.y == HAUTEUR_FENETRE/2)
-                            posCursor.y = HAUTEUR_FENETRE/4;
-                        break;
-                    case SDLK_DOWN:
-                        if (posCursor.y == HAUTEUR_FENETRE/4)
-                            posCursor.y = HAUTEUR_FENETRE/2;
-                        else if (posCursor.y == HAUTEUR_FENETRE/2)
-                            posCursor.y = HAUTEUR_FENETRE/4;
-                        break;
-                    case SDLK_RETURN:
-                        if(posCursor.y == HAUTEUR_FENETRE/4)
-                            return 1;
-                        else
-                            return 0;
-                        break;
-                }
-                break;
-        }
-
-        SDL_BlitSurface(menu, NULL, ecran, &posMenu);
-        SDL_BlitSurface(cursor, NULL, ecran, &posCursor);
-        textPos.y = HAUTEUR_FENETRE/4;
-        texte = TTF_RenderText_Blended(police, "Plein ecran", couleurBlanche);
-        SDL_BlitSurface(texte, NULL, ecran, &textPos);
-        textPos.y = HAUTEUR_FENETRE/2;
-        texte = TTF_RenderText_Blended(police, "Fenetre", couleurBlanche);
-        SDL_BlitSurface(texte, NULL, ecran, &textPos);
-        SDL_Flip(ecran);
-
-    }
-    SDL_FreeSurface(menu);
-    SDL_FreeSurface(cursor);
-    SDL_FreeSurface(ecran);
-}
-
-void jouer(int window_mode) {
-    SDL_Surface
-        * ecran = NULL,
-        * table = NULL,
-        * carte_recto = NULL,
-        * carte_verso = NULL;
-    
-    SDL_Rect
-        pos_source,
-        pos_dest,
-        pos_table;
-
-    SDL_Event event;
-    int continuer = 1;
-
-    // plein ecran
-    if (window_mode == 1)
-        ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_FULLSCREEN | SDL_HWSURFACE | SDL_DOUBLEBUF);
-    // fenetre
-    else
-        ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-
-    SDL_WM_SetIcon(IMG_Load(JETON), NULL);
-    SDL_WM_SetCaption("Jeu", NULL);
-
-    // init l'img de la table
-    table = IMG_Load(TABLE);
-    pos_table.x = 70;
-    pos_table.y = 124;
-
-    // init l'img des cartes 
-    carte_recto = IMG_Load(JEU_52_CARTES);
-    pos_source.w = LARGEUR_CARTE;
-    pos_source.h = HAUTEUR_CARTE;
-    pos_dest.x = 300;
-    pos_dest.y = 365;
-    // selectionne la carte de coordonnées [5;3] depuis l'image
-    pos_source.x = 5*LARGEUR_CARTE;
-    pos_source.y = 3*HAUTEUR_CARTE;
-
-    carte_verso = IMG_Load(VERSO_CARTE);
-
-    while(continuer == 1) {
-        SDL_WaitEvent(&event);
-        switch(event.type) {
-            case SDL_QUIT:
-                continuer = 0;
-                break;
-            case SDL_KEYDOWN:
-                switch(event.key.keysym.sym) {
-                    case SDLK_ESCAPE:
-                        continuer = 0;
-                        break;
-                }
-                break;
-        }
-
-        SDL_BlitSurface(table, NULL, ecran, &pos_table);
-        pos_dest.x = 350;
-        SDL_BlitSurface(carte_recto, &pos_source, ecran, &pos_dest);
-        pos_dest.x += 112+10;
-        SDL_BlitSurface(carte_recto, &pos_source, ecran, &pos_dest);
-        pos_dest.x += 112+10;
-        SDL_BlitSurface(carte_recto, &pos_source, ecran, &pos_dest);
-        pos_dest.x += 112+10;
-        SDL_BlitSurface(carte_recto, &pos_source, ecran, &pos_dest);
-        pos_dest.x += 112+10;
-        SDL_BlitSurface(carte_verso, NULL, ecran, &pos_dest);
-        SDL_Flip(ecran);
-
-    }
-    SDL_FreeSurface(carte_recto);
-    SDL_FreeSurface(carte_verso);
-    SDL_FreeSurface(table);
-    SDL_FreeSurface(ecran);
-
-}
 
 
 int main(int argc, char * argv[]) { 
@@ -169,7 +17,6 @@ int main(int argc, char * argv[]) {
     //jeu_melanger(jeu); // mélange le jeu de carte
     //jeu_afficher(jeu);
     
-
     player_t * joueur;
     joueur = joueur_creer();
     joueur->token = 567;
@@ -191,167 +38,27 @@ int main(int argc, char * argv[]) {
     int comb = combiner_jeu(joueur);
     printf("combinaison : %d\n", comb);
 
-    
-    
     //mise();
 
 
-    // SDL
-    TTF_Init();
-    TTF_Font *police = TTF_OpenFont("font/PokerKings-Regular.ttf", 50);
-    SDL_Surface * texte = NULL;
-    SDL_Rect textPos;
-    SDL_Color couleurBlanche = {255, 255, 255};
-
-    SDL_Surface* ecran = NULL, *menu = NULL, *cursor = NULL;
-    SDL_Rect posMenu, posCursor;
-    SDL_Event event;
-    int continuer = 1;
-
-    SDL_Init(SDL_INIT_VIDEO);
-
-    int window_mode = fullscreenSelect();
-    if (window_mode == 1)
-        ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_FULLSCREEN | SDL_HWSURFACE | SDL_DOUBLEBUF);
-    else
-        ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-    
-    SDL_WM_SetIcon(IMG_Load(JETON), NULL);
-    SDL_WM_SetCaption("Poker", NULL);
-
-    menu = IMG_Load(MENU_WALL);
-    posMenu.x = 0;
-    posMenu.y = 0;
-
-    cursor = IMG_Load(JETON);
-    posCursor.x = LARGEUR_FENETRE/4 ;
-    posCursor.y = HAUTEUR_FENETRE/6;
-
-    SDL_EnableKeyRepeat(10, 100);
-    SDL_ShowCursor(SDL_DISABLE);
-    //SDL_WarpMouse(ecran->w /2, ecran->h /2);
-
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024); // initialisation de l'API SDL_mixer
-    Mix_AllocateChannels(10);
-    Mix_Volume(1, MIX_MAX_VOLUME);
-    Mix_Chunk * musique; //Création du pointeur de type Mix_Music
-    Mix_Chunk * select;
-    Mix_Chunk * back;
-    Mix_Chunk * enter;
-    musique = Mix_LoadWAV("sound/Song_Remains_The_Same.wav"); //Chargement de la musique
-    select = Mix_LoadWAV("sound/chipsStack1.wav");
-    back = Mix_LoadWAV("sound/cardTakeOutPackage1.wav");
-    enter = Mix_LoadWAV("sound/cardPlace1.wav");
-    int vol = MIX_MAX_VOLUME/6;
-    Mix_VolumeChunk(musique, vol);
-    Mix_VolumeChunk(select, MIX_MAX_VOLUME);
-    Mix_VolumeChunk(back, MIX_MAX_VOLUME);
-    Mix_VolumeChunk(enter, MIX_MAX_VOLUME);
-    Mix_PlayChannel(1, musique, -1); //Jouer infiniment la musique
-  
-    while(continuer) {
-        SDL_WaitEvent(&event);
-        switch(event.type) {
-            case SDL_QUIT:
-                continuer = 0;
-                break;
-            case SDL_KEYDOWN:
-                switch(event.key.keysym.sym) {
-                    case SDLK_ESCAPE:
-                        Mix_PlayChannel(3, back, 0);
-                        break;
-                    case SDLK_SPACE:
-                        Mix_PlayChannel(3, back, 0);
-                        break;
-                    case SDLK_RIGHTPAREN:
-                        vol -= 11;
-                        if (vol < 0)
-                            vol = 0;
-                        Mix_VolumeChunk(musique, vol);
-                        printf("vol:%d\n", vol);
-                        break;
-                    case SDLK_EQUALS:
-                        vol += 11;
-                        if (vol > 128)
-                            vol = 128;
-                        Mix_VolumeChunk(musique, vol);
-                        printf("vol:%d\n", vol);
-                        break;
-                    case SDLK_UP:
-                        Mix_PlayChannel(2, select, 0);
-                        if (posCursor.y == HAUTEUR_FENETRE/6)
-                            posCursor.y = HAUTEUR_FENETRE/2;
-                        else if (posCursor.y == HAUTEUR_FENETRE/3)
-                            posCursor.y = HAUTEUR_FENETRE/6;
-                        else if (posCursor.y == HAUTEUR_FENETRE/2)
-                            posCursor.y = HAUTEUR_FENETRE/3;
-                        break;
-                    case SDLK_DOWN:
-                        Mix_PlayChannel(2, select, 0);
-                        if (posCursor.y == HAUTEUR_FENETRE/6)
-                            posCursor.y = HAUTEUR_FENETRE/3;
-                        else if (posCursor.y == HAUTEUR_FENETRE/3)
-                            posCursor.y = HAUTEUR_FENETRE/2;
-                        else if (posCursor.y == HAUTEUR_FENETRE/2)
-                            posCursor.y = HAUTEUR_FENETRE/6;
-                        break;
-                    case SDLK_RETURN:
-                        Mix_PlayChannel(4, enter, 0);
-                        if (posCursor.y == HAUTEUR_FENETRE/6)
-                            jouer(window_mode);
-                        else if (posCursor.y == HAUTEUR_FENETRE/2)
-                            continuer = 0;
-                        else
-                            printf("quitter");
-                        break;
-                }
-                break;
-        }
-
-        /*
-         * Actualise les élements a afficher
-         */
-
-        // affiche les elements
-        SDL_BlitSurface(menu, NULL, ecran, &posMenu);
-        SDL_BlitSurface(cursor, NULL, ecran, &posCursor);
-        textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
-        textPos.y = HAUTEUR_FENETRE/6;
-        texte = TTF_RenderText_Blended(police, "Jouer", couleurBlanche);
-        SDL_BlitSurface(texte, NULL, ecran, &textPos);
-        textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
-        textPos.y = HAUTEUR_FENETRE/3;
-        texte = TTF_RenderText_Blended(police, "Reglages", couleurBlanche);
-        SDL_BlitSurface(texte, NULL, ecran, &textPos);
-        textPos.x = LARGEUR_FENETRE/2 - LARGEUR_FENETRE/9;
-        textPos.y = HAUTEUR_FENETRE/2;
-        texte = TTF_RenderText_Blended(police, "Quitter", couleurBlanche);
-        SDL_BlitSurface(texte, NULL, ecran, &textPos);
-        // rafraichit l'ecran
-        SDL_Flip(ecran);
-    }
-
     /*
-     * Libération de la mémoire
-     */
+     * Partie SDL
+     */ 
 
-    // jeu
-    jeu_detruire(&jeu);
-    joueur_detruire(&joueur);
-    // surface
-    SDL_FreeSurface(menu);
-    SDL_FreeSurface(ecran);
-    SDL_FreeSurface(cursor);
-    // son
-    Mix_FreeChunk(musique);
-    Mix_FreeChunk(select);
-    Mix_FreeChunk(back);
-    Mix_FreeChunk(enter);
-    Mix_CloseAudio(); // fermeture de l'API SDL_mixer
-    // texte
-    TTF_CloseFont(police);
-    TTF_Quit();
-    // SDL
-    SDL_Quit();
-    return(EXIT_SUCCESS) ; 
+    int window_mode = GUI_init();
+
+    int menu = GUI_home_menu(window_mode);
+    while (menu != 3) {
+        if (menu == 1)
+            jouer(window_mode);
+        else if (menu == 2)
+            printf("Réglages\n");
+        else if (menu == 3) {
+            GUI_quit();
+            jeu_detruire(&jeu);
+            joueur_detruire(&joueur);
+            return EXIT_SUCCESS;   
+        }
+        menu = GUI_home_menu(window_mode);
+    }
 }

@@ -1,6 +1,6 @@
 # FLAGS
 BIN = poker
-OBJ = carte.o poker.o jeu.o joueur.o
+OBJ = carte.o poker.o jeu.o joueur.o gui.o
 CC = gcc
 CFLAGS = -g -Iinclude
 SDLFLAGS = -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer
@@ -24,6 +24,9 @@ jeu.o: jeu.c
 joueur.o: joueur.c
 	${CC} ${CFLAGS} -c joueur.c
 
+gui.o: gui.c
+	${CC} ${CFLAGS} -c gui.c	
+
 
 # COMMANDS
 clean-logs:
@@ -36,6 +39,7 @@ mrproper: clean
 	- rm ${BIN}
 
 install-sdl:
+	sudo apt-get -y update
 	sudo apt-get -y install libsdl1.2-dev libsdl-image1.2-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev
 
 uninstall-sdl:
