@@ -2,7 +2,7 @@
 
 if [ -t 1 ]
 then
-	installdir=$(head -n 1 install_logs.txt)
+	installdir=$(head -n 1 install_dir.txt)
 	if [ -d "$installdir" ]
 	then 
 		zenity --question \

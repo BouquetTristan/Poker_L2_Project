@@ -1,8 +1,11 @@
 #!/bin/sh
 
+NC="\033[0m" # no color
+ORANGE="\033[0;33m" # orange color
+
 if [ -t 1 ]
 then
-  installdir=$(head -n 1 install_logs.txt)
+  installdir=$(head -n 1 install_dir.txt)
   if [ -d "$installdir" ]
   then 
     zenity --error --text="Poker est déjà installé ! Tapez d'abord ./uninstall"
@@ -24,18 +27,29 @@ then
                     --title="SDL installation" \
                     --text="Voulez-vous installer les bibliothèques SDL ?"
             case $? in
-              0) make install-sdl >> install_logs.txt;;
-              1) echo "refus installation SDL." >> install_logs.txt;;
+              0) sdl_flag="1";;
+              1) sdl_fglag="0";;
               -1) zenity --error --text="Une erreur inatendue est survenue.";;
             esac
 
-            make all >> install_logs.txt
-            make clean >> install_logs.txt
+            if [ "$sdl_flag" -eq "1" ]
+            then
+              echo "$ORANGE* Installation des librairies SDL *$NC"
+              make install-sdl
+            fi
+            echo "$ORANGE* Compilation *$NC"
+            make all
+            echo "$ORANGE* Netoyage des fichiers temporaires de compilation *$NC"
+            make clean
+            echo "$ORANGE* Création du répertoire de destination *$NC"
             sudo mkdir $DIR/poker
-            echo $DIR"/poker" > install_logs.txt
+            echo "$ORANGE* Sauvegarde du chemin du répertoire de destination *$NC"
+            echo $DIR"/poker" > install_dir.txt
+            echo "$ORANGE* Copie des fichiers du jeu dans le répertoire de destination *$NC"
             sudo cp -r * $DIR/poker
             #pwd=`pwd`
             cd $DIR/poker
+            echo "$ORANGE* Droit d'accès total aux fichiers du jeu *$NC"
             sudo chmod 777 *
             #sudo rm -r $pwd
             zenity --info --text="L'installation de Poker s'est déroulée avec succès !"
