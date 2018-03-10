@@ -5,6 +5,7 @@ CC = gcc
 CFLAGS = -g -Iinclude
 SDLFLAGS = -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer
 
+
 # MODULES
 all: ${BIN}
 
@@ -23,9 +24,11 @@ jeu.o: jeu.c
 joueur.o: joueur.c
 	${CC} ${CFLAGS} -c joueur.c
 
+
 # COMMANDS
 clean-logs:
 	@echo "" > install_logs.txt
+
 clean:
 	- rm *.o
 
@@ -35,7 +38,7 @@ mrproper: clean
 install-sdl:
 	sudo apt-get -y install libsdl1.2-dev libsdl-image1.2-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev
 
-help :
+help:
 	@echo ""
 	@echo "make all		- compile le jeu"
 	@echo "make clean		- supprime les fichiers *.o"
