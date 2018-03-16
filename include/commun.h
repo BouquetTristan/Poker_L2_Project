@@ -11,7 +11,7 @@
 #define LARGEUR_CARTE 112
 #define HAUTEUR_CARTE 156
 #define JETON "img/jeton_70.png"
-#define MENU_WALL "img/red_wall.jpg"
+#define HOME_WALL "img/red_wall.jpg"
 #define TABLE "img/table_top.png"
 #define JEU_52_CARTES "img/52_cards_deck.png"
 #define VERSO_CARTE "img/back_card_red2.png"
