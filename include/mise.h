@@ -1,13 +1,11 @@
-#ifndef _MISE_H_
-#define _MISE_H_
 #include "commun.h"
+#include "joueur.h"
 
+int egalite(int nbPlayer);
 
-int creation_valeur_carte();
-int creation_couleur();
-int flop();
-int turn();
-int river();
-int mise();
+int all_in(int player);
+int reflate(int player, int nbPlayer);
+int follow(int player, int nbPlayer);
 
-#endif
+int bet(int player, int nbPlayer);
+void turnOfBet(int cpt_turn);
