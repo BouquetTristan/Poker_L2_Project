@@ -41,12 +41,63 @@ Les joueurs échangent à tour de rôle, dans le même sens de jeu de la mise, u
 \section{Abattage}
 Les joueurs présentent leurs cartes et le joueur avec la meilleure combinaison remporte le pot. En cas d'égalité, le pot est partagé et réparti équitablement entre les joueurs à égalité.
 \section{Répartition des tâches}
+\subsection{Version 1}
 \begin{description}
 \item[Romain : ]{Création et initialisation des objets (carte, jeu de carte, joueur, tapis de jeu), interactions des cartes entres les joueurs et le jeu de cartes, couche graphique en SDL}
 \item[Tristan : ]{Abattage : analyse des combinaison des mains des joueurs, détermination du gagnant, et répartition des gains}
 \item[William :]  {Tour de jeu : système de mise et tirage}
 \item
 \item[OPTIONEL : ]{Jeu multijoueur en réseau local}
+
+\subsection{Version 2}
+\item[Romain : Phase 1]
+{
+\begin{itemize}
+\item création de l'architecture de base du jeu (modules, bibliothèques et makefile)
+\item création des structures correspondant aux cartes, au jeu de cartes et au joueur
+\item implémentation des primitives de base des structures (création, initialisation et destruction)
+\end{itemize}
+}
+\item[Romain : phase 2]
+{
+\begin{itemize}
+\item Changement du système de représentation et de la structure du jeu de cartes : tableau de pointeurs sur structures de cartes vers une liste
+\item Abandon et retour vers un tableau de pointeurs sur des cartes
+\item implémentation de nouvelles primitives de modification et d'interaction entre les structures
+\end{itemize}
+}
+\item[Romain : phase 3]
+{
+\begin{itemize}
+\item implémentation d'un ecran de sélection du mode de l'écran (plein écran ou fenetre) et du menu principal en sdl 
+\item ajout et gestion des effets sonores via un système de canaux audio
+\item ajout de la fenêtre de jeu (affichage table de poker et cartes recto/verso)
+\item ajout d'un assistant graphique d'installation/désinstallation du jeu
+\item amélioration du makefile (ajout de cibles pour installer/désinstaller sdl, menu help, ...)
+\end{itemize}
+}
+\item[Romain : phase 4]
+{
+\begin{itemize}
+\item séparation du programme principal du code de manipulation de m'interface graphique : création des fonctions de gestion de l'interface grpahique dans les nouveaux fichiers gui.c et gui.h
+\end{itemize}
+}
+
+\item[Tristan :]
+{
+Fait
+\begin{itemize}
+    \item Abbatage : Analyse des combinaisons des mains des joueurs
+    \item Détermination du gagnant
+\end{itemize}
+A faire
+\begin{itemize}
+    \item Assiste William sur système de mise et tirage
+    \item Multijoueur : Création d'un serveur acceuillant 5 clients maximum
+\end{itemize}
+}
+\item[William :]{Tour de jeu: système de mise et tirage, répartition des gains}
+
 \end{description}
 
 \section{Logigramme provisoire}
