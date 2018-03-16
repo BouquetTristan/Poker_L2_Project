@@ -18,23 +18,23 @@ int main(int argc, char * argv[]) {
     
     player_t * joueur;
     joueur = joueur_creer();
-    joueur->token = 567;
-    strcpy(joueur->name, "richard");
-    printf("\n\njoueur prenom : %s\n", joueur->name);
-    printf("joueur nb jetons : %i\n", joueur->token);
+    joueur->jetons_stock = 567;
+    strcpy(joueur->pseudo, "richard");
+    printf("\n\njoueur prenom : %s\n", joueur->pseudo);
+    printf("joueur nb jetons : %i\n", joueur->jetons_stock);
     printf("Main du joueur :\n");
     
-    pioche2main(jeu, joueur, 47);
-    pioche2main(jeu, joueur, 48);
-    pioche2main(jeu, joueur, 49);
-    pioche2main(jeu, joueur, 50);
-    pioche2main(jeu, joueur, 51);
+    carte_distribuer(jeu, joueur, 47);
+    carte_distribuer(jeu, joueur, 48);
+    carte_distribuer(jeu, joueur, 49);
+    carte_distribuer(jeu, joueur, 50);
+    carte_distribuer(jeu, joueur, 51);
 
     main_trier_desc(joueur);
     printf("\n");
-    afficher_main(joueur);
+    main_afficher(joueur);
 
-    int comb = combiner_jeu(joueur);
+    int comb = main_analyser(joueur);
     printf("combinaison : %d\n", comb);
 
     //mise();
@@ -50,7 +50,7 @@ int main(int argc, char * argv[]) {
     int home_menu = 0;
     
     do {
-        home_menu = GUI_Home_Select(window_mode);
+        home_menu = GUI_HomeSelect(window_mode);
         if (home_menu == 1)
             GUI_Jouer(window_mode);
         else if (home_menu == 2)
