@@ -15,6 +15,5 @@ void main_afficher(player_t * joueur);
 void main_trier_desc(player_t * joueur);
 int main_analyser(player_t * joueur);
 int handValue(int value, int card);
-int init(int cpt);
 
 #endif

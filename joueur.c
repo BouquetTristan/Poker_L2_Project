@@ -58,243 +58,199 @@ int main_analyser(player_t * joueur)
 
 	int pair = 0, threeKind= 0, indCardThreeKind;
 
-	player_t * joueurTemp;
-    joueurTemp = joueur;
-
-
-	/* Tests */
-
     
-    /*Affecter les cartes du joueur à l'autre*/
-	/*trier_carte()*/
-
-    int indCard = indice_hauteur(joueurTemp->main[0]);
-    char * topCardCouleur = joueurTemp->main[0]->couleur;
+    int indCard = indice_hauteur(joueur->main[0]);
+    char * topCardCouleur = joueur->main[0]->couleur;
 
 
 	/*Quinte Flush Royal*/
-	for (int i = 0; i < 5; ++i)
+	for (i = 0; i < 5; ++i)
 	{
 		/*If top card is an ace and if other card follow it*/
-		if(strcmp(joueurTemp->main[i]->hauteur, tab_hauteur[12-i]) == 0 &&
-			strcmp(joueurTemp->main[i]->couleur, topCardCouleur) == 0)
+		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[12-i]) == 0 &&
+			strcmp(joueur->main[i]->couleur, topCardCouleur) == 0)
 		{
-			/*printf("n°%s topCardCouleur : %s      main couleur : %s\n", tab_hauteur[12-i], topCardCouleur, joueurTemp->main[i]->couleur);*/
+			
 			cpt++;
 			if(cpt == 5)
-			{
-		
 				return(handValue(10, indCard));
-			}
 		}
 	}
-	cpt = init(cpt);
+	cpt = 0;
 
 
 	/*Quinte Flush */
-	for (int i = 0; i < 5; ++i)
+	for (i = 0; i < 5; ++i)
 	{
 
-		if(strcmp(joueurTemp->main[i]->hauteur, tab_hauteur[indCard-i]) == 0 &&
-			strcmp(joueurTemp->main[i]->couleur, topCardCouleur) == 0)
+		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard-i]) == 0 &&
+			strcmp(joueur->main[i]->couleur, topCardCouleur) == 0)
 		{
 			cpt++;
 			// printf("cpt = %i\n", cpt);
+
 			if(cpt == 5)
-			{
-		
 				return(handValue(9, indCard));
-			}
 		}
 	}
-	cpt = init(cpt);
+	cpt = 0;
 
 
 	/*Carre*/
-	for (int i = 0; i < 5; ++i)
+	for (i = 0; i < 5; ++i)
 	{
 		
-		if(strcmp(joueurTemp->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
+		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
-			cpt = init(cpt);
+			cpt = 0;
 		// printf("cpt = %i\n", cpt);
 		if(cpt == 0)
 		{
-			indCard = indice_hauteur(joueurTemp->main[i]);
+			indCard = indice_hauteur(joueur->main[i]);
 			cpt++;
 		}
 
 		if(cpt == 4)
-		{
-	
-			return(handValue(8, indCard));
-		}	
+			return(handValue(8, indCard));	
 	}
-	indCard = indice_hauteur(joueurTemp->main[0]);
-	cpt = init(cpt);
+
+	indCard = indice_hauteur(joueur->main[0]);
+	cpt = 0;
 
 
 	/*Full House*/
-	for (int i = 0; i < 5; ++i)
+	for (i = 0; i < 5; ++i)
 	{
-		if(strcmp(joueurTemp->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
+		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
 		{
-
-			printf("indCard b = %i\n", indCard);
-			printf("cpt b = %i\n", cpt);
-
 			if(cpt == 2)
 			{
-				indCard = indice_hauteur(joueurTemp->main[2]);
+				indCard = indice_hauteur(joueur->main[2]);
 				pair = 1;
-				printf("pair b = %i\n", pair);
 			}
 			if(cpt == 3)
 			{
 				indCardThreeKind = indCard;
-				indCard = indice_hauteur(joueurTemp->main[3]);
+				indCard = indice_hauteur(joueur->main[3]);
 				threeKind = 1;
-				printf("threekind b = %i\n", threeKind);
 			}
-			cpt = init(cpt);
+			cpt = 0;
 			cpt++;
 		}
-		printf("indCard = %i\n", indCard);
-		printf("cpt = %i\n", cpt);
 
 		if(cpt == 2 && threeKind == 1)
 		{
-			indCard = indice_hauteur(joueurTemp->main[i]);
+			indCard = indice_hauteur(joueur->main[i]);
 			pair = 1;
-			printf("pair = %i\n", pair);
-			cpt = init(cpt);
 		}
 		if(cpt == 3 && pair == 1)
 		{
 			indCardThreeKind = indCard;
-			indCard = indice_hauteur(joueurTemp->main[i]);
+			indCard = indice_hauteur(joueur->main[i]);
 			threeKind = 1;
-			printf("threekind = %i\n", threeKind);
-			cpt = init(cpt);
 		}
+
+		cpt = 0;
 
 		if (threeKind == 1 && pair == 1)
-		{
-	
 			return(handValue(7, indCardThreeKind));
-		}
-
 
 	}
-	cpt = init(cpt);
+
+	cpt = 0;
 	
 
 	/*Flush*/
-	for (int i = 0; i < 5; ++i)
+	for (i = 0; i < 5; ++i)
 	{
 
-		if(strcmp(joueurTemp->main[i]->couleur, topCardCouleur) == 0)
+		if(strcmp(joueur->main[i]->couleur, topCardCouleur) == 0)
 		{
 			cpt++;
 			if(cpt == 5)
-			{
-		
 				return(handValue(6, indCard));
-			}
 		}
 	}
-	cpt = init(cpt);
+	cpt = 0;
 
 
 	/*Quinte*/
-	for (int i = 0; i < 5; ++i)
+	for (i = 0; i < 5; ++i)
 	{
 
-		if(strcmp(joueurTemp->main[i]->hauteur, tab_hauteur[indCard-i]) == 0)
+		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard-i]) == 0)
 		{
 			cpt++;
 			if(cpt == 5)
-			{
-		
 				return(handValue(5, indCard));
-			}
 		}
 	}
-	cpt = init(cpt);
+	cpt = 0;
 
 
 	/*Brelan*/
-	for (int i = 0; i < 5; ++i)
+	for (i = 0; i < 5; ++i)
 	{
 
-		if(strcmp(joueurTemp->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
+		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
 		{
-			cpt = init(cpt);
-			cpt++;
-			indCard = indice_hauteur(joueurTemp->main[i]);
+			cpt = 1;
+			indCard = indice_hauteur(joueur->main[i]);
 		}
 
 		if(cpt == 3)
-		{
-	
 			return(handValue(4, indCard));
-		}	
 	}
 
-	cpt = init(cpt);
+	cpt = 0;
 
 
 	/*Double Pair*/
 	pair = 0;
 	
-	for (int i = 0; i < 5; ++i)
+	for (i = 0; i < 5; ++i)
 	{
 
-		if(strcmp(joueurTemp->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
+		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
 		{
-			cpt = init(cpt);
+			cpt = 0;
 			cpt++;
-			indCard = indice_hauteur(joueurTemp->main[i]);
+			indCard = indice_hauteur(joueur->main[i]);
 		}
 
 		if(cpt == 2)
 			pair++;
+
 		if(pair == 2)
-		{
-	
 			return(handValue(3, indCard));
-		}
 	}
-	cpt = init(cpt);
+	cpt = 0;
 
 
 	/*Pair*/
-	for (int i = 0; i < 5; ++i)
+	for (i = 0; i < 5; ++i)
 	{
 
-		if(strcmp(joueurTemp->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
+		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
 		{
-			cpt = init(cpt);
+			cpt = 0;
 			cpt++;
-			indCard = indice_hauteur(joueurTemp->main[i]);
+			indCard = indice_hauteur(joueur->main[i]);
 		}
 
 		if(cpt == 2)
-		{
-	
 			return(handValue(2, indCard));
-		}	
 	}
-	cpt = init(cpt);
+	cpt = 0;
 
 	/*Top card*/
 	return(handValue(1, indCard));
@@ -304,9 +260,4 @@ int main_analyser(player_t * joueur)
 int handValue(int value, int card)
 {
 	return(value*100+card);
-}
-
-int init(int cpt)
-{
-	return(cpt = 0);
 }
