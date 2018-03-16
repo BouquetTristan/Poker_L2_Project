@@ -6,7 +6,7 @@
 typedef struct carte_s {
 	char * couleur;
 	char * hauteur;
-	char * prop;
+	char * owner;
 } carte_t;
 
 char * tab_couleur[4];
