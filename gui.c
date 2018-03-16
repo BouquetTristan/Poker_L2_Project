@@ -6,7 +6,7 @@ int GUI_Init(void) {
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024); // initialisation de l'API SDL_mixer
     Mix_AllocateChannels(3);
     Mix_Volume(1, MIX_MAX_VOLUME);
-    return GUI_FullScreenSelect();
+    return GUI_WindowModeSelect();
 }
 
 void GUI_Quit(void) {
@@ -15,7 +15,7 @@ void GUI_Quit(void) {
     SDL_Quit(); // ferme l'API SDL
 }
 
-int GUI_FullScreenSelect(void) {
+int GUI_WindowModeSelect(void) {
     TTF_Font *police = TTF_OpenFont("font/PokerKings-Regular.ttf", 50);
     SDL_Surface * texte = NULL, * ecran = NULL, * menu = NULL, * cursor = NULL;
     SDL_Rect textPos;
@@ -30,7 +30,7 @@ int GUI_FullScreenSelect(void) {
     SDL_WM_SetIcon(IMG_Load(JETON), NULL);
     SDL_WM_SetCaption("Mode de l'écran", NULL);
 
-    menu = IMG_Load(MENU_WALL);
+    menu = IMG_Load(HOME_WALL);
     posMenu.x = 0;
     posMenu.y = 0;
 
@@ -84,7 +84,7 @@ int GUI_FullScreenSelect(void) {
     }
 }
 
-int GUI_Home_Select(int window_mode) {
+int GUI_HomeSelect(int window_mode) {
     TTF_Font *police = TTF_OpenFont("font/PokerKings-Regular.ttf", 50);
     SDL_Surface * texte = NULL, * ecran = NULL, * menu = NULL, * cursor = NULL;
     SDL_Rect textPos, posMenu, posCursor;
@@ -103,7 +103,7 @@ int GUI_Home_Select(int window_mode) {
     SDL_WM_SetIcon(IMG_Load(JETON), NULL);
     SDL_WM_SetCaption("Poker", NULL);
 
-    menu = IMG_Load(MENU_WALL);
+    menu = IMG_Load(HOME_WALL);
     posMenu.x = 0;
     posMenu.y = 0;
 
