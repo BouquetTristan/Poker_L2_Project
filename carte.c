@@ -5,7 +5,7 @@ carte_t * carte_creer(void) {
     carte_t * carte = malloc(sizeof(carte_t)); 
     carte->couleur = malloc(sizeof(char *));
     carte->hauteur = malloc(sizeof(char *));
-    carte->prop = malloc(sizeof(char *));
+    carte->owner = malloc(sizeof(char *));
     return(carte) ;
 }
 
@@ -13,22 +13,20 @@ carte_t * carte_creer(void) {
 void carte_detruire(carte_t ** carte) {
     free((*carte)->couleur);
     free((*carte)->hauteur);
-    free((*carte)->prop);
+    free((*carte)->owner);
+    
     (*carte)->couleur = NULL;
     (*carte)->hauteur = NULL;
-    (*carte)->prop = NULL;
+    (*carte)->owner = NULL;
 
     free(*carte);
     *carte = NULL;
 }
 
-int indice_hauteur(carte_t * carte)
-{
+int indice_hauteur(carte_t * carte) {
     for (int i = 0; i < 13; i++)
-    {
         if (!strcmp(carte->hauteur, tab_hauteur[i]))
             return i;
-    }
     return -1;
 }
 
