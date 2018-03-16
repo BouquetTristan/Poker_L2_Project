@@ -8,8 +8,8 @@
 
 int GUI_Init(void);
 void GUI_Quit(void);
-int GUI_FullScreenSelect(void);
-int GUI_Home_Select(int window_mode);
+int GUI_WindowModeSelect(void);
+int GUI_HomeSelect(int window_mode);
 void GUI_Jouer(int window_mode);
 
 #endif
