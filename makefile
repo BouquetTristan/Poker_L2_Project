@@ -1,6 +1,6 @@
 # FLAGS
 BIN = poker
-OBJ = carte.o poker.o jeu.o joueur.o gui.o
+OBJ = carte.o poker.o jeu.o joueur.o gui.o mise.o
 CC = gcc
 CFLAGS = -g -Iinclude -W
 SDLFLAGS = -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer
@@ -26,6 +26,9 @@ joueur.o: joueur.c
 
 gui.o: gui.c
 	${CC} ${CFLAGS} -c gui.c
+
+mise.o: mise.c
+	${CC} ${CFLAGS} -c mise.c
 
 
 # COMMANDS
