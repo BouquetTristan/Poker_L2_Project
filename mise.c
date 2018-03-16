@@ -7,6 +7,7 @@
 
 int egalite(int nbPlayer)
 {
+	
 	for (int i = 0; i < nbPlayer; ++i)
 	{
 		if(joueur[0]->tokenTurn != joueur[i]->tokenTurn)
@@ -25,10 +26,10 @@ void guessWinner()
 	//Pas a faire par toi pour l'instant
 }
 
-int follow(int player, int nbPlayer)
+int follow(int player, int nbPlayer, jeu_t * jeu)
 {
 	if(player == 0)
-		return joueur[nbPlayer-1]->tokenTurn;
+		return jeu->joueur[nbPlayer-1]->tokenTurn;
 	return joueur[player-1]->tokenTurn;
 }
 
@@ -71,12 +72,11 @@ int bet(int player, int nbPlayer)
 	}
 }
 
-void turnOfBet(int cpt_turn)
+void turnOfBet(int cpt_turn, jeu_t * jeu, int nbPlayer)
 {
 
 	int resultBet = 0;
 	jeu->pot = 0;
-	int nbPlayer = 5;
 	int i;
 
 	if(cpt_turn == 3)
@@ -94,10 +94,10 @@ void turnOfBet(int cpt_turn)
 		{
 			for (i = 0; i < nbPlayer; ++i)
 			{
-				resultBet = bet(i, nbPlayer);
+				resultBet = bet(i, nbPlayer, jeu);
 				jeu -> pot += resultBet;
-				joueur[i]->token -= resultBet;
-				joueur[i]->tokenTurn = resultBet;
+				jeu->joueur[i]->token -= resultBet;
+				jeu->joueur[i]->tokenTurn = resultBet;
 			}
 		}
 		while(!egalite(nbPlayer));
