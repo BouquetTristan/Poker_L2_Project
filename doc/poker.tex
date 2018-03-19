@@ -49,8 +49,8 @@ Les joueurs présentent leurs cartes et le joueur avec la meilleure combinaison 
 \item
 \item[OPTIONEL : ]{Jeu multijoueur en réseau local}
 
-\subsection{Version 2}
-\item[Romain : Phase 1]
+\subsection{Calendrier}
+\item[Romain : Semaine 1 - 3]
 {
 \begin{itemize}
 \item création de l'architecture de base du jeu (modules, bibliothèques et makefile)
@@ -58,7 +58,7 @@ Les joueurs présentent leurs cartes et le joueur avec la meilleure combinaison 
 \item implémentation des primitives de base des structures (création, initialisation et destruction)
 \end{itemize}
 }
-\item[Romain : phase 2]
+\item[Romain : Semaine 3 - 4]
 {
 \begin{itemize}
 \item Changement du système de représentation et de la structure du jeu de cartes : tableau de pointeurs sur structures de cartes vers une liste
@@ -66,7 +66,7 @@ Les joueurs présentent leurs cartes et le joueur avec la meilleure combinaison 
 \item implémentation de nouvelles primitives de modification et d'interaction entre les structures
 \end{itemize}
 }
-\item[Romain : phase 3]
+\item[Romain : Semaine 4 - 6]
 {
 \begin{itemize}
 \item implémentation d'un ecran de sélection du mode de l'écran (plein écran ou fenetre) et du menu principal en sdl 
@@ -74,26 +74,29 @@ Les joueurs présentent leurs cartes et le joueur avec la meilleure combinaison 
 \item ajout de la fenêtre de jeu (affichage table de poker et cartes recto/verso)
 \item ajout d'un assistant graphique d'installation/désinstallation du jeu
 \item amélioration du makefile (ajout de cibles pour installer/désinstaller sdl, menu help, ...)
-\end{itemize}
-}
-\item[Romain : phase 4]
-{
-\begin{itemize}
 \item séparation du programme principal du code de manipulation de m'interface graphique : création des fonctions de gestion de l'interface grpahique dans les nouveaux fichiers gui.c et gui.h
 \end{itemize}
 }
 
-\item[Tristan :]
+\item[Tristan : Semaine 1 - 3]
 {
-Fait
 \begin{itemize}
     \item Abbatage : Analyse des combinaisons des mains des joueurs
-    \item Détermination du gagnant
+    \item Renvoie d'un code de la combinaison
 \end{itemize}
-A faire
+}
+\item[Tristan : Semaine 4 - 5]
+{
 \begin{itemize}
+    \item Tests des combianaisons + correction des bugs
     \item Assiste William sur système de mise et tirage
-    \item Multijoueur : Création d'un serveur acceuillant 5 clients maximum
+\end{itemize}
+}
+\item[Tristan : Semaine 6 - 7]
+{
+\begin{itemize}
+    \item Implementation d'un serveur multijoueur à 5 entrées maximum supportant le jeu
+    \item Assiste William sur système de mise et tirage
 \end{itemize}
 }
 \item[William :]{Tour de jeu: système de mise et tirage, répartition des gains}
