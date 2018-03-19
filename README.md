@@ -26,5 +26,5 @@ This will remove the installation folder
   - *make install-sdl*  (install *SDL*, *SDL_image*, *SDL_ttf*, and *SDL_mixer* libraries v1.2 via *apt* package manager)
 4) *./poker*
 
-Developement team : BOUQUET Tristan - POUPIN Romain - NJOFFANG William
+Development team : BOUQUET Tristan - POUPIN Romain - NJOFFANG William
 
