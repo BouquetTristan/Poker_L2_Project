@@ -5,17 +5,17 @@
 
 
 
-int egalite(int nbPlayer)
+int egalite(int nbPlayer, player_t * joueur[])
 {
-	
 	for (int i = 0; i < nbPlayer; ++i)
 	{
-		if(joueur[0]->tokenTurn != joueur[i]->tokenTurn)
+		if (joueur[0]->jetons_mise != joueur[i]->jetons_mise)
 			return 0;
-		return 1;
 	}
+	return 1;
 }
 
+/*
 int changeCard(int player)
 {
 	//Pas a faire par toi pour l'instant
@@ -116,3 +116,4 @@ void turnOfBet(int cpt_turn, jeu_t * jeu, int nbPlayer)
 	}
 }
 
+*/
