@@ -2,7 +2,7 @@
 #include "carte.h"
 #include "jeu.h"
 #include "joueur.h"
-#include "gui.h"
+//#include "gui.h"
 #include "mise.h"
 
 int main(int argc, char * argv[]) { 
@@ -28,9 +28,11 @@ int main(int argc, char * argv[]) {
     int egal = egalite(5, liste_joueur);
     printf("egalité ? %d\n", egal);
 
+
     liste_joueur[3]->jetons_mise = 34;
     egal = egalite(5, liste_joueur);
-    printf("egalité ? %d\n", egal);    
+    printf("egalité ? %d\n", egal);  
+	turnOfBet(jeu, liste_joueur, 5);	   
 
     // destruction des 5 joueurs
     for (int i = 0; i < 5; i++)
@@ -65,7 +67,7 @@ int main(int argc, char * argv[]) {
     
     /*
      * Partie SDL
-     */
+     
     
     int window_mode = GUI_Init();
     int home_menu = 0;
@@ -79,5 +81,6 @@ int main(int argc, char * argv[]) {
     } while (home_menu != 3);
 
     GUI_Quit();
+	*/
     return EXIT_SUCCESS;
 }
