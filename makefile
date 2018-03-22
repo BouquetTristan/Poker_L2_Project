@@ -1,8 +1,10 @@
 # FLAGS
 BIN = poker
 OBJ = carte.o poker.o jeu.o joueur.o mise.o gui.o
+SRC_DIR = src/
+INC_DIR = include/
 CC = gcc
-CFLAGS = -g -Iinclude -W
+CFLAGS = -g -W -I${INC_DIR}
 SDLFLAGS = -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer
 
 
@@ -12,26 +14,26 @@ all: ${BIN}
 ${BIN}: ${OBJ}
 	${CC} ${CFLAGS} ${OBJ} -o ${BIN} ${SDLFLAGS}
 
-carte.o: carte.c
-	${CC} ${CFLAGS} -c carte.c
+carte.o: ${SRC_DIR}carte.c
+	${CC} ${CFLAGS} -c ${SRC_DIR}carte.c
 
-poker.o: poker.c
-	${CC} ${CFLAGS} -c poker.c
+poker.o: ${SRC_DIR}poker.c
+	${CC} ${CFLAGS} -c ${SRC_DIR}poker.c
 
-jeu.o: jeu.c
-	${CC} ${CFLAGS} -c jeu.c
+jeu.o: ${SRC_DIR}jeu.c
+	${CC} ${CFLAGS} -c ${SRC_DIR}jeu.c
 
-joueur.o: joueur.c
-	${CC} ${CFLAGS} -c joueur.c
+joueur.o: ${SRC_DIR}joueur.c
+	${CC} ${CFLAGS} -c ${SRC_DIR}joueur.c
 
-gui.o: gui.c
-	${CC} ${CFLAGS} -c gui.c
+gui.o: ${SRC_DIR}gui.c
+	${CC} ${CFLAGS} -c ${SRC_DIR}gui.c
 
-mise.o: mise.c
-	${CC} ${CFLAGS} -c mise.c
+mise.o: ${SRC_DIR}mise.c
+	${CC} ${CFLAGS} -c ${SRC_DIR}mise.c
 
 
-# COMMANDS
+# TARGETS
 clean-logs:
 	@echo "" > install_dir.txt
 
@@ -42,8 +44,7 @@ mrproper: clean
 	- rm ${BIN}
 
 install-sdl:
-	sudo apt-get -y update
-	sudo apt-get -y install libsdl1.2-dev libsdl-image1.2-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev
+	sudo apt-get -y update && sudo apt-get -y install libsdl1.2-dev libsdl-image1.2-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev
 
 uninstall-sdl:
 	sudo apt-get -y remove libsdl1.2-dev libsdl-image1.2-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev

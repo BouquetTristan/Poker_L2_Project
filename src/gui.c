@@ -16,7 +16,7 @@ void GUI_Quit(void) {
 }
 
 int GUI_WindowModeSelect(void) {
-    TTF_Font *police = TTF_OpenFont("font/PokerKings-Regular.ttf", 50);
+    TTF_Font *police = TTF_OpenFont(MENU_FONT, 50);
     SDL_Surface * texte = NULL, * ecran = NULL, * menu = NULL, * cursor = NULL;
     SDL_Rect textPos;
     SDL_Color couleurBlanche;
@@ -85,7 +85,7 @@ int GUI_WindowModeSelect(void) {
 }
 
 int GUI_HomeSelect(int window_mode) {
-    TTF_Font *police = TTF_OpenFont("font/PokerKings-Regular.ttf", 50);
+    TTF_Font *police = TTF_OpenFont(MENU_FONT, 50);
     SDL_Surface * texte = NULL, * ecran = NULL, * menu = NULL, * cursor = NULL;
     SDL_Rect textPos, posMenu, posCursor;
     SDL_Color couleurBlanche;
@@ -115,9 +115,9 @@ int GUI_HomeSelect(int window_mode) {
     SDL_ShowCursor(SDL_DISABLE);
     //SDL_WarpMouse(ecran->w /2, ecran->h /2);
     
-    Mix_Chunk * musique = Mix_LoadWAV("sound/Song_Remains_The_Same.wav"); //Chargement de la musique
-    Mix_Chunk * select = Mix_LoadWAV("sound/chipsStack1.wav");
-    Mix_Chunk * back = Mix_LoadWAV("sound/cardTakeOutPackage1.wav");
+    Mix_Chunk * musique = Mix_LoadWAV(HOME_MUSIC); //Chargement de la musique
+    Mix_Chunk * select = Mix_LoadWAV(MOVE_CURSOR);
+    Mix_Chunk * back = Mix_LoadWAV(BACK);
     int vol = MIX_MAX_VOLUME/6;
     Mix_VolumeChunk(musique, vol);
     Mix_VolumeChunk(select, MIX_MAX_VOLUME);
@@ -222,7 +222,7 @@ void GUI_Jouer(int window_mode) {
         pos_table;
 
     Mix_Chunk * musique; //Création du pointeur de type Mix_Music
-    musique = Mix_LoadWAV("sound/No_Quarter.wav"); //Chargement de la musique
+    musique = Mix_LoadWAV(IN_GAME_MUSIC); //Chargement de la musique
     int vol = MIX_MAX_VOLUME/6;
     Mix_VolumeChunk(musique, vol);
     Mix_PlayChannel(0, musique, -1); //Jouer infiniment la musique
