@@ -26,5 +26,6 @@ makefile using :
   - `make mrproper`		  (call `clean` target + remove the executable `poker`)
   - `make install-sdl`  (install `SDL, SDL_image, SDL_ttf,` and `SDL_mixer` libraries V1.2 via `apt` package manager)
 
-Development team : POUPIN Romain - BOUQUET Tristan - NJOFFANG William
+# Development team
+POUPIN Romain - BOUQUET Tristan - NJOFFANG William
 
