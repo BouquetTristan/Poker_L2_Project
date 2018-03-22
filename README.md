@@ -27,5 +27,7 @@ makefile using :
   - `make install-sdl`  (install `SDL, SDL_image, SDL_ttf,` and `SDL_mixer` libraries V1.2 via `apt` package manager)
 
 # Development team
-POUPIN Romain - BOUQUET Tristan - NJOFFANG William
+- POUPIN Romain (romain.poupin.etu@univ-lemans.fr)
+- BOUQUET Tristan (tristan.bouquet.etu@univ-lemans.fr)
+- NJOFFANG William (william.njofang_ngassam.etu@univ-lemans.fr)
 
