@@ -90,7 +90,7 @@ then
 
             zenity  --question \
                     --title="Raccourci" \
-                    --text="Voulez-vous ajouter un raccourci sur le bureau ?"
+                    --text="Voulez-vous ajouter un raccourci ?"
             case $? in
               0) shortcut_flag="1";;
               1) shortcut_flag="0";;
@@ -99,15 +99,15 @@ then
 
             if [ "$shortcut_flag" -eq "1" ]
             then
-              echo "$ORANGE* CREATION DU RACCOURCI SUR LE BUREAU *$NC"
-              lang=`echo $LANG`
-              case $lang in
-                fr*)
-                  ln -s $install_dir/poker $HOME/Bureau/Poker && echo $HOME/"Bureau/Poker" >> install_dir.txt
-                  shortcut=$HOME"/Bureau/Poker" ;;
-                en*)
-                  ln -s $install_dir/poker $HOME/Desktop/Poker && echo $HOME/"Desktop/Poker" >> install_dir.txt
-                  shortcut=$HOME"/Desktop/Poker" ;;
+              desktop_dir=`zenity --file-selection --directory --title="Sélectionnez un emplacement pour le raccourci"`
+              case $? in
+                0)
+                  echo "$ORANGE* CREATION DU RACCOURCI SUR LE BUREAU *$NC"
+                  ln -s $install_dir"/poker" $desktop_dir"/Poker"
+                  echo $desktop_dir"/Poker" >> install_dir.txt
+                  shortcut=$desktop_dir"/Poker" ;;
+                1) zenity --error --text="Aucun fichier sélectionné.";;
+                -1) zenity --error --text="Une erreur inattendue est survenue.";;
               esac
             fi
             
