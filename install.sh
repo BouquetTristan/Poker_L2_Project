@@ -1,14 +1,166 @@
-#!/bin/sh
+#!/bin/bash
 
-NC="\033[0m" # no color
-ORANGE="\033[0;33m" # orange color
+#############
+# VARIABLES #
+#############
 
+# Colors
+NC="\e[0m"
+ORANGE="\e[33m"
+GREEN="\e[92m"
+RED="\e[91m"
+BOLD="\e[1m"
+
+# Packages
+pkg_list=(
+    "zenityc"
+    "libsdl1.2-dev"
+    "libsdl-image1.2-dev"
+    "libsdl-ttf2.0-dev"
+    "libsdl-mixer1.2-dev"
+)
+pkg_install=(0 0 0 0 0)
+pkg_nb=${#pkg_list[@]}
+check_valid=1
+
+# Paths, Dirs and Execs
+user_path=`echo $HOME`
+desktop_name=`cat $user_path/.config/user-dirs.dirs | grep "XDG_DESKTOP_DIR="`
+desktop_name=${desktop_name#*=\""$"HOME}
+desktop_name=`echo "${desktop_name//\"/}"`
+launchers_path=$user_path"/.local/share/applications/"
+launcher_game="pokerpc.desktop"
+launcher_uninstall="pokerpc_uninstall.desktop"
+
+
+#############
+# FUNCTIONS #
+#############
+
+# vérifie si le paquet passé en paramètre est installé
+check_pkg() {
+  pkg_installed=0
+  echo -e -n "vérification de "$1"... $NC" 
+  install_status=$(dpkg -s $1 2> /dev/null | grep "install ok installed")
+  if [ "$install_status" = "" ]
+  then
+    echo -e "$RED[PAS INSTALLE]$NC"
+    pkg_installed=0
+  else
+    echo -e -n "$GREEN[INSTALLE]$NC\n"
+    pkg_installed=1
+  fi
+}
+
+# installe le paquet passé en paramètre
+install_pkg() {
+  echo -e "installation de "$1"... $NC"
+  sudo apt-get -y install $1
+}
+
+check_game_installation() {
+  if [ -f "$launchers_path$launcher_game" ]
+  then
+    game_installed=1
+  else
+    game_installed=0
+  fi
+}
+
+# extrait et éxécute la commande de désinstallation du jeu
+# depuis le launcher (.desktop)
+game_uninstall() {
+  cd $launchers_path
+  uninstall_cmd=`cat $launcher_uninstall | grep "Exec="`
+  uninstall_cmd=`echo "${uninstall_cmd//Exec=/}"`
+  echo $uninstall_cmd
+  $uninstall_cmd
+}
+
+create_commun_h() {
+# /!\ ne pas indenter !
+cat > include/commun.h <<EOF
+#ifndef _COMMUN_H_
+#define _COMMUN_H_
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// tailles des objets
+#define N 52 // jeu de cartes
+#define LARGEUR_FENETRE 1280
+#define HAUTEUR_FENETRE 720
+#define LARGEUR_CARTE 112
+#define HAUTEUR_CARTE 156
+
+// textures
+#define JETON "$1/img/jeton_70.png"
+#define HOME_WALL "$1/img/red_wall.jpg"
+#define TABLE "$1/img/table_top.png"
+#define JEU_52_CARTES "$1/img/52_cards_deck.png"
+#define VERSO_CARTE "$1/img/back_card_red2.png"
+
+// sons
+#define HOME_MUSIC "$1/sound/Song_Remains_The_Same.wav"
+#define IN_GAME_MUSIC "$1/sound/No_Quarter.wav"
+#define MOVE_CURSOR "$1/sound/chipsStack1.wav"
+#define BACK "$1/sound/cardTakeOutPackage1.wav"
+
+// polices
+#define MENU_FONT "$1/font/PokerKings-Regular.ttf"
+
+#endif
+EOF
+}
+
+
+#######################
+# INSTALLATION SCRIPT #
+#######################
+
+# vérifie si le script est éxécuté dans un terminal
+# (requis pour certaines opérations)
 if [ -t 1 ]
 then
-  installdir=$(head -n 1 install_dir.txt)
-  if [ -d "$installdir" ]
+  # vérifie si les paquets requis sont installés
+  echo -e "$BOLD""recherche des paquets requis...$NC"
+  for ((i=0; i < $pkg_nb; i++)); do
+    check_pkg ${pkg_list[$i]}
+    if [ $pkg_installed = 0 ]; then pkg_install[$i]=1 && check_valid=0; fi
+  done
+  
+  # propose d'installer les paquets manquants si le check_pkg en a détecter
+  if [ $check_valid = 0 ]; then
+    zenity  --question \
+      --title="Installation paquets" \
+      --text="Voulez-vous installer les paquets manquants ?"
+    case $? in
+      0)
+        for ((i=0; i < $pkg_nb; i++)); do
+          if [ ${pkg_install[$i]} = 1 ]; then install_pkg ${pkg_list[$i]}; fi
+        done ;;
+      1) 
+        echo -e "$RED""tentative d'installation du jeu malgré des paquets manquant$NC" ;;
+      -1) zenity --error --text="Une erreur inatendue est survenue.";;
+    esac
+  fi
+
+  # vérifie que le jeu n'est pas déjà installé
+  check_game_installation
+  if [ $game_installed = 1 ]
   then 
     zenity --error --text="Poker est déjà installé ! Tapez d'abord ./uninstall"
+    # propose de désinstaller le logiciel
+    zenity  --question \
+      --title="Désinstallation" \
+      --text="Voulez-vous désinstaller le jeu ?"
+    case $? in
+      0) game_uninstall
+        
+        ;;
+      1) echo -e "$RED""installation anulée !$NC" ;;
+      -1) zenity --error --text="Une erreur inatendue est survenue.";;
+    esac
   else
     FILE=LICENSE
     zenity --text-info \
@@ -23,21 +175,6 @@ then
         DIR=`zenity --file-selection --directory --title="Sélectionnez un emplacement où le dossier d'installation va être créé"`
         case $? in
           0)
-            zenity  --question \
-                    --title="SDL installation" \
-                    --text="Voulez-vous installer les bibliothèques SDL ?\n\nPrérequis :\n- gestionnaire de paquet aptitude\n- connexion internet"
-            case $? in
-              0) sdl_flag="1";;
-              1) sdl_flag="0";;
-              -1) zenity --error --text="Une erreur inatendue est survenue.";;
-            esac
-
-            if [ "$sdl_flag" = "1" ]
-            then
-              echo "$ORANGE* INSTALLATION DES LIBRAIRIES SDL *$NC"
-              make install-sdl
-            fi
-            
             echo "$ORANGE* CREATION DU REPERTOIRE DE DESTINATION *$NC"
             mkdir $DIR/poker
 
@@ -50,39 +187,7 @@ then
             echo $install_dir > install_dir.txt
             
             echo "$ORANGE* CONFIGURATION DES CHEMINS ABSOLUS DANS LE FICHIER \"commun.h\" *$NC"
-            file="include/commun.h"
-            rm $file
-            touch $file
-            echo "#ifndef _COMMUN_H_" > $file
-            echo "#define _COMMUN_H_" >> $file
-            echo "#include <stdio.h>" >> $file
-            echo "#include <stdlib.h>" >> $file
-            echo "#include <string.h>" >> $file
-            echo "" >> $file
-            echo "// tailles des objets" >> $file
-            echo "#define N 52 // jeu de cartes" >> $file
-            echo "#define LARGEUR_FENETRE 1280" >> $file
-            echo "#define HAUTEUR_FENETRE 720" >> $file
-            echo "#define LARGEUR_CARTE 112" >> $file
-            echo "#define HAUTEUR_CARTE 156" >> $file
-            echo "" >> $file
-            echo "// textures" >> $file
-            echo "#define JETON \""$install_dir"/img/jeton_70.png\"" >> $file
-            echo "#define HOME_WALL \""$install_dir"/img/red_wall.jpg\"" >> $file
-            echo "#define TABLE \""$install_dir"/img/table_top.png\"" >> $file
-            echo "#define JEU_52_CARTES \""$install_dir"/img/52_cards_deck.png\"" >> $file
-            echo "#define VERSO_CARTE \""$install_dir"/img/back_card_red2.png\"" >> $file
-            echo "" >> $file
-            echo "// sons" >> $file
-            echo "#define HOME_MUSIC \""$install_dir"/sound/Song_Remains_The_Same.wav\"" >> $file
-            echo "#define IN_GAME_MUSIC \""$install_dir"/sound/No_Quarter.wav\"" >> $file
-            echo "#define MOVE_CURSOR \""$install_dir"/sound/chipsStack1.wav\"" >> $file
-            echo "#define BACK \""$install_dir"/sound/cardTakeOutPackage1.wav\"" >> $file
-            echo "" >> $file
-            echo "// polices" >> $file
-            echo "#define MENU_FONT \""$install_dir"/font/PokerKings-Regular.ttf\"" >> $file
-            echo "" >> $file
-            echo "#endif" >> $file
+            create_commun_h $install_dir
 
             echo "$ORANGE* COMPILATION DU JEU *$NC"
             make all
@@ -92,24 +197,28 @@ then
                     --title="Raccourci" \
                     --text="Voulez-vous ajouter un raccourci ?"
             case $? in
-              0) shortcut_flag="1";;
-              1) shortcut_flag="0";;
+              0)
+                ln -s $install_dir"/poker" $user_path$desktop_name"/Poker"
+                if [ -f "$user_path$desktop_name""/Poker" ]
+                then
+                  echo $user_path$desktop_name"/Poker" >> install_dir.txt
+                  shortcut=$user_path$desktop_name"/Poker"  
+                else
+                  shortcut_dir=`zenity --file-selection --directory --title="Sélectionnez un emplacement pour le raccourci"`
+                  case $? in
+                    0)
+                      echo "$ORANGE* CREATION DU RACCOURCI *$NC"
+                      ln -s $install_dir"/poker" $shortcut_dir"/Poker"
+                      echo $shortcut_dir"/Poker" >> install_dir.txt
+                      shortcut=$shortcut_dir"/Poker" ;;
+                    1) zenity --error --text="Aucun emplacement sélectionné : raccourci annulé";;
+                    -1) zenity --error --text="Une erreur inattendue est survenue.";;
+                  esac
+                fi
+                ;;
+              1) ;;
               -1) zenity --error --text="Une erreur inatendue est survenue.";;
             esac
-
-            if [ "$shortcut_flag" -eq "1" ]
-            then
-              desktop_dir=`zenity --file-selection --directory --title="Sélectionnez un emplacement pour le raccourci"`
-              case $? in
-                0)
-                  echo "$ORANGE* CREATION DU RACCOURCI SUR LE BUREAU *$NC"
-                  ln -s $install_dir"/poker" $desktop_dir"/Poker"
-                  echo $desktop_dir"/Poker" >> install_dir.txt
-                  shortcut=$desktop_dir"/Poker" ;;
-                1) zenity --error --text="Aucun fichier sélectionné.";;
-                -1) zenity --error --text="Une erreur inattendue est survenue.";;
-              esac
-            fi
             
             echo "$ORANGE* INTEGRATION DU JEU DANS LE MENU D'APPLICATIONS *$NC "
             entry=~/.local/share/applications/pokerpc.desktop
