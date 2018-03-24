@@ -26,9 +26,9 @@ then
 			case $? in
 				0)
 					echo "$ORANGE* SUPPRESSION DU DOSSIER D'INSTALLATION DU JEU *$NC"
-					rm -r $install_dir
+					sudo rm -r $install_dir
 					echo "$ORANGE* SUPPRESSION DES RACCOURCIS DU JEU *$NC"
-					rm $shortcut ~/.local/share/applications/pokerpc.desktop ~/.local/share/applications/pokerpc_uninstall.desktop
+					sudo rm $shortcut /usr/share/applications/pokerpc.desktop /usr/share/applications/pokerpc_uninstall.desktop
 					zenity --info --text="Poker est désormais désinstallé !"
 					;;
 				1);;

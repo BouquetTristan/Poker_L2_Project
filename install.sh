@@ -28,7 +28,7 @@ user_path=`echo $HOME`
 desktop_name=`cat $user_path/.config/user-dirs.dirs | grep "XDG_DESKTOP_DIR="`
 desktop_name=${desktop_name#*=\""$"HOME}
 desktop_name=`echo "${desktop_name//\"/}"`
-launchers_path=$user_path"/.local/share/applications/"
+launchers_path="/usr/local/share/applications/"
 launcher_game="pokerpc.desktop"
 launcher_uninstall="pokerpc_uninstall.desktop"
 
@@ -192,25 +192,40 @@ then
             echo "$ORANGE* COMPILATION DU JEU *$NC"
             make all
             chmod +x poker uninstall.sh
-
+            
+            echo "$ORANGE* INTEGRATION DU JEU DANS LE MENU D'APPLICATIONS *$NC "
+            touch $launcher_game
+            echo -e "
+            [Desktop Entry]\n
+            Type=Application\n
+            Name=Poker PC\n
+            Categories=Game\n
+            Exec=$install_dir/poker\n
+            Icon=$install_dir/img/jeton_backup.png\n
+            Terminal=true" > $launcher_game
+            sudo cp $launcher_game /usr/share/applications
+            sudo chmod +x /usr/share/applications/$launcher_game
+            
             zenity  --question \
                     --title="Raccourci" \
                     --text="Voulez-vous ajouter un raccourci ?"
             case $? in
               0)
-                ln -s $install_dir"/poker" $user_path$desktop_name"/Poker"
-                if [ -f "$user_path$desktop_name""/Poker" ]
+                sudo cp $launcher_game $user_path$desktop_name
+                sudo chmod +x $user_path$desktop_name/$launcher_game
+                if [ -f "$user_path$desktop_name/$launcher_game" ]
                 then
-                  echo $user_path$desktop_name"/Poker" >> install_dir.txt
-                  shortcut=$user_path$desktop_name"/Poker"  
+                  echo $user_path$desktop_name/$launcher_game >> install_dir.txt
+                  shortcut=$user_path$desktop_name/$launcher_game  
                 else
                   shortcut_dir=`zenity --file-selection --directory --title="Sélectionnez un emplacement pour le raccourci"`
                   case $? in
                     0)
                       echo "$ORANGE* CREATION DU RACCOURCI *$NC"
-                      ln -s $install_dir"/poker" $shortcut_dir"/Poker"
-                      echo $shortcut_dir"/Poker" >> install_dir.txt
-                      shortcut=$shortcut_dir"/Poker" ;;
+                      sudo cp $launcher_game $shortcut_dir
+                      sudo chmod +x $shortcut_dir/$launcher_game
+                      echo $shortcut_dir/$launcher_game >> install_dir.txt
+                      shortcut=$shortcut_dir/$launcher_game ;;
                     1) zenity --error --text="Aucun emplacement sélectionné : raccourci annulé";;
                     -1) zenity --error --text="Une erreur inattendue est survenue.";;
                   esac
@@ -219,35 +234,22 @@ then
               1) ;;
               -1) zenity --error --text="Une erreur inatendue est survenue.";;
             esac
-            
-            echo "$ORANGE* INTEGRATION DU JEU DANS LE MENU D'APPLICATIONS *$NC "
-            entry=~/.local/share/applications/pokerpc.desktop
-            touch $entry
-            echo "#!/usr/bin/env xdg-open" > $entry
-            echo "[Desktop Entry]" >> $entry
-            echo "Type=Application" >> $entry
-            echo "Name=Poker PC" >> $entry
-            echo "Categories=Game" >> $entry
-            echo "Exec="$install_dir"/poker" >> $entry
-            echo "Icon="$install_dir"/img/jeton_backup.png" >> $entry
-            echo "Terminal=true" >> $entry
-            chmod +x $entry
 
-            entry=~/.local/share/applications/pokerpc_uninstall.desktop
-            touch $entry
-            echo "#!/usr/bin/env xdg-open" > $entry
-            echo "[Desktop Entry]" >> $entry
-            echo "Type=Application" >> $entry
-            echo "Name=Poker PC - Désinstaller" >> $entry
-            echo "Categories=Game" >> $entry
-            echo "Exec="$install_dir"/uninstall.sh "$install_dir" "$shortcut >> $entry
-            echo "Icon="$install_dir"/img/uninstall.png" >> $entry
-            echo "Terminal=true" >> $entry
-            chmod +x $entry
+            touch $launcher_uninstall
+            echo -e "
+            [Desktop Entry]\n
+            Type=Application\n
+            Name=Poker PC - Désinstaller\n
+            Categories=Game\n
+            Exec=$install_dir/uninstall.sh $install_dir $shortcut\n
+            Icon=$install_dir/img/uninstall.png\n
+            Terminal=true" > $launcher_uninstall
+            sudo mv $launcher_uninstall /usr/share/applications
+            sudo chmod +x /usr/share/applications/$launcher_uninstall
 
             echo "$ORANGE* NETTOYAGE DES FICHIERS DE COMPILATION ET D'INSTALLATION *$NC"
             make clean
-            rm -r include src makefile install.sh
+            rm -r include src makefile install.sh $launcher_game
 
             zenity --info --text="L'installation de Poker s'est déroulée avec succès !"
             ;;
