@@ -9,8 +9,8 @@ This is a project of a poker game, created for 2nd year project of the universit
  
 # How to install ?
 This will build, copy the game to the desired installation folder
-and add shortcuts into your linux distro launcher and desktop
-1) launch `./install.sh`
+and add shortcuts into your applications menu and desktop
+1) launch `./install.sh` (`sudo ./install.sh` if needed)
 2) click on `poker` icon from your application launcher
 
 # How to uninstall ?
