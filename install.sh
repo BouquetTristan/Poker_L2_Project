@@ -75,42 +75,6 @@ game_uninstall() {
   $uninstall_cmd
 }
 
-create_commun_h() {
-# /!\ ne pas indenter !
-cat > include/commun.h <<EOF
-#ifndef _COMMUN_H_
-#define _COMMUN_H_
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-// tailles des objets
-#define N 52 // jeu de cartes
-#define LARGEUR_FENETRE 1280
-#define HAUTEUR_FENETRE 720
-#define LARGEUR_CARTE 112
-#define HAUTEUR_CARTE 156
-
-// textures
-#define JETON "$1/img/jeton_70.png"
-#define HOME_WALL "$1/img/red_wall.jpg"
-#define TABLE "$1/img/table_top.png"
-#define JEU_52_CARTES "$1/img/52_cards_deck.png"
-#define VERSO_CARTE "$1/img/back_card_red2.png"
-
-// sons
-#define HOME_MUSIC "$1/sound/Song_Remains_The_Same.wav"
-#define IN_GAME_MUSIC "$1/sound/No_Quarter.wav"
-#define MOVE_CURSOR "$1/sound/chipsStack1.wav"
-#define BACK "$1/sound/cardTakeOutPackage1.wav"
-
-// polices
-#define MENU_FONT "$1/font/PokerKings-Regular.ttf"
-
-#endif
-EOF
-}
-
 
 #######################
 # INSTALLATION SCRIPT #
@@ -191,21 +155,26 @@ then
               echo -e $ORANGE"sauvegarde du chemin du répertoire d'installation...$NC"
               echo $install_dir > install_dir.txt
               
-              echo -e $ORANGE"configuration des chemins absolus dans \"include/commun.h\"...$NC"
-              create_commun_h $install_dir
+              echo -e $ORANGE"création du launcher...$NC"
+              touch launcher.sh
+              echo -e "
+              #!/bin/bash\n\n
+              cd $install_dir\n
+              ./poker" > launcher.sh
+              chmod +x launcher.sh
 
               echo -e $ORANGE"compilation du jeu...$NC"
               make all
               chmod +x poker uninstall.sh
               
-              echo -e $ORANGE"création du launcher du jeu dans le menu d'applications...$NC "
+              echo -e $ORANGE"ajout du raccourci vers le launcher dans le menu d'applications...$NC "
               touch $launcher_game
               echo -e "
               [Desktop Entry]\n
               Type=Application\n
               Name=Poker PC\n
               Categories=Game\n
-              Exec=$install_dir/poker\n
+              Exec=$install_dir/launcher.sh\n
               Icon=$install_dir/img/jeton_backup.png\n
               Terminal=true" > $launcher_game
               sudo cp $launcher_game /usr/share/applications
@@ -216,7 +185,7 @@ then
                       --text="Voulez-vous ajouter un raccourci ?"
               case $? in
                 0)
-                  echo -e $ORANGE"création du raccourci...$NC "
+                  echo -e $ORANGE"création du raccourci sur le bureau...$NC "
                   sudo cp $launcher_game $user_path$desktop_name
                   sudo chmod +x $user_path$desktop_name/$launcher_game
                   if [ -f "$user_path$desktop_name/$launcher_game" ]
@@ -227,6 +196,7 @@ then
                     shortcut_dir=`zenity --file-selection --directory --title="Sélectionnez un emplacement pour le raccourci"`
                     case $? in
                       0)
+                        echo -e $ORANGE"création du raccourci dans $shortcut_dir...$NC "
                         sudo cp $launcher_game $shortcut_dir
                         sudo chmod +x $shortcut_dir/$launcher_game
                         echo $shortcut_dir/$launcher_game >> install_dir.txt
@@ -240,7 +210,7 @@ then
                 -1) zenity --error --text="Une erreur inatendue est survenue.";;
               esac
 
-              echo -e $ORANGE"création du launcher de désinstallation dans le menu d'applications...$NC "
+              echo -e $ORANGE"ajout du raccourci vers le script de désinstallation dans le menu d'applications...$NC "
               touch $launcher_uninstall
               echo -e "
               [Desktop Entry]\n
