@@ -30,11 +30,15 @@ int main(int argc, char * argv[]) {
 
     liste_joueur[3]->jetons_mise = 34;
     egal = egalite(5, liste_joueur);
-    printf("egalité ? %d\n", egal);    
+    printf("egalité ? %d\n", egal); 
 
+    for (int i = 0; i < 5; i++) 
+    {
+        liste_joueur[i]->jetons_stock = 50;
+    }
     // destruction des 5 joueurs
-    for (int i = 0; i < 5; i++)
-        joueur_detruire(&liste_joueur[i]);
+    //for (int i = 0; i < 5; i++)
+    //    joueur_detruire(&liste_joueur[i]);
 
 
     player_t * joueur;
@@ -55,10 +59,11 @@ int main(int argc, char * argv[]) {
     printf("\n");
     main_afficher(joueur);
 
+    turnOfBet(jeu, 3, liste_joueur);
+
     int comb = main_analyser(joueur);
     printf("combinaison : %d\n", comb);
 
-    //mise();
     
     jeu_detruire(&jeu);
     joueur_detruire(&joueur);
