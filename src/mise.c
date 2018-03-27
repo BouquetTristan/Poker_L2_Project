@@ -9,7 +9,7 @@ int egalite(int nbPlayer, player_t * joueur[])
 {
 	for (int i = 0; i < nbPlayer; ++i)
 	{
-		if (joueur[0]->jetons_mise != joueur[i]->jetons_mise || joueur[0]->jetons_mise == 0)
+		if (joueur[i]->joueur_actif == 1 && (joueur[0]->jetons_mise != joueur[i]->jetons_mise || joueur[0]->jetons_mise == 0))
 			return 0;
 	}
 	return 1;
@@ -90,10 +90,19 @@ int miser(int player, player_t * joueur[], int jeton_suivi)
 }
 
 int follow(int player, int nbPlayer, player_t * joueur[])
-{
+{	
+
+	int i = 1;
+	if(player == 1)
+	{
+		while(joueur[player-i]->joueur_actif == 0)
+		{
+			i++;
+		}
+	}
 	if(player == 0)
-		return joueur[nbPlayer-1]->jetons_mise;
-	return joueur[player-1]->jetons_mise;
+		return joueur[nbPlayer-i]->jetons_mise;
+	return joueur[player-i]->jetons_mise;
 }
 
 int reflate(int player, int nbPlayer, player_t * joueur[])
@@ -112,10 +121,9 @@ int all_in(int player, player_t * joueur[])
 	return joueur[player]->jetons_stock;
 }
 
-int sleep(int player)
+void sleep(int player, player_t * joueur[])
 {
-	printf("Pas encore implémenté\n");
-	return 1;
+	joueur[player]->joueur_actif = 0;	
 }
 
 int bet(int player, int nbPlayer, player_t * joueur[])
@@ -142,6 +150,7 @@ int bet(int player, int nbPlayer, player_t * joueur[])
 	printf("Votre choix : ");
 	scanf("%i", &choice);
 
+
 	switch(choice)
 	{
 		case 1: 
@@ -159,8 +168,10 @@ int bet(int player, int nbPlayer, player_t * joueur[])
 			if (menu == 0)
 				return reflate(player, nbPlayer, joueur); 
 			else
+			{
 				printf("Vous checkez\n");
 				return 0;
+			}
 			break;
 		case 3: 
 			jeton = all_in(player, joueur);
@@ -169,7 +180,8 @@ int bet(int player, int nbPlayer, player_t * joueur[])
 			break;
 		case 4: 
 			printf("Vous vous couchez\n"); 
-			return sleep(player); 
+			sleep(player, joueur);
+			return  0; 
 			break;
 		default : printf("Ce choix n'existe pas\n"); break;
 	}
@@ -201,6 +213,8 @@ void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[])
 			{
 				if(!egalite(nbPlayer, liste_joueur))
 				{
+					printf("Joueur %i\n", i);
+					printf("Joueur jeton : %i\n", liste_joueur[i]->jetons_stock);
 					resultBet = bet(i, nbPlayer, liste_joueur);
 					pot += resultBet;
 					liste_joueur[i]->jetons_stock -= resultBet;
