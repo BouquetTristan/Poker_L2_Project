@@ -7,7 +7,7 @@ typedef struct player_s {
 	int jetons_stock;
 	int jetons_mise;
 	char * pseudo;
-	int joueur_actif;
+	int actif;
 } player_t;
 
 player_t * joueur_creer(void);
