@@ -4,12 +4,13 @@
 #include "mise.h"
 
 
+int pot = 0;
 
 int egalite(int nbPlayer, player_t * joueur[])
 {
 	for (int i = 0; i < nbPlayer; ++i)
 	{
-		if (joueur[i]->actif == 1 && (joueur[0]->jetons_mise != joueur[i]->jetons_mise || joueur[0]->jetons_mise == 0))
+		if (joueur[i]->actif == 1 && joueur[0]->jetons_mise != joueur[i]->jetons_mise)
 			return 0;
 	}
 	return 1;
@@ -55,7 +56,7 @@ void askCard(int player, player_t * joueur[], jeu_t * jeu)
 					printf("Carte déjà choisie\n");
 				}
 			}
-			if (out == 1)
+			if (out != 1)
 			{
 				carte[cpt] = choix;
 				cpt++;
@@ -101,8 +102,8 @@ int follow(int player, int nbPlayer, player_t * joueur[])
 		}
 	}
 	if(player == 0)
-		return (joueur[nbPlayer-i]->jetons_mise-joueur[player]->jetons_mise);
-	return (joueur[player-i]->jetons_mise-joueur[player]->jetons_mise);
+		return (joueur[nbPlayer-i]->jetons_mise);
+	return (joueur[player-i]->jetons_mise);
 }
 
 int reflate(int player, int nbPlayer, player_t * joueur[])
@@ -187,11 +188,29 @@ int bet(int player, int nbPlayer, player_t * joueur[])
 	}
 }
 
-void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[])
+void maj_jetons(player_t * liste_joueur[], int i, int nbPlayer)
 {
 
 	int resultBet = 0;
-	int pot = 0;
+	if(liste_joueur[i]->actif)
+	{
+		for (int j = 0; j < nbPlayer; ++j)
+		{
+			printf("Joueur %i :\n", j);
+			printf("Jetons : %i\n", liste_joueur[j]->jetons_stock);
+			printf("Jetons misés : %i\n", liste_joueur[j]->jetons_mise);
+		}
+		printf("Joueur %i\n", i);
+		resultBet = bet(i, nbPlayer, liste_joueur);
+		pot += resultBet;
+		liste_joueur[i]->jetons_stock += liste_joueur[i]->jetons_mise - resultBet;
+		liste_joueur[i]->jetons_mise = resultBet;
+	}
+}
+
+void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[])
+{
+
 	int i;
 	int cpt_turn = 0;
 
@@ -212,17 +231,12 @@ void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[])
 			for (i = 0; i < nbPlayer; ++i)
 			{
 				if(!egalite(nbPlayer, liste_joueur))
+					maj_jetons(liste_joueur, i, nbPlayer);
+					
+				else
 				{
-					for (int j = 0; j < nbPlayer; ++j)
-					{
-						printf("Joueur %i :\n", j);
-						printf("Jetons : %i\n", liste_joueur[j]->jetons_stock);
-					}
-					printf("Joueur %i\n", i);
-					resultBet = bet(i, nbPlayer, liste_joueur);
-					pot += resultBet;
-					liste_joueur[i]->jetons_stock -= resultBet;
-					liste_joueur[i]->jetons_mise = resultBet;
+					if(i == 0)
+						maj_jetons(liste_joueur, i, nbPlayer);
 				}
 			}
 		}
