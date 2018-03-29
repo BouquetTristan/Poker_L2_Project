@@ -6,6 +6,17 @@
 
 int pot = 0;
 
+
+int first_player(player_t * joueur[], int nbPlayer)
+{
+	for (int i = 0; i < nbPlayer; ++i)
+	{
+		if(joueur[i]->actif == 1)
+			return i;
+	}
+	return 0;
+}
+
 int egalite(int nbPlayer, player_t * joueur[])
 {
 	for (int i = 0; i < nbPlayer; ++i)
@@ -82,7 +93,7 @@ int miser(int player, player_t * joueur[], int jeton_suivi)
 {
 	int jeton;
 	scanf("%i", &jeton);
-	while(jeton < 0 || jeton > joueur[player]->jetons_stock-jeton_suivi)
+	while(jeton < 0 || jeton > joueur[player]->jetons_stock - jeton_suivi)
 	{
 		printf("Vous n'avez pas autant de jeton\nVotre choix : ");
 		scanf("%i", &jeton);
@@ -94,16 +105,22 @@ int follow(int player, int nbPlayer, player_t * joueur[])
 {	
 
 	int i = 1;
-	if(player == 1)
+	if(player > 0)
 	{
 		while(joueur[player-i]->actif == 0)
 		{
 			i++;
 		}
+		return joueur[player-i]->jetons_mise;
 	}
 	if(player == 0)
-		return (joueur[nbPlayer-i]->jetons_mise);
-	return (joueur[player-i]->jetons_mise);
+	{
+		while(joueur[nbPlayer-i]->actif == 0)
+		{
+			i++;
+		}
+		return joueur[nbPlayer-i]->jetons_mise;
+	}
 }
 
 int reflate(int player, int nbPlayer, player_t * joueur[])
@@ -133,7 +150,9 @@ int bet(int player, int nbPlayer, player_t * joueur[])
 	int jeton = 0;
 	int menu = 0;
 
-	if(joueur[0]->jetons_mise == 0)
+	int first = first_player(joueur, nbPlayer);
+
+	if(joueur[first]->jetons_mise == 0)
 		menu = 1;
 
 	printf("Que souhaitez vous faire ?\n");
@@ -200,6 +219,7 @@ void maj_jetons(player_t * liste_joueur[], int i, int nbPlayer)
 			printf("Jetons : %i\n", liste_joueur[j]->jetons_stock);
 			printf("Jetons misés : %i\n", liste_joueur[j]->jetons_mise);
 		}
+
 		printf("Joueur %i\n", i);
 		resultBet = bet(i, nbPlayer, liste_joueur);
 		pot += resultBet;
@@ -211,28 +231,21 @@ void maj_jetons(player_t * liste_joueur[], int i, int nbPlayer)
 void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[])
 {
 
-	int i;
-	int cpt_turn = 0;
-
-	if(cpt_turn == 3)
+	for (int cpt_turn = 0; cpt_turn < 3; cpt_turn)
 	{
-		guessWinner();
-	}
-	else
-	{
-
-		for (i = 0; i < nbPlayer; ++i)
-		{
-			liste_joueur[0]->jetons_mise = 0;
-		}
 		
+		for (int i = 0; i < nbPlayer; ++i)
+		{
+			liste_joueur[i]->jetons_mise = 0;
+		}
+	
 		do
 		{
-			for (i = 0; i < nbPlayer; ++i)
+			for (int i = 0; i < nbPlayer; ++i)
 			{
 				if(!egalite(nbPlayer, liste_joueur))
 					maj_jetons(liste_joueur, i, nbPlayer);
-					
+				
 				else
 				{
 					if(i == 0)
@@ -244,12 +257,13 @@ void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[])
 		
 		if (cpt_turn < 2)
 		{
-			for (i = 0; i < nbPlayer; ++i)
+			for (int i = 0; i < nbPlayer; ++i)
 			{
 				askCard(i, liste_joueur, jeu);
 			}
-		}
-		
+		}	
 	}
+
+	guessWinner();
 }
 
