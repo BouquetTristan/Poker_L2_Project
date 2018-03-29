@@ -19,9 +19,10 @@ int first_player(player_t * joueur[], int nbPlayer)
 
 int egalite(int nbPlayer, player_t * joueur[])
 {
+	int first = first_player(joueur, nbPlayer);
 	for (int i = 0; i < nbPlayer; ++i)
 	{
-		if (joueur[i]->actif == 1 && joueur[0]->jetons_mise != joueur[i]->jetons_mise)
+		if (joueur[i]->actif == 1 && joueur[first]->jetons_mise != joueur[i]->jetons_mise)
 			return 0;
 	}
 	return 1;
@@ -50,6 +51,7 @@ void askCard(int player, player_t * joueur[], jeu_t * jeu)
 	int carte[4];
 	int exit, out, cpt = 0;
 	int choix;
+
 
 	while(cpt < 4 && exit != 1)
 	{
@@ -231,6 +233,8 @@ void maj_jetons(player_t * liste_joueur[], int i, int nbPlayer)
 void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[])
 {
 
+	int first; 
+
 	for (int cpt_turn = 0; cpt_turn < 3; cpt_turn)
 	{
 		
@@ -243,12 +247,13 @@ void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[])
 		{
 			for (int i = 0; i < nbPlayer; ++i)
 			{
+				first = first_player(liste_joueur, nbPlayer);
 				if(!egalite(nbPlayer, liste_joueur))
 					maj_jetons(liste_joueur, i, nbPlayer);
 				
 				else
 				{
-					if(i == 0)
+					if(i == first)
 						maj_jetons(liste_joueur, i, nbPlayer);
 				}
 			}
