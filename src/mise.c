@@ -9,7 +9,7 @@ int egalite(int nbPlayer, player_t * joueur[])
 {
 	for (int i = 0; i < nbPlayer; ++i)
 	{
-		if (joueur[i]->joueur_actif == 1 && (joueur[0]->jetons_mise != joueur[i]->jetons_mise || joueur[0]->jetons_mise == 0))
+		if (joueur[i]->actif == 1 && (joueur[0]->jetons_mise != joueur[i]->jetons_mise || joueur[0]->jetons_mise == 0))
 			return 0;
 	}
 	return 1;
@@ -95,14 +95,14 @@ int follow(int player, int nbPlayer, player_t * joueur[])
 	int i = 1;
 	if(player == 1)
 	{
-		while(joueur[player-i]->joueur_actif == 0)
+		while(joueur[player-i]->actif == 0)
 		{
 			i++;
 		}
 	}
 	if(player == 0)
-		return joueur[nbPlayer-i]->jetons_mise;
-	return joueur[player-i]->jetons_mise;
+		return (joueur[nbPlayer-i]->jetons_mise-joueur[player]->jetons_mise);
+	return (joueur[player-i]->jetons_mise-joueur[player]->jetons_mise);
 }
 
 int reflate(int player, int nbPlayer, player_t * joueur[])
@@ -123,7 +123,7 @@ int all_in(int player, player_t * joueur[])
 
 void sleep(int player, player_t * joueur[])
 {
-	joueur[player]->joueur_actif = 0;	
+	joueur[player]->actif = 0;	
 }
 
 int bet(int player, int nbPlayer, player_t * joueur[])
@@ -213,8 +213,12 @@ void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[])
 			{
 				if(!egalite(nbPlayer, liste_joueur))
 				{
+					for (int j = 0; j < nbPlayer; ++j)
+					{
+						printf("Joueur %i :\n", j);
+						printf("Jetons : %i\n", liste_joueur[j]->jetons_stock);
+					}
 					printf("Joueur %i\n", i);
-					printf("Joueur jeton : %i\n", liste_joueur[i]->jetons_stock);
 					resultBet = bet(i, nbPlayer, liste_joueur);
 					pot += resultBet;
 					liste_joueur[i]->jetons_stock -= resultBet;
