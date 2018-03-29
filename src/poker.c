@@ -36,7 +36,7 @@ int main(int argc, char * argv[]) {
     for (int i = 0; i < 5; i++) 
     {
         liste_joueur[i]->jetons_stock = 50;
-        liste_joueur[i]->joueur_actif = 1;
+        liste_joueur[i]->actif = 1;
     }
     
 
