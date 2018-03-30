@@ -100,7 +100,7 @@ void distribution_cartes(jeu_t * jeu, player_t * joueurs[], int nb_joueurs) {
         for (int j = 0; j < nb_joueurs; j++) {
             pos = top_game_card(jeu);
             carte_distribuer(jeu, joueurs[j], pos);
-            
+            main_trier_desc(joueurs[j]);
         }
     }
 }

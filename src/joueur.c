@@ -29,16 +29,23 @@ void main_afficher(player_t * joueur) {
 }
 
 void main_trier_desc(player_t * joueur) {
-	// creer un tableau d'entiers correspondant a la hauteur des cartes (ordre décroissant)
-	int cartes[5];
-	for (int i = 0; i < 5; i++)
+	// calcule le nombre de cartes que possède le joueur
+	int nb_cartes = 0;
+	for (int i = 0; i < 5; i++) {
+		if (joueur->main[i] != NULL) nb_cartes++;
+		else break;
+	}
+
+	// creer un tableau d'entiers correspondant a la hauteur des cartes
+	int cartes[nb_cartes];
+	for (int i = 0; i < nb_cartes; i++)
 		cartes[i] = indice_hauteur(joueur->main[i]);
 
-	// tri par sélection des cartes de la main
+	// tri par sélection des cartes de la main (ordre décroissant)
 	carte_t * c;
 	int c1;
-	for (int i = 0; i < 5; i++) {
-	    for (int j = i+1; j < 5; j++) {
+	for (int i = 0; i < nb_cartes; i++) {
+	    for (int j = i+1; j < nb_cartes; j++) {
 	        if (cartes[i] < cartes[j]) {
 	        	c1 = cartes[i];
 	            c = joueur->main[i];
