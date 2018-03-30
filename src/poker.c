@@ -25,17 +25,20 @@ int main(int argc, char * argv[]) {
         printf("jetons en mise de joueur[%d] : %d\n", i, liste_joueur[i]->jetons_mise);
     }
 
+/*
     int egal = egalite(5, liste_joueur);
     printf("egalité ? %d\n", egal);
 
     liste_joueur[3]->jetons_mise = 34;
     egal = egalite(5, liste_joueur);
-    printf("egalité ? %d\n", egal);    
-
-    // destruction des 5 joueurs
-    for (int i = 0; i < 5; i++)
-        joueur_detruire(&liste_joueur[i]);
-
+    printf("egalité ? %d\n", egal); 
+*/
+    for (int i = 0; i < 5; i++) 
+    {
+        liste_joueur[i]->jetons_stock = 50;
+        liste_joueur[i]->actif = 1;
+    }
+    
 
     player_t * joueur;
     joueur = joueur_creer();
@@ -55,10 +58,14 @@ int main(int argc, char * argv[]) {
     printf("\n");
     main_afficher(joueur);
 
+    turnOfBet(jeu, 5, liste_joueur);
+
     int comb = main_analyser(joueur);
     printf("combinaison : %d\n", comb);
 
-    //mise();
+    // destruction des 5 joueurs
+    for (int i = 0; i < 5; i++)
+        joueur_detruire(&liste_joueur[i]);
     
     jeu_detruire(&jeu);
     joueur_detruire(&joueur);
