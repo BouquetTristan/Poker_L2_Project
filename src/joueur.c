@@ -5,8 +5,10 @@ player_t * joueur_creer(void) {
 	joueur->pseudo = malloc(sizeof(char *));
 	joueur->jetons_stock = 0;
 	joueur->jetons_mise = 0;
+	joueur->actif = 1;
 	for(int i = 0; i < 5; i++)
 		joueur->main[i] = NULL;
+	return joueur;
 }
 
 void joueur_detruire(player_t ** joueur) {

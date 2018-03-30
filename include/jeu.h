@@ -17,8 +17,7 @@ void jeu_melanger(jeu_t * jeu);
 void carte_echanger(carte_t * carte1, carte_t * carte2);
 int carte_distribuer(jeu_t * jeu, player_t * joueur, int i);
 int carte_debarasser(jeu_t * jeu, player_t * joueur, int i);
-int handValue(int value, int card);
-int init(int cpt);
-int combiner_jeu();
+int top_game_card(jeu_t * jeu);
+void distribution_cartes(jeu_t * jeu, player_t * joueurs[], int nb_joueurs);
 
 #endif

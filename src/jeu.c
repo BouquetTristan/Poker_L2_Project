@@ -28,7 +28,7 @@ void jeu_initialiser(jeu_t * jeu) {
 
 void jeu_afficher(jeu_t * jeu) {
 	for (int i = 0; i < N; i++)
-		printf("jeu[%i] : %s de %s [%s]\n", i, jeu->liste[i]->hauteur, jeu->liste[i]->couleur, jeu->liste[i]->owner);
+		printf("jeu[%i] : %s de %s [appartient à %s]\n", i, jeu->liste[i]->hauteur, jeu->liste[i]->couleur, jeu->liste[i]->owner);
 }
 
 void jeu_melanger(jeu_t * jeu) {
@@ -84,4 +84,23 @@ int carte_debarasser(jeu_t * jeu, player_t * joueur, int i) {
 		}
 	}
 	return 0;
+}
+
+int top_game_card(jeu_t * jeu) {
+    for (int i = 0; i < N; i++) {
+        if (!strcmp(jeu->liste[i]->owner, "pioche"))
+            return i;
+    }
+    return -1;
+}
+
+void distribution_cartes(jeu_t * jeu, player_t * joueurs[], int nb_joueurs) {
+    int pos;
+    for (int i = 0; i < 5; i++) {                        
+        for (int j = 0; j < nb_joueurs; j++) {
+            pos = top_game_card(jeu);
+            carte_distribuer(jeu, joueurs[j], pos);
+            
+        }
+    }
 }
