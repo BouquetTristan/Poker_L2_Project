@@ -99,7 +99,7 @@ void changer_carte(int carte[], int player, player_t * joueur[], jeu_t * jeu)
 void askCard(int player, player_t * joueur[], jeu_t * jeu)
 {
 	int carte[4];
-	int exit, out, cpt = 0;
+	int exit = 0, out = 0, cpt = 0;
 	int choix;
 
 	for (int i = 0; i < 4; ++i)
