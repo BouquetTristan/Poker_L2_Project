@@ -2,6 +2,13 @@
 #include "jeu.h"
 #include "time.h"
 
+/**
+	* \ file jeu.c
+	* \ author Poupin Romain
+	* \ brief Contient les fonctions pour créer, manipuler et détruire un paquet de jeu de 52 cartes
+	* \ date 2 Avril 2018
+**/
+
 jeu_t * jeu_creer(void) {
 	jeu_t * jeu = malloc(sizeof(jeu_t)); // alloc memoire au jeu de cartes
 	for(int i = 0; i < N; i++)

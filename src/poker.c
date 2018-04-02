@@ -4,7 +4,14 @@
 #include "joueur.h"
 #include "gui.h"
 #include "mise.h"
-#include <partie.h>
+#include "partie.h"
+
+/**
+    * \ file poker.c
+    * \ author Poupin Romain, Bouquet Tristan
+    * \ brief Fichier d'initialisation du jeu et de la SDL
+    * \ date 2 Avril 2018
+**/
 
 int main(int argc, char * argv[]) { 
     jeu_t * jeu; // declare un jeu de N cartes

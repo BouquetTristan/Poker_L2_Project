@@ -1,5 +1,12 @@
 #include "joueur.h"
 
+/**
+	* \ file joueur.c
+	* \ author Poupin Romain, Bouquet Tristan
+	* \ brief Contient les fonction pour créer, manipuler, détruire les varibles liées à la structure player_t
+	* \ date 2 Avril 2018
+**/
+
 player_t * joueur_creer(void) {
 	player_t * joueur = malloc(sizeof(player_t));
 	joueur->pseudo = malloc(sizeof(char *));

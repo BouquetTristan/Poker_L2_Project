@@ -1,5 +1,12 @@
 #include "carte.h"
 
+/**
+    * \ file carte.c
+    * \ author Poupin Romain
+    * \ brief Contient les fonctions pour créer, manipuler et détruire les variables liées à la structure carte_t 
+    * \ date 2 Avril 2018
+**/
+
 /* allocation memoire */
 carte_t * carte_creer(void) {
     carte_t * carte = malloc(sizeof(carte_t)); 

@@ -4,6 +4,13 @@
 #include "mise.h"
 #include "partie.h"
 
+/**
+	* \ file partie.c
+	* \ author Bouquet Tristan
+	* \ brief Fonction pour déterminer si le jeu peut continuer
+	* \ date 2 Avril 2018
+**/
+
 int nb_joueur_debout(player_t * joueur[], int nbJoueur)
 {
 	int joueur_debout = 0;

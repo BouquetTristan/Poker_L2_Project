@@ -3,6 +3,12 @@
 #include "time.h"
 #include "mise.h"
 
+/**
+	* \ file mise.c
+	* \ author Bouquet Tristan
+	* \ brief Contient toutes les fonctionnalitées où le joueur peut jouer au jeu
+	* \ date 2 Avril 2018
+**/
 
 
 int first_player(player_t * joueur[], int nbPlayer)

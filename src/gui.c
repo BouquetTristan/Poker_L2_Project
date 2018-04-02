@@ -1,5 +1,12 @@
 #include "gui.h"
 
+/**
+    * \ file gui.c
+    * \ author Poupin Romain
+    * \ brief Contient les fonctions liées à la SDL
+    * \ date 2 Avril
+**/
+
 int GUI_Init(void) {
     SDL_Init(SDL_INIT_VIDEO); // video
     TTF_Init(); // texte
