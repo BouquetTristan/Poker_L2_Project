@@ -107,43 +107,45 @@ void askCard(int player, player_t * joueur[], jeu_t * jeu)
 		carte[i] = 0;
 	}
 
-	while(cpt < 4 && exit != 1)
+	if(joueur[player]->actif == 1)
 	{
-
-		printf("Choisissez la carte à changer ( 0 -> stop) : ");
-		scanf("%i", &choix);
-
-		if(choix > 0 && choix < 6)
+		while(cpt < 4 && exit != 1)
 		{
-			for (int j = 0; j < 4; ++j)
+
+			printf("Choisissez la carte à changer ( 0 -> stop) : ");
+			scanf("%i", &choix);
+
+			if(choix > 0 && choix < 6)
 			{
-				if(carte[j] == choix)
+				for (int j = 0; j < 4; ++j)
 				{
-					out = 1;
-					printf("Carte déjà choisie\n");
+					if(carte[j] == choix)
+					{
+						out = 1;
+						printf("Carte déjà choisie\n");
+					}
 				}
+				if (out != 1)
+				{
+					carte[cpt] = choix;
+					cpt++;
+				}				
 			}
-			if (out != 1)
+			for (int i = 0; i < 4; ++i)
 			{
-				carte[cpt] = choix;
-				cpt++;
-			}				
-		}
-		for (int i = 0; i < 4; ++i)
-		{
-			printf("carte : %i\n", carte[i]);
-		}
-		if (choix == 0)
-		{
-			carte[cpt] = 0;
-			exit = 1;
-		}
+				printf("carte : %i\n", carte[i]);
+			}
+			if (choix == 0)
+			{
+				carte[cpt] = 0;
+				exit = 1;
+			}
 
-		out = 0;
-	}
+			out = 0;
+		}
 
 	changer_carte(carte, player, joueur, jeu);
-
+	}
 }
 
 int miser(int player, player_t * joueur[], int jeton_suivi)
@@ -196,9 +198,10 @@ int all_in(int player, player_t * joueur[])
 	return joueur[player]->jetons_stock;
 }
 
-void sleep(int player, player_t * joueur[])
+int sleep(int player, player_t * joueur[])
 {
 	joueur[player]->actif = 0;	
+	return joueur[player]->jetons_mise;
 }
 
 int bet(int player, int nbPlayer, player_t * joueur[])
@@ -232,11 +235,7 @@ int bet(int player, int nbPlayer, player_t * joueur[])
 	{
 		case 1: 
 			if(menu == 0)
-			{
-				jeton = follow(player, nbPlayer, joueur);
-				printf("Vous suivez à %i jetons\n", jeton);
-				return jeton; 
-			}
+				return follow(player, nbPlayer, joueur);
 			else
 				return miser(player, joueur, 0);
 			break;
@@ -245,20 +244,14 @@ int bet(int player, int nbPlayer, player_t * joueur[])
 			if (menu == 0)
 				return reflate(player, nbPlayer, joueur); 
 			else
-			{
-				printf("Vous checkez\n");
 				return 0;
-			}
+	
 			break;
 		case 3: 
-			jeton = all_in(player, joueur);
-			printf("Vous faites un tapis à %i jetons\n", jeton);
-			return jeton; 
+			return all_in(player, joueur); 
 			break;
 		case 4: 
-			printf("Vous vous couchez\n"); 
-			sleep(player, joueur);
-			return  joueur[player]->jetons_mise; 
+			return  sleep(player, joueur); 
 			break;
 		default : printf("Ce choix n'existe pas\n"); break;
 	}

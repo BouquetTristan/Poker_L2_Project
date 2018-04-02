@@ -1,6 +1,6 @@
 # FLAGS
 BIN = poker
-OBJ = carte.o poker.o jeu.o joueur.o mise.o gui.o
+OBJ = carte.o poker.o jeu.o joueur.o mise.o partie.o gui.o
 SRC_DIR = src/
 INC_DIR = include/
 CC = gcc
@@ -31,6 +31,9 @@ gui.o: ${SRC_DIR}gui.c
 
 mise.o: ${SRC_DIR}mise.c
 	${CC} ${CFLAGS} -c ${SRC_DIR}mise.c
+
+partie.o: ${SRC_DIR}partie.c
+	${CC} ${CFLAGS} -c ${SRC_DIR}partie.c
 
 
 # TARGETS

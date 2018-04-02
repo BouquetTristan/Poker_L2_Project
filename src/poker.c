@@ -4,12 +4,27 @@
 #include "joueur.h"
 #include "gui.h"
 #include "mise.h"
+#include <partie.h>
 
 int main(int argc, char * argv[]) { 
     jeu_t * jeu; // declare un jeu de N cartes
     jeu = jeu_creer(); // alloue la mémoire à ce jeu
     int nb_joueurs, nb_jetons_stock;
     int continuer, home_menu = 0;
+
+
+    player_t * liste_joueur[3];
+    for (int i = 0; i < 3; ++i)
+    {
+        liste_joueur[i] = joueur_creer();
+        liste_joueur[i]->jetons_stock = 100;
+        liste_joueur[i]->actif = 1;
+    }
+    partie(liste_joueur, 3);
+
+
+
+    /*Partie graphique NE PAS TOUCHER !*/
     
     printf("*** sélection du mode de l'écran ***\n");
     int window_mode = GUI_Init();
