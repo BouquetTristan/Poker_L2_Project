@@ -27,7 +27,7 @@ user_path=`echo $HOME`
 desktop_name=`cat $user_path/.config/user-dirs.dirs | grep "XDG_DESKTOP_DIR="`
 desktop_name=${desktop_name#*=\""$"HOME}
 desktop_name=`echo "${desktop_name//\"/}"`
-launchers_path="/usr/local/share/applications/"
+launchers_path="/usr/share/applications/"
 launcher_game="pokerpc.desktop"
 launcher_uninstall="pokerpc_uninstall.desktop"
 
@@ -57,7 +57,7 @@ install_pkg() {
 }
 
 check_game_installation() {
-  if [ -f "$launchers_path$launcher_game" ]
+  if [ -f $launchers_path$launcher_game ]
   then
     game_installed=1
   else
