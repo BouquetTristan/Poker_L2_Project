@@ -11,13 +11,39 @@
 #define HAUTEUR_FENETRE 720
 #define LARGEUR_CARTE 112
 #define HAUTEUR_CARTE 156
+#define ESPACEMENT_CARTE 10
+
+// sons
+#define HOME_MUSIC "sound/Song_Remains_The_Same.wav"
+#define IN_GAME_MUSIC "sound/No_Quarter.wav"
+#define MOVE_CURSOR "sound/chipsStack1.wav"
+#define BACK "sound/cardTakeOutPackage1.wav"
+
+// polices
+#define MENU_FONT "font/GODOFWAR.ttf"
 
 // textures
-#define JETON "img/jeton_70.png"
-#define HOME_WALL "img/red_wall.jpg"
-#define TABLE "img/table_top.png"
+#define MISE "img/mise.png"
+#define BAG "img/bag.png"
+#define JETON "img/jeton_70px.png"
+#define JETON_SMALL "img/jeton_45px.png"
+#define JETON_YELLOW "img/chip_yellow.png"
+#define JETON_YELLOW_1 "img/chip_yellow1.png"
+#define JETON_YELLOW_10 "img/chip_yellow10.png"
+#define JETON_YELLOW_100 "img/chip_yellow100.png"
+#define JETON_YELLOW_1000 "img/chip_yellow1000.png"
+#define ADD_ON "img/add.png"
+#define ADD_OFF "img/add_off.png"
+#define REMOVE_ON "img/remove.png"
+#define REMOVE_OFF "img/remove_off.png"
+#define TAS_JETONS "img/tas_jetons.png"
+#define HOME_WALL "img/wall1.jpg"
+#define GAME_WALL "img/wall2.jpg"
+#define TABLE "img/table.png"
 #define JEU_52_CARTES "img/52_cards_deck.png"
-#define VERSO_CARTE "img/back_card_red2.png"
+#define VERSO_CARTE "img/back_card1.png"
+
+// coordonnées des cartes depuis l'image JEU_52_CARTES
 #define AS_TREFLE_X 0
 #define AS_TREFLE_Y 0
 #define AS_CARREAU_X 0
@@ -122,14 +148,6 @@
 #define ROI_COEUR_Y 2 
 #define ROI_PIC_X 12
 #define ROI_PIC_Y 3 
-// sons
-#define HOME_MUSIC "sound/Song_Remains_The_Same.wav"
-#define IN_GAME_MUSIC "sound/No_Quarter.wav"
-#define MOVE_CURSOR "sound/chipsStack1.wav"
-#define BACK "sound/cardTakeOutPackage1.wav"
-
-// polices
-#define MENU_FONT "font/GODOFWAR.ttf"
 
 #endif
 
