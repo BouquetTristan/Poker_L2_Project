@@ -13,7 +13,7 @@ void GUI_Quit(void);
 int GUI_WindowModeSelect(void);
 void GUI_Credits(int window_mode);
 int GUI_HomeSelect(int window_mode);
-void GUI_Jouer(int window_mode);
+int GUI_Jouer(player_t * joueurs[], int nb_joueurs, int menu_type, int * qte, int window_mode);
 int GUI_InitRules(int * nb_joueurs, int * nb_jetons_stock, int window_mode);
 int GUI_CreatePlayers(player_t * joueurs[], int nb_joueurs, int nb_jetons_stock, int window_mode);
 int GUI_ToucheValide(char touche);
