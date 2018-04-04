@@ -30,4 +30,3 @@ makefile using :
 - POUPIN Romain (romain.poupin.etu@univ-lemans.fr)
 - BOUQUET Tristan (tristan.bouquet.etu@univ-lemans.fr)
 - NJOFFANG William (william.njofang_ngassam.etu@univ-lemans.fr)
-
