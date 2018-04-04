@@ -16,22 +16,8 @@
 int main(int argc, char * argv[]) { 
     jeu_t * jeu; // declare un jeu de N cartes
     jeu = jeu_creer(); // alloue la mémoire à ce jeu
-    int nb_joueurs, nb_jetons_stock;
+    int nb_joueurs, nb_jetons_stock, gagnant;
     int continuer, home_menu = 0;
-
-
-    player_t * liste_joueur[3];
-    for (int i = 0; i < 3; ++i)
-    {
-        liste_joueur[i] = joueur_creer();
-        liste_joueur[i]->jetons_stock = 100;
-        liste_joueur[i]->actif = 1;
-    }
-    partie(liste_joueur, 3);
-
-
-
-    /*Partie graphique NE PAS TOUCHER !*/
     
     printf("*** sélection du mode de l'écran ***\n");
     int window_mode = GUI_Init();
@@ -74,11 +60,15 @@ int main(int argc, char * argv[]) {
                         printf("code combinaison : %d\n\n", comb);
                     }
 
-                    //turnOfBet(jeu, nb_joueurs, joueurs);
+                    //partie(joueurs, nb_joueurs);
                     
-                    GUI_Jouer(window_mode);
+                    //gagnant = GUI_Jouer(joueurs, nb_joueurs, window_mode);
+                    //printf("*** gagant ***\n");
+                    //printf("Félicitations %s ! Vous avez gagné avec %d jetons\n", joueurs[gagnant]->pseudo, joueurs[gagnant]->jetons_stock);
 
-                    printf("*** partie finie : %d joueurs à détruire ***\n", nb_joueurs);
+                    partie(joueurs, nb_joueurs);
+
+                    printf("\n*** partie finie : %d joueurs à détruire ***\n", nb_joueurs);
                     for (int i = 0; i < nb_joueurs; i++) {
                         printf("destruction du joueur '%s'...\n", joueurs[i]->pseudo);
                         joueur_detruire(&joueurs[i]);
