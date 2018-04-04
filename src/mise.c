@@ -2,6 +2,7 @@
 #include "jeu.h"
 #include "time.h"
 #include "mise.h"
+#include "gui.h"
 
 /**
 	* \ file mise.c
@@ -154,16 +155,20 @@ void askCard(int player, player_t * joueur[], jeu_t * jeu)
 	}
 }
 
-int miser(int player, player_t * joueur[], int jeton_suivi)
+int miser(int player, player_t * joueur[], int jeton_suivi, int qte)
 {
+	/*
 	int jeton;
 	scanf("%i", &jeton);
 	while(jeton < 0 || jeton > joueur[player]->jetons_stock - jeton_suivi)
 	{
 		printf("Vous n'avez pas autant de jeton\nVotre choix : ");
 		scanf("%i", &jeton);
-	}
-	return jeton;
+	}*/
+	if (qte < 0 || qte > joueur[player]->jetons_stock - jeton_suivi)
+		return -1;
+	else
+		return qte;
 }
 
 int follow(int player, int nbPlayer, player_t * joueur[])
@@ -188,16 +193,17 @@ int follow(int player, int nbPlayer, player_t * joueur[])
 	}
 }
 
-int reflate(int player, int nbPlayer, player_t * joueur[])
+/*
+int reflate(int player, int nbPlayer, player_t * joueur[], int qte)
 {
 	int jeton;
 	int jeton_suivi =  follow(player, nbPlayer, joueur);
 
 	printf("Vous suivez de %i, de combien souhaitez vous relever\n", jeton_suivi);
 	printf("Votre choix : ");
-	jeton = miser(player, joueur, jeton_suivi);
+	jeton = miser(player, joueur, jeton_suivi, qte);
 	return jeton+jeton_suivi;
-}
+}*/
 
 int all_in(int player, player_t * joueur[])
 {
@@ -221,6 +227,23 @@ int bet(int player, int nbPlayer, player_t * joueur[])
 	if(joueur[first]->jetons_mise == 0)
 		menu = 1;
 
+	int qte = 0;
+	int error = 1;
+	int jeton_suivi;
+	do {
+		choice = GUI_Jouer(joueur, nbPlayer, menu, &qte, 0);
+		if (choice == 1 && menu == 1 && miser(player, joueur, 0, qte) == -1)
+			error = 1;
+		else if (choice == 2 && menu == 0) {
+			jeton_suivi = follow(player, nbPlayer, joueur) ;
+			if (miser(player, joueur, jeton_suivi, qte) == -1)
+				error = 1;
+		}
+		else error = 0;
+	}
+	while (error == 1);
+
+	/*
 	printf("Que souhaitez vous faire ?\n");
 	if(menu == 0)
 		printf("1 - Suivre\n");
@@ -235,31 +258,34 @@ int bet(int player, int nbPlayer, player_t * joueur[])
 	printf("4 - Coucher\n");
 	printf("Votre choix : ");
 	scanf("%i", &choice);
+	*/
 
-
-	switch(choice)
-	{
+	switch(choice) {
 		case 1: 
 			if(menu == 0)
 				return follow(player, nbPlayer, joueur);
 			else
-				return miser(player, joueur, 0);
+				return qte;
 			break;
-		
+
 		case 2: 
 			if (menu == 0)
-				return reflate(player, nbPlayer, joueur); 
+				return jeton+jeton_suivi; 
 			else
 				return 0;
-	
 			break;
+
 		case 3: 
 			return all_in(player, joueur); 
 			break;
+
 		case 4: 
 			return  sleep(player, joueur); 
 			break;
-		default : printf("Ce choix n'existe pas\n"); break;
+
+		default :
+			printf("Ce choix n'existe pas\n");
+			break;
 	}
 }
 
@@ -292,55 +318,40 @@ int maj_jetons(player_t * liste_joueur[], int i, int nbPlayer)
 	}
 }
 
-void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[])
-{
-
+void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[]) {
 	int first;
 	int pot = 0, pot_tour = 0;
 
-	for (int cpt_turn = 0; cpt_turn < 3; cpt_turn++)
-	{
-		
+	for (int cpt_turn = 0; cpt_turn < 3; cpt_turn++) {
 		for (int i = 0; i < nbPlayer; ++i)
-		{
 			liste_joueur[i]->jetons_mise = 0;
-		}
-	
-		do
-		{
-			for (int i = 0; i < nbPlayer; ++i)
-			{
+
+		do {
+			for (int i = 0; i < nbPlayer; ++i) {
 				first = first_player(liste_joueur, nbPlayer);
-				if(!egalite(nbPlayer, liste_joueur))
-				{
+				if (!egalite(nbPlayer, liste_joueur))
 					pot_tour = maj_jetons(liste_joueur, i, nbPlayer);
-				}
-				
-				else
-				{
-					if(i == first)
+				else {
+					if (i == first)
 						pot_tour = maj_jetons(liste_joueur, i, nbPlayer);
 				}		
 			}
-		}
-		while(!egalite(nbPlayer, liste_joueur));
+		
+		} while (!egalite(nbPlayer, liste_joueur));
+		
 		pot += pot_tour;
 		pot_tour = 0;
 		printf("Pot : %i\n", pot);
 		
-		if (cpt_turn < 2)
-		{
+		if (cpt_turn < 2) {
 			for (int i = 0; i < nbPlayer; ++i)
-			{
 				askCard(i, liste_joueur, jeu);
-			}
 		}	
 	}
 
 	guessWinner(liste_joueur, nbPlayer, pot);
 
-	for (int i = 0; i < nbPlayer; ++i)
-	{
+	for (int i = 0; i < nbPlayer; ++i) {
 		printf("Joueur %i :\n", i);
 		printf("Jetons : %i\n", liste_joueur[i]->jetons_stock);
 	}
