@@ -82,7 +82,7 @@ int main_analyser(player_t * joueur)
 	/*Quinte Flush Royal*/
 	for (i = 0; i < 5; ++i)
 	{
-		/*If top card is an ace and if other card follow it*/
+		//Surveille si les cartes de la main du joueur commencent de la valeur la plus haute et se suivent et ont la même couleur
 		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[12-i]) == 0 &&
 			strcmp(joueur->main[i]->couleur, topCardCouleur) == 0)
 		{
@@ -98,7 +98,7 @@ int main_analyser(player_t * joueur)
 	/*Quinte Flush */
 	for (i = 0; i < 5; ++i)
 	{
-
+		//Surveille si les cartes de la main du joueur commencent de la valeur la plus haute de sa main et se suivent et ont la même couleur
 		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard-i]) == 0 &&
 			strcmp(joueur->main[i]->couleur, topCardCouleur) == 0)
 		{
@@ -115,7 +115,7 @@ int main_analyser(player_t * joueur)
 	/*Carre*/
 	for (i = 0; i < 5; ++i)
 	{
-		
+		//Surveille si les cartes de la main du joueur ont 4 hauteurs en commun
 		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
@@ -138,6 +138,7 @@ int main_analyser(player_t * joueur)
 	/*Full House*/
 	for (i = 0; i < 5; ++i)
 	{
+		//Surveille si les cartes de la main du joueur possède 3 cartes de même hauteur et 2 cartes de même hauteur différente des 3 autres
 		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
@@ -182,7 +183,7 @@ int main_analyser(player_t * joueur)
 	/*Flush*/
 	for (i = 0; i < 5; ++i)
 	{
-
+		//Surveille si les cartes de la main du joueur ont la même couleur
 		if(strcmp(joueur->main[i]->couleur, topCardCouleur) == 0)
 		{
 			cpt++;
@@ -196,7 +197,7 @@ int main_analyser(player_t * joueur)
 	/*Quinte*/
 	for (i = 0; i < 5; ++i)
 	{
-
+		//Surveille si les cartes de la main du joueur se suivent toutes
 		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard-i]) == 0)
 		{
 			cpt++;
@@ -210,7 +211,7 @@ int main_analyser(player_t * joueur)
 	/*Brelan*/
 	for (i = 0; i < 5; ++i)
 	{
-
+		//Surveille si les cartes de la main du joueur ont 3 cartes de même hauteur
 		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
@@ -231,7 +232,7 @@ int main_analyser(player_t * joueur)
 	
 	for (i = 0; i < 5; ++i)
 	{
-
+		//Surveille si les cartes de la main du joueur ont 2 cartes de même hauteur et 2 autres de même hauteur différente des autres
 		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
@@ -253,7 +254,7 @@ int main_analyser(player_t * joueur)
 	/*Pair*/
 	for (i = 0; i < 5; ++i)
 	{
-
+		//Surveille si les cartes de la main du joueur ont 2 cartes de même hauteur
 		if(strcmp(joueur->main[i]->hauteur, tab_hauteur[indCard]) == 0 )
 			cpt++;
 		else
@@ -269,6 +270,7 @@ int main_analyser(player_t * joueur)
 	cpt = 0;
 
 	/*Top card*/
+	//Renvoie la plus haute valeur de la main du joueur
 	return(handValue(1, indice_hauteur(joueur->main[0])));
 
 }
