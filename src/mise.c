@@ -204,7 +204,7 @@ int follow(int player, int nbPlayer, player_t * joueur[])
 	}
 }
 
-/*
+
 int reflate(int player, int nbPlayer, player_t * joueur[], int qte)
 {
 	int jeton;
@@ -214,7 +214,7 @@ int reflate(int player, int nbPlayer, player_t * joueur[], int qte)
 	printf("Votre choix : ");
 	jeton = miser(player, joueur, jeton_suivi, qte);
 	return jeton+jeton_suivi;
-}*/
+}
 
 int all_in(int player, player_t * joueur[])
 {
