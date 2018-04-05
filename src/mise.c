@@ -22,6 +22,17 @@ int first_player(player_t * joueur[], int nbPlayer)
 	return 0;
 }
 
+int nb_joueur_actif(player_t * joueur[], int nbPlayer)
+{
+	int cpt = 0;
+	for (int i = 0; i < nbPlayer; ++i)
+	{
+		if(joueur[i]->actif == 1)
+			cpt++;
+	}
+	return cpt;
+}
+
 int egalite(int nbPlayer, player_t * joueur[])
 {
 	int first = first_player(joueur, nbPlayer);
@@ -319,21 +330,27 @@ int maj_jetons(player_t * liste_joueur[], int i, int nbPlayer)
 }
 
 void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[]) {
-	int first;
+	int first, nb_j_actif;
 	int pot = 0, pot_tour = 0;
 
-	for (int cpt_turn = 0; cpt_turn < 3; cpt_turn++) {
+	for (int cpt_turn = 0; cpt_turn < 3; cpt_turn++) 
+	{
 		for (int i = 0; i < nbPlayer; ++i)
 			liste_joueur[i]->jetons_mise = 0;
 
 		do {
-			for (int i = 0; i < nbPlayer; ++i) {
+			for (int i = 0; i < nbPlayer; ++i) 
+			{
 				first = first_player(liste_joueur, nbPlayer);
-				if (!egalite(nbPlayer, liste_joueur))
-					pot_tour = maj_jetons(liste_joueur, i, nbPlayer);
-				else {
-					if (i == first)
+				nb_j_actif = nb_joueur_actif(liste_joueur, nbPlayer);
+				if( nb_j_actif > 1)
+				{	
+					if (!egalite(nbPlayer, liste_joueur))
 						pot_tour = maj_jetons(liste_joueur, i, nbPlayer);
+					else {
+						if (i == first)
+							pot_tour = maj_jetons(liste_joueur, i, nbPlayer);
+					}
 				}		
 			}
 		
@@ -343,7 +360,7 @@ void turnOfBet(jeu_t * jeu, int nbPlayer, player_t * liste_joueur[]) {
 		pot_tour = 0;
 		printf("Pot : %i\n", pot);
 		
-		if (cpt_turn < 2) {
+		if (cpt_turn < 2 && nb_j_actif > 1) {
 			for (int i = 0; i < nbPlayer; ++i)
 				askCard(i, liste_joueur, jeu);
 		}	

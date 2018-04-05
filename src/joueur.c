@@ -264,12 +264,12 @@ int main_analyser(player_t * joueur)
 		}
 
 		if(cpt == 2)
-			return(handValue(2, indCard));
+			return(handValue(2, indice_hauteur(joueur->main[1])));
 	}
 	cpt = 0;
 
 	/*Top card*/
-	return(handValue(1, indCard));
+	return(handValue(1, indice_hauteur(joueur->main[0])));
 
 }
 

@@ -36,11 +36,16 @@ void partie(player_t * joueur[], int nbJoueur)
 	if (joueur_debout == 1)
 	{
 		//Fin de jeu
+		jeu_detruire(&jeu);
 		printf("Bravo !!\n");
 	}
 	else
 	{
-
+		for (int i = 0; i < nbJoueur; ++i)
+		{
+			if(joueur[i]->jetons_stock > 0)
+				joueur[i]->actif = 1;
+		}
 		turnOfBet(jeu, nbJoueur, joueur);
 		jeu_detruire(&jeu);
 		partie(joueur, nbJoueur);
