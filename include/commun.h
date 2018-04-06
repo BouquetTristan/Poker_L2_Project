@@ -41,7 +41,7 @@
 #define GAME_WALL "img/wall2.jpg"
 #define TABLE "img/table.png"
 #define JEU_52_CARTES "img/52_cards_deck.png"
-#define VERSO_CARTE "img/back_card1.png"
+#define VERSO_CARTE "img/back_card.png"
 
 // coordonnées des cartes depuis l'image JEU_52_CARTES
 #define AS_TREFLE_X 0
