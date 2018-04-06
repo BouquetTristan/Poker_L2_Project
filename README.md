@@ -1,5 +1,6 @@
 # Presentation
 This is a project of a poker game, created for 2nd year project of the university of Le Mans.
+![Screenshot](https://github.com/BouquetTristan/Poker_L2_Project/blob/master/screenshots/game_menu.png)
 
 # How to run without installation ?
 1) download and extract archive
